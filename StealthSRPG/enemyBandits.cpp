@@ -18,8 +18,8 @@ void EnemyBandits::Update() {
 
 void EnemyBandits::Draw() {
 	DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
-	DrawFormatString(100, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
-	                 "ŽR‘¯(%d, %d)", x / block_size, y / block_size, false);
+	DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
+	                 "ŽR‘¯(%d, %d)", x, y, false);
 
 }
 

@@ -114,45 +114,90 @@ void Input::moving_cursor() {
 	}
 }
 
-void Input::collision_flag_update(vector<vector<int>>& map) {
+void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
+                                  const int& eb1_x, const int& eb1_y) {
+	/* 左側が特定条件のとき */
 	if (map[(current_y / block_size)][(current_x / block_size) - 1] == SEA) {
+		//海のとき
 		collision_flag[LEFT] = true;
 	}
 	else if (map[(current_y / block_size)][(current_x / block_size) - 1] == TIDE
 		&& Map::scene >= NIGHT_PLAY && range_flag == 1) {
+		//満潮のとき
+		collision_flag[LEFT] = true;
+	}
+	else if (current_x - block_size == ew1_x && current_y == ew1_y && range_flag == 1) {
+		//エネミー1がいるとき
+		collision_flag[LEFT] = true;
+	}
+	else if (current_x - block_size == eb1_x && current_y == eb1_y && range_flag == 1) {
+		//エネミー2がいるとき
 		collision_flag[LEFT] = true;
 	}
 	else {
 		collision_flag[LEFT] = false;
 	}
 
+	/* 右側が特定条件のとき */
 	if (map[(current_y / block_size)][(current_x / block_size) + 1] == SEA) {
+		//海のとき
 		collision_flag[RIGHT] = true;
 	}
 	else if (map[(current_y / block_size)][(current_x / block_size) + 1] == TIDE
 		&& Map::scene >= NIGHT_PLAY && range_flag == 1) {
+		//満潮のとき
+		collision_flag[RIGHT] = true;
+	}
+	else if (current_x + block_size == ew1_x && current_y == ew1_y && range_flag == 1) {
+		//エネミー1がいるとき
+		collision_flag[RIGHT] = true;
+	}
+	else if (current_x + block_size == eb1_x && current_y == eb1_y && range_flag == 1) {
+		//エネミー2がいるとき
 		collision_flag[RIGHT] = true;
 	}
 	else {
 		collision_flag[RIGHT] = false;
 	}
 
+	/* 上側が特定条件のとき */
 	if (map[(current_y / block_size) - 1][(current_x / block_size)] == SEA) {
+		//海のとき
 		collision_flag[UP] = true;
 	}
 	else if (map[(current_y / block_size) - 1][(current_x / block_size)] == TIDE
 		&& Map::scene >= NIGHT_PLAY && range_flag == 1) {
+		//満潮のとき
+		collision_flag[UP] = true;
+	}
+	else if (current_x == ew1_x && current_y - block_size == ew1_y && range_flag == 1) {
+		//エネミー1がいるとき
+		collision_flag[UP] = true;
+	}
+	else if (current_x == eb1_x && current_y - block_size == eb1_y && range_flag == 1) {
+		//エネミー2がいるとき
 		collision_flag[UP] = true;
 	}
 	else {
 		collision_flag[UP] = false;
 	}
 
+	/* 下側が特定条件のとき */
 	if (map[(current_y / block_size) + 1][(current_x / block_size)] == SEA) {
+		//海のとき
 		collision_flag[DOWN] = true;
 	}
 	else if (map[(current_y / block_size) + 1][(current_x / block_size)] == TIDE
 		&& Map::scene >= NIGHT_PLAY && range_flag == 1) {
+		//満潮のとき
+		collision_flag[DOWN] = true;
+	}
+	else if (current_x == ew1_x && current_y + block_size == ew1_y && range_flag == 1) {
+		//エネミー1がいるとき
+		collision_flag[DOWN] = true;
+	}
+	else if (current_x == eb1_x && current_y + block_size == eb1_y && range_flag == 1) {
+		//エネミー2がいるとき
 		collision_flag[DOWN] = true;
 	}
 	else {
@@ -160,8 +205,9 @@ void Input::collision_flag_update(vector<vector<int>>& map) {
 	}
 }
 
-void Input::update(vector<vector<int>>& map) {
+void Input::update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
+                   const int& eb1_x, const int& eb1_y) {
 	if (Map::scene % 2 == 0) moving_cursor();
 	time_change();
-	collision_flag_update(map);
+	collision_flag_update(map, ew1_x, ew1_y, eb1_x, eb1_y);
 }

@@ -56,7 +56,7 @@ void loop_process() {
 		_map->drawing_format();
 
 		input.input_info();
-		input.update(_map->map_20x20);
+		input.update(_map->map_20x20, E_Warrior1.x, E_Warrior1.y, Bandits.x, Bandits.y);
 
 		Princess.Update(Warrior1.x, Warrior1.y, Warrior2.x, Warrior2.y,
 		                Warrior3.x, Warrior3.y, E_Warrior1.x, E_Warrior1.y,

@@ -13,7 +13,8 @@ private:
 	void cursorLimit();
 	void moving_cursor();
 	void time_change();
-	void collision_flag_update(vector<vector<int>>& map);
+	void collision_flag_update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
+	                           const int& eb1_x, const int& eb1_y);
 
 public:
 	bool collision_flag[4];
@@ -22,5 +23,6 @@ public:
 
 	Input();
 	void input_info();
-	void update(vector<vector<int>>& map);
+	void update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
+	            const int& eb1_x, const int& eb1_y);
 };
