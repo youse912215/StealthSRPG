@@ -22,7 +22,7 @@ void EnemyWarrior_1::Update() {
 void EnemyWarrior_1::Draw() {
 	DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
 	DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
-	                 "敵兵1(%d, %d)", x, y, false);
+	                 "敵兵1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "ew1_mq:%.1lf", moving_quantity, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
@@ -47,6 +47,10 @@ void EnemyWarrior_1::Move() {
 			break;
 		}
 		moving_quantity += 0.5;
+	}
+
+	if (this->x == current_x && this->y == current_y) {
+		moving_range = this->range; //移動範囲をプレイヤー移動範囲に置換する
 	}
 }
 

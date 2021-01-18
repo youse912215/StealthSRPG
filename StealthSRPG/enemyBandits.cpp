@@ -19,11 +19,14 @@ void EnemyBandits::Update() {
 void EnemyBandits::Draw() {
 	DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
 	DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
-	                 "山賊(%d, %d)", x, y, false);
+	                 "山賊(%d, %d)", x / block_size, y / block_size, false);
 
 }
 
 void EnemyBandits::Move() {
+	if (this->x == current_x && this->y == current_y) {
+		moving_range = this->range; //移動範囲をプレイヤー移動範囲に置換する
+	}
 }
 
 void EnemyBandits::Attack() {

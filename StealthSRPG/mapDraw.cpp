@@ -3,7 +3,8 @@
 #include "cursor.h"
 #include "constant.h"
 
-MapDraw::MapDraw() : map_20x20(area_height, vector<int>(area_width)),
+MapDraw::MapDraw() : info{SEA, ROAD, GOAL, TIDE, RAINBOW, BRIDGE, ICE, CENTER, RANGE},
+                     map_20x20(area_height, vector<int>(area_width)),
                      range_11x11(11, vector<int>(11)) {
 	map_graph = LoadGraph("Source/Map/stealthSRPG_mapchip.png"); //マップチップ画像
 	column = 0; //行番号
@@ -60,22 +61,36 @@ void MapDraw::range_import(const int& map_info, vector<vector<int>>& range) {
 
 
 /// <summary>
-/// マップチップを描画
+/// マップ関係を描画
 /// </summary>
-void MapDraw::drawing_map() {
+void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
+                          const int& eb1_x, const int& eb1_y) {
 	map_file_import(map_20x20, mapcsv_file, 0, MAP);
-	int info[] = {SEA, ROAD, GOAL, TIDE, RAINBOW, BRIDGE, ICE, CENTER, RANGE};
 
 	for (int i = 0; i < 7; i++) {
 		map_import(info[i], map_20x20);
 	}
 
+	/* 範囲フラグがtrueのとき各プレイヤーの移動範囲を描画 */
 	if (range_flag == 1) {
 		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
 		range_import(info[7], range_11x11);
 		range_import(info[8], range_11x11);
 	}
-	booting_timer();
+
+	drawing_enemy_range(ew1_x, ew1_y); //敵兵1
+	drawing_enemy_range(eb1_x, eb1_y); //山賊1
+	booting_timer(); //タイマー起動
+}
+
+/// <summary>
+/// エネミーの座標と現在のカーソル座標が一致しているときに移動範囲を描画
+/// </summary>
+void MapDraw::drawing_enemy_range(const int& ex, const int& ey) {
+	if (current_x == ex && current_y == ey) {
+		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
+		range_import(info[8], range_11x11);
+	}
 }
 
 void MapDraw::drawing_format() {

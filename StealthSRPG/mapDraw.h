@@ -16,6 +16,11 @@ private:
 	int range_height; //移動範囲の縦幅
 	int draw_range_x;
 	int draw_range_y;
+	int info[9];
+
+	void drawing_enemy_range(const int& ex, const int& ey); //エネミーの移動範囲描画
+	void map_import(const int& map_info, vector<vector<int>>& map); //マップ読み込み
+	void range_import(const int& map_info, vector<vector<int>>& range); //移動範囲読み込み
 
 public:
 	vector<vector<int>> map_20x20;
@@ -25,8 +30,7 @@ public:
 
 	MapDraw(); //コンストラクタ
 	~MapDraw(); //デスクトラクタ
-	void map_import(const int& map_info, vector<vector<int>>& map);
-	void range_import(const int& map_info, vector<vector<int>>& range); //移動範囲読み込み
-	void drawing_map(); //マップを描画
-	void drawing_format();
+	void drawing_map(const int& ew1_x, const int& ew1_y,
+	                 const int& eb1_x, const int& eb1_y); //マップを描画
+	void drawing_format(); //フォーマット
 };

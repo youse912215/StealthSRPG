@@ -26,8 +26,8 @@ void Infomation::get_map_info(int* column, int* row, const int& map_info) {
 		*row = 0;
 		break;
 	case TIDE:
-		if (phenomenonFlag[tide]) *column = 0; //満潮マスを干潮マスにする
-		else *column = 1; //干潮マスを満潮マスにする
+		//満潮マスを干潮マスにするまたは干潮マスを満潮マスにする
+		*column = phenomenonFlag[tide] ? 0 : 1;
 		*row = 3;
 		break;
 	case RAINBOW:
@@ -39,8 +39,8 @@ void Infomation::get_map_info(int* column, int* row, const int& map_info) {
 		*row = 5;
 		break;
 	case ICE:
-		if (phenomenonFlag[ice]) *column = 0; //道マスを氷マスにする
-		else *column = 1; //氷のマスを道マスにする
+		//道マスを氷マスにするまたは氷のマスを道マスにする
+		*column = phenomenonFlag[ice] ? 0 : 1;
 		*row = 6;
 		break;
 	case CENTER:
@@ -48,7 +48,7 @@ void Infomation::get_map_info(int* column, int* row, const int& map_info) {
 		*row = 9;
 		break;
 	case RANGE:
-		*column = 0;
+		*column = range_flag == 1 ? 0 : 2;
 		*row = 9;
 		break;
 	default:

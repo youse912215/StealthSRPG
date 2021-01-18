@@ -52,7 +52,7 @@ void loop_process() {
 		//if (CheckHitKey(KEY_INPUT_ESCAPE)) break; //I—¹ˆ—
 
 		MapDraw* _map = new MapDraw;
-		_map->drawing_map();
+		_map->drawing_map(E_Warrior1.x, E_Warrior1.y, Bandits.x, Bandits.y);
 		_map->drawing_format();
 
 		input.input_info();
