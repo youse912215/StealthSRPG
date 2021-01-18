@@ -15,19 +15,7 @@ public:
 	            const int& sw3_x, const int& sw3_y, const int& ew1_x, const int& ew1_y,
 	            const int& eb1_x, const int& eb1_y);
 	void Draw();
-
-
-	/*double GetPLCenterX() {
-		return quantity_x + width / 2.0;
-	}
-
-	double GetPLCenterY() {
-		return quantity_y + height / 2.0;
-	}
-
-	double GetPLRadius() {
-		return radius;
-	}*/
+	void Dead(vector<vector<int>>& map);
 
 private:
 	void Pickup();
@@ -36,5 +24,4 @@ private:
 	                        const int& sw3_x, const int& sw3_y, const int& ew1_x, const int& ew1_y,
 	                        const int& eb1_x, const int& eb1_y);
 	void Move();
-	void Dead();
 };

@@ -24,15 +24,15 @@ void Princess::Update(const int& sw1_x, const int& sw1_y, const int& sw2_x, cons
 /// •`‰æˆ—
 /// </summary>
 void Princess::Draw() {
-	DrawGraph(this->x - current_x + block_size * 9, this->y - init_position - current_y + block_size * 9, graph, true);
-	DrawFormatString(0, 45, GetColor(0, 0, 0), "•P(%d, %d)", this->x, this->y, false);
-	DrawFormatString(0, 60, GetColor(255, 0, 0), "F%d,A%d", moving_flag, this->activity, false);
-	DrawFormatString(0, 75, GetColor(0, 255, 255), "DF:%d, %d, %d, %d, %d",
-	                 this->duplication_flag[_s_warrior1],
-	                 this->duplication_flag[_s_warrior2],
-	                 this->duplication_flag[_s_warrior3],
-	                 this->duplication_flag[_e_warrior1],
-	                 this->duplication_flag[_e_bandits1], false);
+	if (this->isAlive) {
+		DrawGraph(this->x - current_x + block_size * 9,
+		          this->y - init_position - current_y + block_size * 9,
+		          this->graph, true);
+	}
+	DrawFormatString(0, 45, GetColor(0, 0, 0), "•P(%d, %d)",
+	                 this->x / block_size, this->y / block_size, false);
+	DrawFormatString(0, 60, GetColor(255, 0, 0), "F%d,A%d,D%d",
+	                 moving_flag, this->activity, this->isAlive, false);
 }
 
 /// <summary>
@@ -44,10 +44,6 @@ void Princess::Pickup() {
 			pickup_switching();
 		}
 	}
-}
-
-void Princess::reaching_target(vector<vector<int>>& map) {
-
 }
 
 /// <summary>
@@ -97,6 +93,11 @@ void Princess::Move() {
 /// <summary>
 /// €–Sˆ—
 /// </summary>
-void Princess::Dead() {
-	this->isAlive = false; //¶‘¶ó‘Ô‚ğfalse
+void Princess::Dead(vector<vector<int>>& map) {
+	if (map[this->y / block_size][this->x / block_size] == TIDE
+		&& Map::scene == NIGHT_PLAY) {
+		this->isAlive = false; //¶‘¶ó‘Ô‚ğfalse
+		this->x = -1;
+		this->y = -1;
+	}
 }

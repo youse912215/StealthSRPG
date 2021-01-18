@@ -103,7 +103,7 @@ void Input::cursorLimit() {
 /// </summary>
 void Input::moving_cursor() {
 
-	if (range_flag == 1) {
+	if (range_flag == 1 && Map::scene % 2 == 0) {
 		cursorLimit();
 	}
 	else {
@@ -207,7 +207,7 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 
 void Input::update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
                    const int& eb1_x, const int& eb1_y) {
-	if (Map::scene % 2 == 0) moving_cursor();
+	moving_cursor();
 	time_change();
 	collision_flag_update(map, ew1_x, ew1_y, eb1_x, eb1_y);
 }

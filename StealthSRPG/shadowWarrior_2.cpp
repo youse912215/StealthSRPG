@@ -25,9 +25,15 @@ void ShadowWarrior_2::Update(const int& p_x, const int& p_y, const int& sw1_x, c
 /// •`‰æˆ—
 /// </summary>
 void ShadowWarrior_2::Draw() {
-	DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
-	DrawFormatString(200, 45, GetColor(0, 0, 0), "•º2(%d, %d)", x / block_size, y / block_size, false);
-	DrawFormatString(200, 60, GetColor(255, 0, 0), "%d", moving_flag, false);
+	if (this->isAlive) {
+		DrawGraph(this->x - current_x + block_size * 9,
+		          this->y - init_position - current_y + block_size * 9,
+		          this->graph, true);
+	}
+	DrawFormatString(200, 45, GetColor(0, 0, 0), "•º2(%d, %d)",
+	                 this->x / block_size, this->y / block_size, false);
+	DrawFormatString(200, 60, GetColor(255, 0, 0), "F%d,A%d,D%d",
+	                 moving_flag, this->activity, this->isAlive, false);
 }
 
 /// <summary>
@@ -88,6 +94,11 @@ void ShadowWarrior_2::Move() {
 /// <summary>
 /// €–Sˆ—
 /// </summary>
-void ShadowWarrior_2::Dead() {
-	isAlive = false;
+void ShadowWarrior_2::Dead(vector<vector<int>>& map) {
+	if (map[this->y / block_size][this->x / block_size] == TIDE
+		&& Map::scene == NIGHT_PLAY) {
+		this->isAlive = false; //¶‘¶ó‘Ô‚ğfalse
+		this->x = -1;
+		this->y = -1;
+	}
 }

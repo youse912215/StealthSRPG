@@ -52,25 +52,29 @@ void loop_process() {
 		//if (CheckHitKey(KEY_INPUT_ESCAPE)) break; //終了処理
 
 		MapDraw* _map = new MapDraw;
-		_map->drawing_map(E_Warrior1.x, E_Warrior1.y, Bandits.x, Bandits.y);
-		_map->drawing_format();
+		_map->drawing_map(E_Warrior1.x, E_Warrior1.y, Bandits.x, Bandits.y); //マップ描画
+		_map->drawing_format(); //フォーマット
 
-		input.input_info();
-		input.update(_map->map_20x20, E_Warrior1.x, E_Warrior1.y, Bandits.x, Bandits.y);
+		input.input_info(); //入力情報
+		input.update(_map->map_20x20, E_Warrior1.x, E_Warrior1.y,
+		             Bandits.x, Bandits.y); //入力更新処理
 
 		Princess.Update(Warrior1.x, Warrior1.y, Warrior2.x, Warrior2.y,
 		                Warrior3.x, Warrior3.y, E_Warrior1.x, E_Warrior1.y,
-		                Bandits.x, Bandits.y); //姫の処理
+		                Bandits.x, Bandits.y); //姫の更新処理
+		Princess.Dead(_map->map_20x20); //姫の死亡処理
 		Warrior1.Update(Princess.x, Princess.y, Warrior2.x, Warrior2.y,
 		                Warrior3.x, Warrior3.y, E_Warrior1.x, E_Warrior1.y,
-		                Bandits.x, Bandits.y); //影武者1の処理
+		                Bandits.x, Bandits.y); //影武者1の更新処理
+		Warrior1.Dead(_map->map_20x20); //姫の死亡処理
 		Warrior2.Update(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                Warrior3.x, Warrior3.y, E_Warrior1.x, E_Warrior1.y,
-		                Bandits.x, Bandits.y); //影武者2の処理
+		                Bandits.x, Bandits.y); //影武者2の更新処理
+		Warrior2.Dead(_map->map_20x20); //姫の死亡処理
 		Warrior3.Update(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                Warrior2.x, Warrior2.y, E_Warrior1.x, E_Warrior1.y,
-		                Bandits.x, Bandits.y); //影武者3の処理
-		E_Warrior1.Update();
+		                Bandits.x, Bandits.y); //影武者3の更新処理
+		Warrior3.Dead(_map->map_20x20); //姫の死亡処理
 
 		E_Warrior1.Update(); //敵兵1の処理
 		Bandits.Update(); //山賊の処理
