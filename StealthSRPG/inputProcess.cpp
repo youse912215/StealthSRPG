@@ -2,7 +2,7 @@
 #include "mapAll.h"
 #include "inputProcess.h"
 #include "constant.h"
-#include "Cursor.h"
+#include "cursor.h"
 #include <cstdlib>
 
 using namespace std;

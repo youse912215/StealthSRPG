@@ -6,7 +6,7 @@
 #include "random.h"
 
 EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_distance, int attack, int range, bool isAlive) :
-	Enemy(x, y, graph, moving_distance, attack, range, isAlive) {
+	Enemy(x, y, graph, moving_distance, attack, range, isAlive), open_list(20), closed_list(20) {
 	moving_flag = -1;
 	priority = 1;
 	moving_quantity = 0.0;
@@ -34,20 +34,6 @@ void EnemyWarrior_1::Draw() {
 void EnemyWarrior_1::Move() {
 	if (Map::turn_timer == 0) moving_quantity = 0.0;
 
-	if (Map::turn_timer % 50 == 0 && Map::turn_timer != 0 && static_cast<int>(moving_quantity) != this->range) {
-		switch (static_cast<int>(moving_quantity)) {
-		case 1:
-			x += block_size / 2;
-			break;
-		case 2:
-			y += block_size / 2;
-			break;
-		case 3:
-			y += block_size / 2;
-			break;
-		}
-		moving_quantity += 0.5;
-	}
 
 	if (this->x == current_x && this->y == current_y) {
 		moving_range = this->range; //移動範囲をプレイヤー移動範囲に置換する
@@ -58,4 +44,12 @@ void EnemyWarrior_1::Attack() {
 }
 
 void EnemyWarrior_1::Dead() {
+}
+
+void EnemyWarrior_1::get_open_list() {
+
+}
+
+void EnemyWarrior_1::get_closed_list() {
+	open_list.push_back(this->x);
 }

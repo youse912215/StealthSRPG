@@ -16,7 +16,12 @@ public:
 	void Draw();
 
 private:
+	vector<int> open_list;
+	vector<int> closed_list;
+
 	void Move();
 	void Attack();
 	void Dead();
+	void get_open_list();
+	void get_closed_list();
 };
