@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Map">
+      <UniqueIdentifier>{007b1a1d-9d86-407b-96c1-e1e6490732f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Main">
+      <UniqueIdentifier>{c7ddaffe-5ee7-4252-8cab-fd2c353ffb0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{ed6c09dc-64a8-489e-afeb-f33761c4a95f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Charactor">
+      <UniqueIdentifier>{f9e2cb38-8054-479c-ac22-4400ce7c6640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Constant">
+      <UniqueIdentifier>{6afee462-de05-4fd9-8d1d-a3b5478b3a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Charactor">
+      <UniqueIdentifier>{02aa6d6d-6666-4c1e-8a9d-bab5d112c1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{d2e6e653-6d36-497f-b22b-4db91dee730a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Map">
+      <UniqueIdentifier>{5ed1e827-9814-4653-90df-6a3dbbcfd856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Cursor">
+      <UniqueIdentifier>{a72eeece-bbaa-4085-9ff3-3f7000ee0931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Cursor">
+      <UniqueIdentifier>{eb11ec63-25a3-4ba7-965b-6c38f917276c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Charactor\Player">
+      <UniqueIdentifier>{72ade106-8984-40a1-9453-7cd904d6257b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Charactor\Enemy">
+      <UniqueIdentifier>{fc1b44ef-35e5-44e8-b451-2b5df2193f81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Charactor\Enemy">
+      <UniqueIdentifier>{e319b6c5-04ad-4589-beaa-2cb96c135590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Charactor\Player">
+      <UniqueIdentifier>{eefc1b59-aa72-4f8e-a0aa-40a31bfc6cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Random">
+      <UniqueIdentifier>{9f29002b-672b-41da-adba-30cd705e4e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Random">
+      <UniqueIdentifier>{da2a8628-7ddc-492d-a6aa-09b4b31aebee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mapAll.cpp">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="mapDraw.cpp">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="mapInfomation.cpp">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="windowPreference.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="inputProcess.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="loopProcess.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="charactor.cpp">
+      <Filter>ソース ファイル\Charactor</Filter>
+    </ClCompile>
+    <ClCompile Include="mapPhenomenon.cpp">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="cursor.cpp">
+      <Filter>ソース ファイル\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\Charactor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Princess.cpp">
+      <Filter>ソース ファイル\Charactor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="shadowWarrior_1.cpp">
+      <Filter>ソース ファイル\Charactor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="shadowWarrior_2.cpp">
+      <Filter>ソース ファイル\Charactor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="shadowWarrior_3.cpp">
+      <Filter>ソース ファイル\Charactor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyBandits.cpp">
+      <Filter>ソース ファイル\Charactor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyWarrior_1.cpp">
+      <Filter>ソース ファイル\Charactor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyWarrior_2.cpp">
+      <Filter>ソース ファイル\Charactor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ソース ファイル\Charactor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="random.cpp">
+      <Filter>ソース ファイル\Random</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="constant.h">
+      <Filter>ヘッダー ファイル\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="charactor.h">
+      <Filter>ヘッダー ファイル\Charactor</Filter>
+    </ClInclude>
+    <ClInclude Include="inputProcess.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="loopProcess.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="windowPreference.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="mapAll.h">
+      <Filter>ヘッダー ファイル\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="mapDraw.h">
+      <Filter>ヘッダー ファイル\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="mapInfomation.h">
+      <Filter>ヘッダー ファイル\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="mapPhenomenon.h">
+      <Filter>ヘッダー ファイル\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="cursor.h">
+      <Filter>ヘッダー ファイル\Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル\Charactor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Princess.h">
+      <Filter>ヘッダー ファイル\Charactor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="shadowWarrior_1.h">
+      <Filter>ヘッダー ファイル\Charactor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="shadowWarrior_2.h">
+      <Filter>ヘッダー ファイル\Charactor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="shadowWarrior_3.h">
+      <Filter>ヘッダー ファイル\Charactor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyBandits.h">
+      <Filter>ヘッダー ファイル\Charactor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyWarrior_1.h">
+      <Filter>ヘッダー ファイル\Charactor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyWarrior_2.h">
+      <Filter>ヘッダー ファイル\Charactor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ヘッダー ファイル\Charactor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="random.h">
+      <Filter>ヘッダー ファイル\Random</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
