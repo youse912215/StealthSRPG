@@ -39,10 +39,11 @@ void ShadowWarrior_3::Draw() {
 }
 
 /// <summary>
+/// プレイヤーフェイズの時
 /// 現在のカーソル座標とプレイヤー座標が一致しているとき、プレイヤーをPickupする
 /// </summary>
 void ShadowWarrior_3::Pickup() {
-	if (current_x == x && current_y == y) {
+	if (current_x == x && current_y == y && Map::scene % 2 == 0) {
 		if (input.keys[KEY_INPUT_Z] && !input.oldkeys[KEY_INPUT_Z] && !this->activity) {
 			pickup_switching();
 		}

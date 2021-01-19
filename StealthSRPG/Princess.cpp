@@ -37,10 +37,11 @@ void Princess::Draw() {
 }
 
 /// <summary>
+/// プレイヤーフェイズの時
 /// 現在のカーソル座標とプレイヤー座標が一致しているとき、プレイヤーをPickupする
 /// </summary>
 void Princess::Pickup() {
-	if (current_x == this->x && current_y == this->y) {
+	if (current_x == this->x && current_y == this->y && Map::scene % 2 == 0) {
 		if (input.keys[KEY_INPUT_Z] && !input.oldkeys[KEY_INPUT_Z] && !this->activity) {
 			pickup_switching();
 		}
