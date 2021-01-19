@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "cursor.h"
 #include "constant.h"
+#include "mapAll.h"
 
 EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity,
                            bool isAlive) :
@@ -14,7 +15,6 @@ void EnemyBandits::Update() {
 	Draw();
 	Move();
 	Attack();
-	Dead();
 }
 
 void EnemyBandits::Draw() {
@@ -34,5 +34,11 @@ void EnemyBandits::Move() {
 void EnemyBandits::Attack() {
 }
 
-void EnemyBandits::Dead() {
+void EnemyBandits::Dead(vector<vector<int>>& map) {
+	if (map[this->y / block_size][this->x / block_size] == TIDE
+		&& Map::scene == NIGHT_PLAY) {
+		this->isAlive = false; //¶‘¶ó‘Ô‚ðfalse
+		this->x = -1;
+		this->y = -1;
+	}
 }
