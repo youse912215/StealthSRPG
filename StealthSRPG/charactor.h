@@ -7,8 +7,8 @@ public:
 	int x;
 	int y;
 	int graph;
-	int moving_distance;
-	Charactor(int x, int y, int graph, int moving_distance = block_size);
+	int moving_quantity;
+	Charactor(int x, int y, int graph, int moving_quantity = block_size);
 	~Charactor();
 	//void draw();
 };

@@ -1,9 +1,9 @@
 #include "charactor.h"
 #include "constant.h"
 
-Charactor::Charactor(int x, int y, int graph, int moving_distance) :
+Charactor::Charactor(int x, int y, int graph, int moving_quantity) :
 	x(x), y(y), graph(graph),
-	moving_distance(moving_distance) {
+	moving_quantity(moving_quantity) {
 }
 
 Charactor::~Charactor() {

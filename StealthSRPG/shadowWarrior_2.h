@@ -7,7 +7,7 @@ private:
 	Input& input;
 	int moving_flag;
 public:
-	ShadowWarrior_2(int x, int y, int graph, int moving_distance, int hp, int range, bool activity, bool isAlive,
+	ShadowWarrior_2(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity, bool isAlive,
 	                Input& input);
 
 	void Update(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,

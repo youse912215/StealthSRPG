@@ -6,22 +6,26 @@
 #include <algorithm>
 
 bool EnemyWarrior_1::husteric_flag = false;
+int EnemyWarrior_1::X = 0;
+int EnemyWarrior_1::Y = 0;
 
-EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_distance, int attack, int range, bool isAlive) :
-	Enemy(x, y, graph, moving_distance, attack, range, isAlive),
-	node_x({(this->x - block_size) / block_size, (this->x) / block_size, (this->x + block_size) / block_size}),
-	node_y({(this->y - block_size) / block_size, (this->y) / block_size, (this->y + block_size) / block_size}),
+EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity,
+                               bool isAlive) :
+	Enemy(x, y, graph, moving_quantity, attack, range, activity, isAlive),
+	node_x(3),
+	node_y(3),
 	parent_husteric(4, vector<unsigned int>(4, 0)),
 	minimum_husteric1(4, 0),
 	husteric(4, 0),
 	cost(4, 0),
 	score(4, 0) {
 	moving_flag = -1;
+	moving_distance = 0;
 	priority = 1;
-	moving_quantity = 0.0;
 	husteric_x = 0;
 	husteric_y = 0;
 	minimum_husteric2 = 0;
+	minimum_score = 0;
 }
 
 void EnemyWarrior_1::Update() {
@@ -36,13 +40,16 @@ void EnemyWarrior_1::Update() {
 }
 
 void EnemyWarrior_1::Draw() {
+	if (this->x == current_x && this->y == current_y) {
+		moving_range = this->range; //移動範囲をプレイヤー移動範囲に置換する
+	}
 	DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
 	DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "敵兵1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
-	                 "ew1_mq:%.1lf", moving_quantity, false);
+	                 "ew1_md:%d", moving_distance, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
-	                 "ew1_r:%d", this->range, false);
+	                 "e1F:%d", this->activity, false);
 	DrawFormatString(760, 385, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
 	DrawFormatString(760, 400, GetColor(255, 0, 255),
@@ -71,6 +78,14 @@ void EnemyWarrior_1::Draw() {
 void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
                                             const int& sw2_x,
                                             const int& sw2_y, const int& sw3_x, const int& sw3_y) {
+	node_x[LEFT_X] = (this->x - block_size) / block_size;
+	node_x[CENTER_X] = (this->x) / block_size;
+	node_x[RIGHT_X] = (this->x + block_size) / block_size;
+
+	node_y[TOP_Y] = (this->y - block_size) / block_size;
+	node_y[CENTER_Y] = (this->y) / block_size;
+	node_y[BOTTOM_Y] = (this->y + block_size) / block_size;
+
 	/* 姫 */
 	parent_husteric[ENEMY_PRINCESS][LEFT] = abs(node_x[LEFT_X] - p_x / block_size)
 		+ abs(node_y[CENTER_Y] - p_y / block_size); //エネミー左ノードと姫の2点間距離
@@ -120,19 +135,22 @@ void EnemyWarrior_1::get_minimum_husteric() {
 }
 
 void EnemyWarrior_1::get_node_husteric() {
-	if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR3]) {
-		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-			husteric[i] = parent_husteric[ENEMY_WARRIOR3][i];
+
+	if (minimum_husteric2 != minimum_husteric1[ENEMY_PRINCESS]) {
+		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR3]) {
+			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
+				husteric[i] = parent_husteric[ENEMY_WARRIOR3][i];
+		}
+		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR2]) {
+			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
+				husteric[i] = parent_husteric[ENEMY_WARRIOR2][i];
+		}
+		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR1]) {
+			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
+				husteric[i] = parent_husteric[ENEMY_WARRIOR1][i];
+		}
 	}
-	if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR2]) {
-		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-			husteric[i] = parent_husteric[ENEMY_WARRIOR2][i];
-	}
-	if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR1]) {
-		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-			husteric[i] = parent_husteric[ENEMY_WARRIOR1][i];
-	}
-	if (minimum_husteric2 == minimum_husteric1[ENEMY_PRINCESS]) {
+	else {
 		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
 			husteric[i] = parent_husteric[ENEMY_PRINCESS][i];
 	}
@@ -150,14 +168,42 @@ void EnemyWarrior_1::get_node_score() {
 	score[RIGHT] = cost[RIGHT] + husteric[RIGHT];
 	score[UP] = cost[UP] + husteric[UP];
 	score[DOWN] = cost[DOWN] + husteric[DOWN];
+	minimum_score = *min_element(score.begin(), score.end());
 }
 
 void EnemyWarrior_1::Move() {
-	if (Map::turn_timer == 0) moving_quantity = 0.0;
+	if (this->range == moving_distance) {
+		this->activity = true;
+	}
 
+	if (Map::turn_timer % 50 == 0
+		&& Map::turn_timer > 0
+		&& !this->activity) {
+		moving_decision();
+	}
 
-	if (this->x == current_x && this->y == current_y) {
-		moving_range = this->range; //移動範囲をプレイヤー移動範囲に置換する
+	if (Map::scene % 2 == 0) {
+		this->activity = false;
+		moving_distance = 0;
+	}
+}
+
+void EnemyWarrior_1::moving_decision() {
+	if (minimum_score == score[DOWN]) {
+		this->y -= moving_quantity;
+		moving_distance++;
+	}
+	else if (minimum_score == score[RIGHT]) {
+		this->x -= moving_quantity;
+		moving_distance++;
+	}
+	else if (minimum_score == score[LEFT]) {
+		this->x -= moving_quantity;
+		moving_distance++;
+	}
+	else {
+		this->y -= moving_quantity;
+		moving_distance++;
 	}
 }
 

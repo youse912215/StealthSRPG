@@ -37,13 +37,13 @@ void loop_process() {
 		LoadGraph("Source/Charactor/shadow_warrior.png"),
 		block_size, 100, 3, false, true, input);
 
-	EnemyWarrior_1 E_Warrior1(block_size * 8, block_size * 12,
+	EnemyWarrior_1 E_Warrior1(block_size * 13, block_size * 14,
 	                          LoadGraph("Source/Charactor/enemy_1.png"),
-	                          block_size, 50, 3, true);
+	                          block_size, 50, 3, false, true);
 
 	EnemyBandits Bandits(block_size * 8, block_size * 9,
 	                     LoadGraph("Source/Charactor/enemy_2.png"),
-	                     block_size, 75, 2, true);
+	                     block_size, 75, 2, false, true);
 
 	// ÉQÅ[ÉÄÉãÅ[Év
 	while (true) {

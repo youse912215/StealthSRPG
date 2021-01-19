@@ -8,10 +8,11 @@ class EnemyWarrior_1 : public Enemy {
 public:
 	int moving_flag;
 	int priority;
-	double moving_quantity;
 	static bool husteric_flag;
+	static int X;
+	static int Y;
 
-	EnemyWarrior_1(int x, int y, int graph, int moving_distance, int attack, int range, bool isAlive);
+	EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity, bool isAlive);
 	void Update();
 	void Draw();
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
@@ -32,8 +33,11 @@ private:
 	vector<unsigned int> husteric;
 	vector<unsigned int> cost;
 	vector<unsigned int> score;
+	unsigned int minimum_score;
+	int moving_distance;
 
 	void Move();
+	void moving_decision();
 	void Attack();
 	void Dead();
 };

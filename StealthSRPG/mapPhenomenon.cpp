@@ -9,7 +9,7 @@ Phenomenon::~Phenomenon() {
 
 void Phenomenon::Switching() {
 
-	if (turn_timer >= 175) {
+	if (turn_timer >= 50000) {
 		if (scene == NOON_ENEMY)
 			scene = NIGHT_PLAY;
 		else if (scene == NIGHT_ENEMY)

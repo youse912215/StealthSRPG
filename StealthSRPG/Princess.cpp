@@ -4,9 +4,9 @@
 #include "cursor.h"
 #include "mapAll.h"
 
-Princess::Princess(int x, int y, int graph, int moving_distance, int hp, int range, bool activity, bool isAlive,
+Princess::Princess(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity, bool isAlive,
                    Input& input):
-	Player(x, y, graph, moving_distance, hp, range, activity, isAlive), input(input) {
+	Player(x, y, graph, moving_quantity, hp, range, activity, isAlive), input(input) {
 	this->moving_flag = -1;
 	this->duplication_flag[7] = {};
 	this->tracking_priority = 0;
