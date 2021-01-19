@@ -8,8 +8,9 @@ ShadowWarrior_2::ShadowWarrior_2(int x, int y, int graph, int moving_distance, i
                                  bool isAlive,
                                  Input& input):
 	Player(x, y, graph, moving_distance, hp, range, activity, isAlive), input(input) {
-	moving_flag = -1;
+	this->moving_flag = -1;
 	this->duplication_flag[7] = {};
+	this->tracking_priority = 2;
 }
 
 void ShadowWarrior_2::Update(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,

@@ -37,7 +37,7 @@ void loop_process() {
 		LoadGraph("Source/Charactor/shadow_warrior.png"),
 		block_size, 100, 3, false, true, input);
 
-	EnemyWarrior_1 E_Warrior1(block_size * 5, block_size * 8,
+	EnemyWarrior_1 E_Warrior1(block_size * 8, block_size * 12,
 	                          LoadGraph("Source/Charactor/enemy_1.png"),
 	                          block_size, 50, 3, true);
 

@@ -5,23 +5,23 @@
 #include "mapAll.h"
 #include <algorithm>
 
+bool EnemyWarrior_1::husteric_flag = false;
+
 EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_distance, int attack, int range, bool isAlive) :
 	Enemy(x, y, graph, moving_distance, attack, range, isAlive),
 	node_x({(this->x - block_size) / block_size, (this->x) / block_size, (this->x + block_size) / block_size}),
 	node_y({(this->y - block_size) / block_size, (this->y) / block_size, (this->y + block_size) / block_size}),
-	open_list(2, vector<int>(8, 0)),
-	closed_list(area_height, vector<int>(area_width, 0)),
 	parent_husteric(4, vector<unsigned int>(4, 0)),
-	minimum_husteric(4, 0),
+	minimum_husteric1(4, 0),
+	husteric(4, 0),
 	cost(4, 0),
 	score(4, 0) {
 	moving_flag = -1;
 	priority = 1;
 	moving_quantity = 0.0;
-	open_width = open_list.at(0).size();
-	open_height = open_list.size();
 	husteric_x = 0;
 	husteric_y = 0;
+	minimum_husteric2 = 0;
 }
 
 void EnemyWarrior_1::Update() {
@@ -29,9 +29,8 @@ void EnemyWarrior_1::Update() {
 	Move();
 	Attack();
 	Dead();
-	//get_open_list();
-	//get_closed_list();
 	get_minimum_husteric();
+	get_node_husteric();
 	get_node_cost();
 	get_node_score();
 }
@@ -61,8 +60,8 @@ void EnemyWarrior_1::Draw() {
 	                 parent_husteric[ENEMY_WARRIOR3][LEFT], parent_husteric[ENEMY_WARRIOR3][RIGHT],
 	                 parent_husteric[ENEMY_WARRIOR3][UP], parent_husteric[ENEMY_WARRIOR3][DOWN], false);
 	DrawFormatString(720, 475, GetColor(200, 255, 125), "mHus:p%d, w%d, w%d, w%d",
-	                 minimum_husteric[ENEMY_PRINCESS], minimum_husteric[ENEMY_WARRIOR1],
-	                 minimum_husteric[ENEMY_WARRIOR2], minimum_husteric[ENEMY_WARRIOR3], false);
+	                 minimum_husteric1[ENEMY_PRINCESS], minimum_husteric1[ENEMY_WARRIOR1],
+	                 minimum_husteric1[ENEMY_WARRIOR2], minimum_husteric1[ENEMY_WARRIOR3], false);
 	DrawFormatString(720, 500, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
 	DrawFormatString(720, 515, GetColor(200, 255, 125), "score:L%d, R%d, U%d, D%d",
@@ -115,10 +114,28 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
 
 void EnemyWarrior_1::get_minimum_husteric() {
 	for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i) {
-		minimum_husteric[i] = *min_element(parent_husteric[i].begin(), parent_husteric[i].end());
+		minimum_husteric1[i] = *min_element(parent_husteric[i].begin(), parent_husteric[i].end());
 	}
+	minimum_husteric2 = *min_element(minimum_husteric1.begin(), minimum_husteric1.end());
+}
 
-	//if (minimum_husteric == )
+void EnemyWarrior_1::get_node_husteric() {
+	if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR3]) {
+		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
+			husteric[i] = parent_husteric[ENEMY_WARRIOR3][i];
+	}
+	if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR2]) {
+		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
+			husteric[i] = parent_husteric[ENEMY_WARRIOR2][i];
+	}
+	if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR1]) {
+		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
+			husteric[i] = parent_husteric[ENEMY_WARRIOR1][i];
+	}
+	if (minimum_husteric2 == minimum_husteric1[ENEMY_PRINCESS]) {
+		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
+			husteric[i] = parent_husteric[ENEMY_PRINCESS][i];
+	}
 }
 
 void EnemyWarrior_1::get_node_cost() {
@@ -129,10 +146,10 @@ void EnemyWarrior_1::get_node_cost() {
 }
 
 void EnemyWarrior_1::get_node_score() {
-	/*score[LEFT] = cost[LEFT] + minimum_husteric;
-	score[RIGHT] = cost[RIGHT] + minimum_husteric;
-	score[UP] = cost[UP] + minimum_husteric;
-	score[DOWN] = cost[DOWN] + minimum_husteric;*/
+	score[LEFT] = cost[LEFT] + husteric[LEFT];
+	score[RIGHT] = cost[RIGHT] + husteric[RIGHT];
+	score[UP] = cost[UP] + husteric[UP];
+	score[DOWN] = cost[DOWN] + husteric[DOWN];
 }
 
 void EnemyWarrior_1::Move() {
@@ -149,22 +166,3 @@ void EnemyWarrior_1::Attack() {
 
 void EnemyWarrior_1::Dead() {
 }
-
-//void EnemyWarrior_1::get_open_list() {
-//
-//	for (int i = 0; i < 3; ++i) {
-//		/* x‚Ìƒm[ƒh‘ã“ü */
-//		open_list[X][i * 3] = node_x[LEFT_X];
-//		open_list[X][i * 3 + 1] = node_x[RIGHT_X];
-//		if (i != 2) open_list[X][i * 3 + 2] = node_x[CENTER_X];
-//		/* y‚Ìƒm[ƒh‘ã“ü */
-//		open_list[Y][i * 3] = node_y[TOP_Y];
-//		open_list[Y][i * 3 + 1] = node_y[BOTTOM_Y];
-//		if (i != 2) open_list[Y][i * 3 + 2] = node_y[CENTER_Y];
-//	}
-//}
-//
-//void EnemyWarrior_1::get_closed_list() {
-//	closed_list[X][0] = node_x[CENTER_X];
-//	closed_list[Y][0] = node_y[CENTER_Y];
-//}

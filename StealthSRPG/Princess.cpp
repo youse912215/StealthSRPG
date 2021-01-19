@@ -7,8 +7,9 @@
 Princess::Princess(int x, int y, int graph, int moving_distance, int hp, int range, bool activity, bool isAlive,
                    Input& input):
 	Player(x, y, graph, moving_distance, hp, range, activity, isAlive), input(input) {
-	moving_flag = -1;
+	this->moving_flag = -1;
 	this->duplication_flag[7] = {};
+	this->tracking_priority = 0;
 }
 
 void Princess::Update(const int& sw1_x, const int& sw1_y, const int& sw2_x, const int& sw2_y,
