@@ -37,7 +37,7 @@ void loop_process() {
 		LoadGraph("Source/Charactor/shadow_warrior.png"),
 		block_size, 100, 3, false, true, input);
 
-	EnemyWarrior_1 E_Warrior1(block_size * 6, block_size * 7,
+	EnemyWarrior_1 E_Warrior1(block_size * 5, block_size * 8,
 	                          LoadGraph("Source/Charactor/enemy_1.png"),
 	                          block_size, 50, 3, true);
 
@@ -77,6 +77,9 @@ void loop_process() {
 		Warrior3.Dead(_map->map_20x20); //•P‚Ì€–Sˆ—
 
 		E_Warrior1.Update(); //“G•º1‚Ìˆ—
+		E_Warrior1.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+		                                  Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+
 		Bandits.Update(); //R‘¯‚Ìˆ—
 
 		Cursor* cursor = new Cursor;

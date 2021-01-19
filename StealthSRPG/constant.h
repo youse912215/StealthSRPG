@@ -61,3 +61,20 @@ enum DIRECTION {
 	UP,
 	DOWN
 };
+
+enum NODE_X {
+	LEFT_X,
+	CENTER_X,
+	RIGHT_X
+};
+
+enum NODE_Y {
+	TOP_Y,
+	CENTER_Y,
+	BOTTOM_Y
+};
+
+enum XY {
+	X,
+	Y
+};
