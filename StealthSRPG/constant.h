@@ -66,13 +66,21 @@ enum DIRECTION {
 enum NODE_X {
 	LEFT_X,
 	CENTER_X,
-	RIGHT_X
+	RIGHT_X,
+	LEFT_2X,
+	RIGHT_2X,
+	LEFT_3X,
+	RIGHT_3X
 };
 
 enum NODE_Y {
-	TOP_Y,
+	UP_Y,
 	CENTER_Y,
-	BOTTOM_Y
+	DOWN_Y,
+	UP_2Y,
+	DOWN_2Y,
+	UP_3Y,
+	DOWN_3Y
 };
 
 enum XY {

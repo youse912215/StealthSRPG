@@ -211,17 +211,4 @@ void Input::update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
 	moving_cursor();
 	time_change();
 	collision_flag_update(map, ew1_x, ew1_y, eb1_x, eb1_y);
-
-	if (keys[KEY_INPUT_W] && !oldkeys[KEY_INPUT_W]) {
-		EnemyWarrior_1::Y -= block_size;
-	}
-	if (keys[KEY_INPUT_A] && !oldkeys[KEY_INPUT_A]) {
-		EnemyWarrior_1::X -= block_size;
-	}
-	if (keys[KEY_INPUT_S] && !oldkeys[KEY_INPUT_S]) {
-		EnemyWarrior_1::Y += block_size;
-	}
-	if (keys[KEY_INPUT_D] && !oldkeys[KEY_INPUT_D]) {
-		EnemyWarrior_1::X += block_size;
-	}
 }

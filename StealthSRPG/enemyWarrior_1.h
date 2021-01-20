@@ -9,8 +9,6 @@ public:
 	int moving_flag;
 	int priority;
 	static bool husteric_flag;
-	static int X;
-	static int Y;
 
 	EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity, bool isAlive);
 	void Update(vector<vector<int>>& map);
@@ -18,18 +16,20 @@ public:
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y);
 
 private:
-	vector<int> node_x;
-	vector<int> node_y;
-	unsigned int husteric_x;
-	unsigned int husteric_y;
-	vector<vector<unsigned int>> parent_husteric;
-	vector<unsigned int> minimum_husteric1;
-	unsigned int minimum_husteric2;
-	vector<unsigned int> husteric;
-	vector<int> obstacle_cost;
-	vector<unsigned int> cost;
-	vector<unsigned int> score;
-	unsigned int minimum_score;
+	vector<int> node_x; //x方向のノード
+	vector<int> node_y; //y方向のノード
+	unsigned int husteric_x; //x方向のヒューステリック
+	unsigned int husteric_y; //y方向のヒューステリック
+	vector<vector<unsigned int>> parent_husteric; //親ヒューステリック
+	vector<unsigned int> minimum_husteric1; //各方向の最小のヒューステリック
+	unsigned int minimum_husteric2; //最小のヒューステリック
+	vector<unsigned int> husteric; //ヒューステリック
+	vector<int> relative_distance; //相対距離
+	vector<int> relative_position_cost; //相対位置コスト
+	vector<int> obstacle_cost; //障害物コスト
+	vector<unsigned int> cost; //合計コスト
+	vector<unsigned int> score; //トータルスコア
+	unsigned int minimum_score; //最小コスト
 	int moving_distance;
 
 	void Draw();
@@ -41,6 +41,7 @@ private:
 	void get_minimum_husteric();
 	void get_node_husteric();
 	void get_obstacle_cost(vector<vector<int>>& map);
+	void get_relative_position_cost();
 	void get_node_cost();
 	void get_node_score();
 };

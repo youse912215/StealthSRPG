@@ -16,4 +16,6 @@ protected:
 		ENEMY_WARRIOR2,
 		ENEMY_WARRIOR3
 	};
+
+	int add_cost(const int& map_info);
 };

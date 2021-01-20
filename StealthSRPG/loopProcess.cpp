@@ -41,7 +41,7 @@ void loop_process() {
 	                          LoadGraph("Source/Charactor/enemy_1.png"),
 	                          block_size, 50, 3, false, true);
 
-	EnemyBandits Bandits(block_size * 8, block_size * 9,
+	EnemyBandits Bandits(block_size * 6, block_size * 7,
 	                     LoadGraph("Source/Charactor/enemy_2.png"),
 	                     block_size, 75, 2, false, true);
 

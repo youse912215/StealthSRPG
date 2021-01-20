@@ -6,17 +6,17 @@
 #include <algorithm>
 
 bool EnemyWarrior_1::husteric_flag = false;
-int EnemyWarrior_1::X = 0;
-int EnemyWarrior_1::Y = 0;
 
 EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity,
                                bool isAlive) :
 	Enemy(x, y, graph, moving_quantity, attack, range, activity, isAlive),
-	node_x(3),
-	node_y(3),
+	node_x(7),
+	node_y(7),
 	parent_husteric(4, vector<unsigned int>(4, 0)),
 	minimum_husteric1(4, 0),
 	husteric(4, 0),
+	relative_distance(2, 0),
+	relative_position_cost(4, 0),
 	obstacle_cost(4),
 	cost(4, 0),
 	score(4, 0) {
@@ -38,6 +38,7 @@ void EnemyWarrior_1::Update(vector<vector<int>>& map) {
 	get_minimum_husteric();
 	get_node_husteric();
 	get_obstacle_cost(map);
+	get_relative_position_cost();
 	get_node_cost();
 	get_node_score();
 
@@ -54,10 +55,15 @@ void EnemyWarrior_1::Draw() {
 	                 "ew1_md:%d", moving_distance, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
 	                 "e1F:%d", this->activity, false);
-	DrawFormatString(710, 385, GetColor(255, 0, 255),
+	DrawFormatString(710, 355, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
-	DrawFormatString(710, 400, GetColor(255, 0, 255),
-	                 "NoY:%d, %d, %d", node_y[TOP_Y], node_y[CENTER_Y], node_y[BOTTOM_Y], false);
+	DrawFormatString(710, 370, GetColor(255, 0, 255),
+	                 "NoY:%d, %d, %d", node_y[UP_Y], node_y[CENTER_Y], node_y[DOWN_Y], false);
+	DrawFormatString(710, 385, GetColor(200, 255, 125),
+	                 "rpDis:%d, %d", relative_distance[X], relative_distance[Y], false);
+	DrawFormatString(710, 400, GetColor(200, 255, 125), "rpCo:L%d, R%d, U%d, D%d",
+	                 relative_position_cost[LEFT], relative_position_cost[RIGHT],
+	                 relative_position_cost[UP], relative_position_cost[DOWN], false);
 	DrawFormatString(710, 415, GetColor(200, 255, 125), "pHus:L%d, R%d, U%d, D%d",
 	                 parent_husteric[ENEMY_PRINCESS][LEFT], parent_husteric[ENEMY_PRINCESS][RIGHT],
 	                 parent_husteric[ENEMY_PRINCESS][UP], parent_husteric[ENEMY_PRINCESS][DOWN], false);
@@ -86,10 +92,18 @@ void EnemyWarrior_1::get_each_node() {
 	node_x[LEFT_X] = (this->x - block_size) / block_size;
 	node_x[CENTER_X] = (this->x) / block_size;
 	node_x[RIGHT_X] = (this->x + block_size) / block_size;
+	node_x[LEFT_2X] = (this->x - block_size * 2) / block_size;
+	node_x[RIGHT_2X] = (this->x + block_size * 2) / block_size;
+	node_x[LEFT_3X] = (this->x - block_size * 3) / block_size;
+	node_x[RIGHT_3X] = (this->x + block_size * 3) / block_size;
 
-	node_y[TOP_Y] = (this->y - block_size) / block_size;
+	node_y[UP_Y] = (this->y - block_size) / block_size;
 	node_y[CENTER_Y] = (this->y) / block_size;
-	node_y[BOTTOM_Y] = (this->y + block_size) / block_size;
+	node_y[DOWN_Y] = (this->y + block_size) / block_size;
+	node_y[UP_2Y] = (this->y - block_size * 2) / block_size;
+	node_y[DOWN_2Y] = (this->y + block_size * 2) / block_size;
+	node_y[UP_3Y] = (this->y - block_size * 3) / block_size;
+	node_y[DOWN_3Y] = (this->y + block_size * 3) / block_size;
 }
 
 void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
@@ -101,9 +115,9 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
 	parent_husteric[ENEMY_PRINCESS][RIGHT] = abs(node_x[RIGHT_X] - p_x / block_size)
 		+ abs(node_y[CENTER_Y] - p_y / block_size); //エネミー右ノードと姫の2点間距離
 	parent_husteric[ENEMY_PRINCESS][UP] = abs(node_x[CENTER_X] - p_x / block_size)
-		+ abs(node_y[TOP_Y] - p_y / block_size); //エネミー上ノードと姫の2点間距離
+		+ abs(node_y[UP_Y] - p_y / block_size); //エネミー上ノードと姫の2点間距離
 	parent_husteric[ENEMY_PRINCESS][DOWN] = abs(node_x[CENTER_X] - p_x / block_size)
-		+ abs(node_y[BOTTOM_Y] - p_y / block_size); //エネミー下ノードと姫の2点間距離
+		+ abs(node_y[DOWN_Y] - p_y / block_size); //エネミー下ノードと姫の2点間距離
 
 	/* 影武者1 */
 	parent_husteric[ENEMY_WARRIOR1][LEFT] = abs(node_x[LEFT_X] - sw1_x / block_size)
@@ -111,9 +125,9 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
 	parent_husteric[ENEMY_WARRIOR1][RIGHT] = abs(node_x[RIGHT_X] - sw1_x / block_size)
 		+ abs(node_y[CENTER_Y] - sw1_y / block_size); //エネミー右ノードと姫の2点間距離
 	parent_husteric[ENEMY_WARRIOR1][UP] = abs(node_x[CENTER_X] - sw1_x / block_size)
-		+ abs(node_y[TOP_Y] - sw1_y / block_size); //エネミー上ノードと姫の2点間距離
+		+ abs(node_y[UP_Y] - sw1_y / block_size); //エネミー上ノードと姫の2点間距離
 	parent_husteric[ENEMY_WARRIOR1][DOWN] = abs(node_x[CENTER_X] - sw1_x / block_size)
-		+ abs(node_y[BOTTOM_Y] - sw1_y / block_size); //エネミー下ノードと姫の2点間距離
+		+ abs(node_y[DOWN_Y] - sw1_y / block_size); //エネミー下ノードと姫の2点間距離
 
 	/* 影武者2 */
 	parent_husteric[ENEMY_WARRIOR2][LEFT] = abs(node_x[LEFT_X] - sw2_x / block_size)
@@ -121,9 +135,9 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
 	parent_husteric[ENEMY_WARRIOR2][RIGHT] = abs(node_x[RIGHT_X] - sw2_x / block_size)
 		+ abs(node_y[CENTER_Y] - sw2_y / block_size); //エネミー右ノードと姫の2点間距離
 	parent_husteric[ENEMY_WARRIOR2][UP] = abs(node_x[CENTER_X] - sw2_x / block_size)
-		+ abs(node_y[TOP_Y] - sw2_y / block_size); //エネミー上ノードと姫の2点間距離
+		+ abs(node_y[UP_Y] - sw2_y / block_size); //エネミー上ノードと姫の2点間距離
 	parent_husteric[ENEMY_WARRIOR2][DOWN] = abs(node_x[CENTER_X] - sw2_x / block_size)
-		+ abs(node_y[BOTTOM_Y] - sw2_y / block_size); //エネミー下ノードと姫の2点間距離
+		+ abs(node_y[DOWN_Y] - sw2_y / block_size); //エネミー下ノードと姫の2点間距離
 
 	/* 影武者3 */
 	parent_husteric[ENEMY_WARRIOR3][LEFT] = abs(node_x[LEFT_X] - sw3_x / block_size)
@@ -131,9 +145,15 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
 	parent_husteric[ENEMY_WARRIOR3][RIGHT] = abs(node_x[RIGHT_X] - sw3_x / block_size)
 		+ abs(node_y[CENTER_Y] - sw3_y / block_size); //エネミー右ノードと姫の2点間距離
 	parent_husteric[ENEMY_WARRIOR3][UP] = abs(node_x[CENTER_X] - sw3_x / block_size)
-		+ abs(node_y[TOP_Y] - sw3_y / block_size); //エネミー上ノードと姫の2点間距離
+		+ abs(node_y[UP_Y] - sw3_y / block_size); //エネミー上ノードと姫の2点間距離
 	parent_husteric[ENEMY_WARRIOR3][DOWN] = abs(node_x[CENTER_X] - sw3_x / block_size)
-		+ abs(node_y[BOTTOM_Y] - sw3_y / block_size); //エネミー下ノードと姫の2点間距離
+		+ abs(node_y[DOWN_Y] - sw3_y / block_size); //エネミー下ノードと姫の2点間距離
+
+	/* プレイヤーとの相対位置コスト計算 */
+	relative_distance[X] = (node_x[CENTER_X] - (p_x / block_size)) + (node_x[CENTER_X] - (sw1_x / block_size))
+		+ (node_x[CENTER_X] - (sw2_x / block_size)) + (node_x[CENTER_X] - (sw3_x / block_size));
+	relative_distance[Y] = (node_y[CENTER_Y] - (p_y / block_size)) + (node_y[CENTER_Y] - (sw1_y / block_size))
+		+ (node_y[CENTER_Y] - (sw2_y / block_size)) + (node_y[CENTER_Y] - (sw3_y / block_size));
 }
 
 void EnemyWarrior_1::get_minimum_husteric() {
@@ -166,38 +186,58 @@ void EnemyWarrior_1::get_node_husteric() {
 }
 
 void EnemyWarrior_1::get_obstacle_cost(vector<vector<int>>& map) {
+	/* 左側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[LEFT_X]] == SEA
 		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == TIDE && Map::scene % 2 != 0)) {
-		obstacle_cost[LEFT] = 10;
+		obstacle_cost[LEFT] = add_cost(SEA);
 	}
 	else obstacle_cost[LEFT] = 0;
 
+	/* 右側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == SEA
 		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == TIDE && Map::scene % 2 != 0)) {
-		obstacle_cost[RIGHT] = 10;
+		obstacle_cost[RIGHT] = add_cost(SEA);
 	}
 	else obstacle_cost[RIGHT] = 0;
 
-	if (map[node_y[TOP_Y]][node_x[CENTER_X]] == SEA
-		|| (map[node_y[TOP_Y]][node_x[CENTER_X]] == TIDE && Map::scene % 2 != 0)) {
-		obstacle_cost[UP] = 10;
+	/* 上側のコスト */
+	if (map[node_y[UP_Y]][node_x[CENTER_X]] == SEA
+		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == TIDE && Map::scene % 2 != 0)) {
+		obstacle_cost[UP] = add_cost(SEA);
 	}
 	else obstacle_cost[UP] = 0;
 
-	if (map[node_y[BOTTOM_Y]][node_x[CENTER_X]] == SEA
-		|| (map[node_y[BOTTOM_Y]][node_x[CENTER_X]] == TIDE && Map::scene % 2 != 0)) {
-		obstacle_cost[DOWN] = 10;
+	/* 下側のコスト */
+	if (map[node_y[DOWN_Y]][node_x[CENTER_X]] == SEA
+		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == TIDE && Map::scene % 2 != 0)) {
+		obstacle_cost[DOWN] = add_cost(SEA);
 	}
 	else obstacle_cost[DOWN] = 0;
+}
 
+void EnemyWarrior_1::get_relative_position_cost() {
+	/* x方向の相対位置コスト */
+	if (relative_distance[X] < 0) relative_position_cost[LEFT] = 5;
+	else if (relative_distance[X] > 0) relative_position_cost[RIGHT] = 5;
+	else {
+		relative_position_cost[LEFT] = 0;
+		relative_position_cost[RIGHT] = 0;
+	}
 
+	/* y方向の相対位置コスト */
+	if (relative_distance[Y] < 0) relative_position_cost[UP] = 5;
+	else if (relative_distance[Y] > 0) relative_position_cost[DOWN] = 5;
+	else {
+		relative_position_cost[UP] = 0;
+		relative_position_cost[DOWN] = 0;
+	}
 }
 
 void EnemyWarrior_1::get_node_cost() {
-	cost[LEFT] = abs(node_x[CENTER_X] - node_x[LEFT_X] + obstacle_cost[LEFT]);
-	cost[RIGHT] = abs(node_x[CENTER_X] - node_x[RIGHT_X] + obstacle_cost[RIGHT]);
-	cost[UP] = abs(node_y[CENTER_Y] - node_y[TOP_Y] + obstacle_cost[UP]);
-	cost[DOWN] = abs(node_y[CENTER_Y] - node_y[BOTTOM_Y] + obstacle_cost[DOWN]);
+	cost[LEFT] = abs(node_x[CENTER_X] - node_x[LEFT_X] + obstacle_cost[LEFT] + relative_position_cost[LEFT]);
+	cost[RIGHT] = abs(node_x[CENTER_X] - node_x[RIGHT_X] + obstacle_cost[RIGHT] + relative_position_cost[RIGHT]);
+	cost[UP] = abs(node_y[CENTER_Y] - node_y[UP_Y] + obstacle_cost[UP] + relative_position_cost[UP]);
+	cost[DOWN] = abs(node_y[CENTER_Y] - node_y[DOWN_Y] + obstacle_cost[DOWN] + relative_position_cost[DOWN]);
 }
 
 void EnemyWarrior_1::get_node_score() {
@@ -226,25 +266,32 @@ void EnemyWarrior_1::Move() {
 }
 
 void EnemyWarrior_1::moving_decision() {
-	if (minimum_score == score[DOWN]) {
+	if (minimum_score == 1) {
+		this->activity = true;
+		moving_distance = this->range;
+	}
+
+	if (minimum_score == score[DOWN] && !this->activity) {
 		this->y += moving_quantity;
 		moving_distance++;
 	}
-	else if (minimum_score == score[RIGHT]) {
+	else if (minimum_score == score[RIGHT] && !this->activity) {
 		this->x += moving_quantity;
 		moving_distance++;
 	}
-	else if (minimum_score == score[LEFT]) {
+	else if (minimum_score == score[LEFT] && !this->activity) {
 		this->x -= moving_quantity;
 		moving_distance++;
 	}
-	else if (minimum_score == score[UP]) {
+	else if (minimum_score == score[UP] && !this->activity) {
 		this->y -= moving_quantity;
 		moving_distance++;
 	}
 }
 
 void EnemyWarrior_1::Attack() {
+	if (minimum_score == 1) {
+	}
 }
 
 void EnemyWarrior_1::Dead(vector<vector<int>>& map) {
