@@ -14,6 +14,7 @@ public:
 	void Update(vector<vector<int>>& map);
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y);
+	void Attack(int* p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp);
 
 private:
 	vector<int> node_x; //x方向のノード
@@ -31,12 +32,9 @@ private:
 	vector<unsigned int> score; //トータルスコア
 	unsigned int minimum_score; //最小コスト
 	int moving_distance;
+	bool attack_flag;
 
 	void Draw();
-	void Move();
-	void moving_decision();
-	void Attack();
-	void Dead(vector<vector<int>>& map);
 	void get_each_node();
 	void get_minimum_husteric();
 	void get_node_husteric();
@@ -44,4 +42,7 @@ private:
 	void get_relative_position_cost();
 	void get_node_cost();
 	void get_node_score();
+	void Move();
+	void moving_decision();
+	void Dead(vector<vector<int>>& map);
 };

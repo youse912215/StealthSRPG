@@ -20,7 +20,7 @@ void loop_process() {
 	Princess Princess(
 		block_size * 9, block_size * 11,
 		LoadGraph("Source/Charactor/princess.png"),
-		block_size, 50, 4, false, true, input);
+		block_size, 75, 4, false, true, input);
 
 	ShadowWarrior_1 Warrior1(
 		block_size * 7, block_size * 14,
@@ -76,9 +76,11 @@ void loop_process() {
 		                Bandits.x, Bandits.y); //影武者3の更新処理
 		Warrior3.Dead(_map->map_20x20); //姫の死亡処理
 
+
 		E_Warrior1.Update(_map->map_20x20); //敵兵1の更新処理
 		E_Warrior1.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                                  Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+		E_Warrior1.Attack(&Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp);
 
 		Bandits.Update(); //山賊の更新処理
 		Bandits.Dead(_map->map_20x20); //山賊の更新処理

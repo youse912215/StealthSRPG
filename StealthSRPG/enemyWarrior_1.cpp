@@ -10,8 +10,8 @@ bool EnemyWarrior_1::husteric_flag = false;
 EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity,
                                bool isAlive) :
 	Enemy(x, y, graph, moving_quantity, attack, range, activity, isAlive),
-	node_x(7),
-	node_y(7),
+	node_x(3),
+	node_y(3),
 	parent_husteric(4, vector<unsigned int>(4, 0)),
 	minimum_husteric1(4, 0),
 	husteric(4, 0),
@@ -27,13 +27,11 @@ EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int
 	husteric_y = 0;
 	minimum_husteric2 = 0;
 	minimum_score = 0;
+	attack_flag = false;
 }
 
 void EnemyWarrior_1::Update(vector<vector<int>>& map) {
 	Draw();
-	Move();
-	Attack();
-	Dead(map);
 	get_each_node();
 	get_minimum_husteric();
 	get_node_husteric();
@@ -41,7 +39,8 @@ void EnemyWarrior_1::Update(vector<vector<int>>& map) {
 	get_relative_position_cost();
 	get_node_cost();
 	get_node_score();
-
+	Move();
+	Dead(map);
 }
 
 void EnemyWarrior_1::Draw() {
@@ -52,9 +51,9 @@ void EnemyWarrior_1::Draw() {
 	DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "“G•º1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
-	                 "ew1_md:%d", moving_distance, false);
+	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
-	                 "e1F:%d", this->activity, false);
+	                 "aF%d", attack_flag, false);
 	DrawFormatString(710, 355, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
 	DrawFormatString(710, 370, GetColor(255, 0, 255),
@@ -92,18 +91,10 @@ void EnemyWarrior_1::get_each_node() {
 	node_x[LEFT_X] = (this->x - block_size) / block_size;
 	node_x[CENTER_X] = (this->x) / block_size;
 	node_x[RIGHT_X] = (this->x + block_size) / block_size;
-	node_x[LEFT_2X] = (this->x - block_size * 2) / block_size;
-	node_x[RIGHT_2X] = (this->x + block_size * 2) / block_size;
-	node_x[LEFT_3X] = (this->x - block_size * 3) / block_size;
-	node_x[RIGHT_3X] = (this->x + block_size * 3) / block_size;
 
 	node_y[UP_Y] = (this->y - block_size) / block_size;
 	node_y[CENTER_Y] = (this->y) / block_size;
 	node_y[DOWN_Y] = (this->y + block_size) / block_size;
-	node_y[UP_2Y] = (this->y - block_size * 2) / block_size;
-	node_y[DOWN_2Y] = (this->y + block_size * 2) / block_size;
-	node_y[UP_3Y] = (this->y - block_size * 3) / block_size;
-	node_y[DOWN_3Y] = (this->y + block_size * 3) / block_size;
 }
 
 void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
@@ -261,6 +252,7 @@ void EnemyWarrior_1::Move() {
 
 	if (Map::scene % 2 == 0) {
 		this->activity = false;
+		attack_flag = false;
 		moving_distance = 0;
 	}
 }
@@ -289,8 +281,17 @@ void EnemyWarrior_1::moving_decision() {
 	}
 }
 
-void EnemyWarrior_1::Attack() {
-	if (minimum_score == 1) {
+void EnemyWarrior_1::Attack(int* p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp) {
+	if (p_hp == nullptr) { return; }
+
+	if (minimum_score == 1 && this->activity && !attack_flag) {
+		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
+			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
+			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
+			|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
+			*p_hp -= this->attack;
+			attack_flag = true;
+		}
 	}
 }
 
