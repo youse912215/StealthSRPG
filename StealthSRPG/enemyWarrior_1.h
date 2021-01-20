@@ -6,15 +6,11 @@ using namespace std;
 
 class EnemyWarrior_1 : public Enemy {
 public:
-	int moving_flag;
-	int priority;
-	static bool husteric_flag;
-
 	EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity, bool isAlive);
 	void Update(vector<vector<int>>& map);
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y);
-	void Attack(int* p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp);
+	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp);
 
 private:
 	vector<int> node_x; //x方向のノード
@@ -31,8 +27,8 @@ private:
 	vector<unsigned int> cost; //合計コスト
 	vector<unsigned int> score; //トータルスコア
 	unsigned int minimum_score; //最小コスト
-	int moving_distance;
-	bool attack_flag;
+	int moving_distance; //移動距離
+	bool attack_activity; //攻撃状態（true:攻撃済み、false:攻撃可能）
 
 	void Draw();
 	void get_each_node();

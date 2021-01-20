@@ -100,8 +100,14 @@ void Princess::Move() {
 void Princess::Dead(vector<vector<int>>& map) {
 	if (map[this->y / block_size][this->x / block_size] == TIDE
 		&& Map::scene == NIGHT_PLAY) {
-		this->isAlive = false; //¶‘¶ó‘Ô‚ðfalse
-		this->x = -1;
-		this->y = -1;
+		get_survival_activity();
 	}
+
+	if (this->hp <= 0) get_survival_activity();
+}
+
+void Princess::get_survival_activity() {
+	this->isAlive = false; //¶‘¶ó‘Ô‚ðfalse
+	this->x = -1;
+	this->y = -1;
 }

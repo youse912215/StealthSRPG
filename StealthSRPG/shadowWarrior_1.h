@@ -24,4 +24,5 @@ private:
 	                        const int& sw3_x, const int& sw3_y, const int& ew1_x, const int& ew1_y,
 	                        const int& eb1_x, const int& eb1_y);
 	void Move();
+	void get_survival_activity();
 };

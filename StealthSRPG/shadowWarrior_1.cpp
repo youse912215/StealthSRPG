@@ -33,8 +33,10 @@ void ShadowWarrior_1::Draw() {
 	}
 	DrawFormatString(100, 45, GetColor(0, 0, 0), "•º1(%d, %d)",
 	                 this->x / block_size, this->y / block_size, false);
-	DrawFormatString(100, 60, GetColor(255, 0, 0), "F%d,A%d,D%d",
-	                 moving_flag, this->activity, this->isAlive, false);
+	DrawFormatString(100, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
+	                 moving_flag, this->activity, false);
+	DrawFormatString(100, 75, GetColor(255, 0, 0), "De%d,Hp%d",
+	                 this->isAlive, this->hp, false);
 }
 
 /// <summary>
@@ -99,8 +101,14 @@ void ShadowWarrior_1::Move() {
 void ShadowWarrior_1::Dead(vector<vector<int>>& map) {
 	if (map[this->y / block_size][this->x / block_size] == TIDE
 		&& Map::scene == NIGHT_PLAY) {
-		this->isAlive = false; //¶‘¶ó‘Ô‚ðfalse
-		this->x = -1;
-		this->y = -1;
+		get_survival_activity();
 	}
+
+	if (this->hp <= 0) get_survival_activity();
+}
+
+void ShadowWarrior_1::get_survival_activity() {
+	this->isAlive = false; //¶‘¶ó‘Ô‚ðfalse
+	this->x = -1;
+	this->y = -1;
 }

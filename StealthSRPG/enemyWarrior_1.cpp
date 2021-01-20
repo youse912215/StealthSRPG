@@ -5,8 +5,6 @@
 #include "mapAll.h"
 #include <algorithm>
 
-bool EnemyWarrior_1::husteric_flag = false;
-
 EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity,
                                bool isAlive) :
 	Enemy(x, y, graph, moving_quantity, attack, range, activity, isAlive),
@@ -20,14 +18,12 @@ EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int
 	obstacle_cost(4),
 	cost(4, 0),
 	score(4, 0) {
-	moving_flag = -1;
 	moving_distance = 0;
-	priority = 1;
 	husteric_x = 0;
 	husteric_y = 0;
 	minimum_husteric2 = 0;
 	minimum_score = 0;
-	attack_flag = false;
+	attack_activity = false;
 }
 
 void EnemyWarrior_1::Update(vector<vector<int>>& map) {
@@ -53,7 +49,7 @@ void EnemyWarrior_1::Draw() {
 	DrawFormatString(0, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
-	                 "aF%d", attack_flag, false);
+	                 "aF%d", attack_activity, false);
 	DrawFormatString(710, 355, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
 	DrawFormatString(710, 370, GetColor(255, 0, 255),
@@ -84,7 +80,6 @@ void EnemyWarrior_1::Draw() {
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
 	DrawFormatString(710, 520, GetColor(200, 255, 125), "score:L%d, R%d, U%d, D%d, %d",
 	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);
-
 }
 
 void EnemyWarrior_1::get_each_node() {
@@ -252,7 +247,7 @@ void EnemyWarrior_1::Move() {
 
 	if (Map::scene % 2 == 0) {
 		this->activity = false;
-		attack_flag = false;
+		attack_activity = false;
 		moving_distance = 0;
 	}
 }
@@ -281,16 +276,37 @@ void EnemyWarrior_1::moving_decision() {
 	}
 }
 
-void EnemyWarrior_1::Attack(int* p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp) {
-	if (p_hp == nullptr) { return; }
+void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
+	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (minimum_score == 1 && this->activity && !attack_flag) {
+	if (minimum_score == 1 && this->activity && !attack_activity) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
 			|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
 			*p_hp -= this->attack;
-			attack_flag = true;
+			attack_activity = true;
+		}
+		else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
+			|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
+			|| parent_husteric[ENEMY_WARRIOR1][UP] == 0
+			|| parent_husteric[ENEMY_WARRIOR1][DOWN] == 0) {
+			*sw1_hp -= this->attack;
+			attack_activity = true;
+		}
+		else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
+			|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
+			|| parent_husteric[ENEMY_WARRIOR2][UP] == 0
+			|| parent_husteric[ENEMY_WARRIOR2][DOWN] == 0) {
+			*sw2_hp -= this->attack;
+			attack_activity = true;
+		}
+		else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
+			|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
+			|| parent_husteric[ENEMY_WARRIOR3][UP] == 0
+			|| parent_husteric[ENEMY_WARRIOR3][DOWN] == 0) {
+			*sw3_hp -= this->attack;
+			attack_activity = true;
 		}
 	}
 }

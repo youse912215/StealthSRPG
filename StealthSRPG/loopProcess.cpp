@@ -43,7 +43,7 @@ void loop_process() {
 
 	EnemyBandits Bandits(block_size * 6, block_size * 7,
 	                     LoadGraph("Source/Charactor/enemy_2.png"),
-	                     block_size, 75, 2, false, true);
+	                     block_size, 80, 2, false, true);
 
 	// ゲームループ
 	while (true) {
@@ -80,10 +80,12 @@ void loop_process() {
 		E_Warrior1.Update(_map->map_20x20); //敵兵1の更新処理
 		E_Warrior1.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                                  Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-		E_Warrior1.Attack(&Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp);
+		E_Warrior1.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
 
-		Bandits.Update(); //山賊の更新処理
-		Bandits.Dead(_map->map_20x20); //山賊の更新処理
+		Bandits.Update(_map->map_20x20); //山賊の更新処理
+		Bandits.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+		                               Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+		Bandits.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
 
 		Cursor* cursor = new Cursor;
 		cursor->update();
