@@ -78,11 +78,15 @@ void loop_process() {
 
 
 		E_Warrior1.Update(_map->map_20x20); //敵兵1の更新処理
+		E_Warrior1.get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+		                                 Warrior2.isAlive, Warrior3.isAlive);
 		E_Warrior1.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                                  Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
 		E_Warrior1.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
 
 		Bandits.Update(_map->map_20x20); //山賊の更新処理
+		Bandits.get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+		                              Warrior2.isAlive, Warrior3.isAlive);
 		Bandits.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                               Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
 		Bandits.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);

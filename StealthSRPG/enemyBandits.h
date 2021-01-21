@@ -8,6 +8,8 @@ class EnemyBandits : public Enemy {
 public:
 	EnemyBandits(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity, bool isAlive);
 	void Update(vector<vector<int>>& map);
+	void get_survival_activity(const bool& p_s_activity, const bool& sw1_s_activity, const bool& sw2_s_activity,
+	                           const bool& sw3_s_activity);
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y);
 	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp);
@@ -21,6 +23,7 @@ private:
 	vector<unsigned int> minimum_husteric1; //各方向の最小のヒューステリック
 	unsigned int minimum_husteric2; //最小のヒューステリック
 	vector<unsigned int> husteric; //ヒューステリック
+	vector<int> survival_value; //生存値
 	vector<int> relative_distance; //相対距離
 	vector<int> relative_position_cost; //相対位置コスト
 	vector<int> obstacle_cost; //障害物コスト

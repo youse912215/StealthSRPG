@@ -13,6 +13,7 @@ EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int
 	parent_husteric(4, vector<unsigned int>(4, 0)),
 	minimum_husteric1(4, 0),
 	husteric(4, 0),
+	survival_value(4, 0),
 	relative_distance(2, 0),
 	relative_position_cost(4, 0),
 	obstacle_cost(4),
@@ -50,12 +51,15 @@ void EnemyWarrior_1::Draw() {
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
 	                 "aF%d", attack_activity, false);
-	DrawFormatString(710, 355, GetColor(255, 0, 255),
+	DrawFormatString(710, 340, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
-	DrawFormatString(710, 370, GetColor(255, 0, 255),
+	DrawFormatString(710, 355, GetColor(255, 0, 255),
 	                 "NoY:%d, %d, %d", node_y[UP_Y], node_y[CENTER_Y], node_y[DOWN_Y], false);
-	DrawFormatString(710, 385, GetColor(200, 255, 125),
+	DrawFormatString(710, 370, GetColor(200, 255, 125),
 	                 "rpDis:%d, %d", relative_distance[X], relative_distance[Y], false);
+	DrawFormatString(710, 385, GetColor(200, 255, 125),
+	                 "s_v:%d, %d, %d, %d", survival_value[ENEMY_PRINCESS], survival_value[ENEMY_WARRIOR1],
+	                 survival_value[ENEMY_WARRIOR2], survival_value[ENEMY_WARRIOR3], false);
 	DrawFormatString(710, 400, GetColor(200, 255, 125), "rpCo:L%d, R%d, U%d, D%d",
 	                 relative_position_cost[LEFT], relative_position_cost[RIGHT],
 	                 relative_position_cost[UP], relative_position_cost[DOWN], false);
@@ -90,6 +94,15 @@ void EnemyWarrior_1::get_each_node() {
 	node_y[UP_Y] = (this->y - block_size) / block_size;
 	node_y[CENTER_Y] = (this->y) / block_size;
 	node_y[DOWN_Y] = (this->y + block_size) / block_size;
+}
+
+void EnemyWarrior_1::get_survival_activity(const bool& p_s_activity, const bool& sw1_s_activity,
+                                           const bool& sw2_s_activity,
+                                           const bool& sw3_s_activity) {
+	survival_value[ENEMY_PRINCESS] = p_s_activity ? 1 : 0;
+	survival_value[ENEMY_WARRIOR1] = sw1_s_activity ? 1 : 0;
+	survival_value[ENEMY_WARRIOR2] = sw2_s_activity ? 1 : 0;
+	survival_value[ENEMY_WARRIOR3] = sw3_s_activity ? 1 : 0;
 }
 
 void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
@@ -136,10 +149,14 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
 		+ abs(node_y[DOWN_Y] - sw3_y / block_size); //エネミー下ノードと姫の2点間距離
 
 	/* プレイヤーとの相対位置コスト計算 */
-	relative_distance[X] = (node_x[CENTER_X] - (p_x / block_size)) + (node_x[CENTER_X] - (sw1_x / block_size))
-		+ (node_x[CENTER_X] - (sw2_x / block_size)) + (node_x[CENTER_X] - (sw3_x / block_size));
-	relative_distance[Y] = (node_y[CENTER_Y] - (p_y / block_size)) + (node_y[CENTER_Y] - (sw1_y / block_size))
-		+ (node_y[CENTER_Y] - (sw2_y / block_size)) + (node_y[CENTER_Y] - (sw3_y / block_size));
+	relative_distance[X] = (node_x[CENTER_X] - (p_x / block_size)) * survival_value[ENEMY_PRINCESS]
+		+ (node_x[CENTER_X] - (sw1_x / block_size)) * survival_value[ENEMY_WARRIOR1]
+		+ (node_x[CENTER_X] - (sw2_x / block_size)) * survival_value[ENEMY_WARRIOR2]
+		+ (node_x[CENTER_X] - (sw3_x / block_size)) * survival_value[ENEMY_WARRIOR3];
+	relative_distance[Y] = (node_y[CENTER_Y] - (p_y / block_size)) * survival_value[ENEMY_PRINCESS]
+		+ (node_y[CENTER_Y] - (sw1_y / block_size)) * survival_value[ENEMY_WARRIOR1]
+		+ (node_y[CENTER_Y] - (sw2_y / block_size)) * survival_value[ENEMY_WARRIOR2]
+		+ (node_y[CENTER_Y] - (sw3_y / block_size)) * survival_value[ENEMY_WARRIOR3];
 }
 
 void EnemyWarrior_1::get_minimum_husteric() {
@@ -174,28 +191,28 @@ void EnemyWarrior_1::get_node_husteric() {
 void EnemyWarrior_1::get_obstacle_cost(vector<vector<int>>& map) {
 	/* 左側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[LEFT_X]] == SEA
-		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == TIDE && Map::scene % 2 != 0)) {
+		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == TIDE && Map::scene >= 2)) {
 		obstacle_cost[LEFT] = add_cost(SEA);
 	}
 	else obstacle_cost[LEFT] = 0;
 
 	/* 右側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == SEA
-		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == TIDE && Map::scene % 2 != 0)) {
+		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == TIDE && Map::scene >= 2)) {
 		obstacle_cost[RIGHT] = add_cost(SEA);
 	}
 	else obstacle_cost[RIGHT] = 0;
 
 	/* 上側のコスト */
 	if (map[node_y[UP_Y]][node_x[CENTER_X]] == SEA
-		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == TIDE && Map::scene % 2 != 0)) {
+		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)) {
 		obstacle_cost[UP] = add_cost(SEA);
 	}
 	else obstacle_cost[UP] = 0;
 
 	/* 下側のコスト */
 	if (map[node_y[DOWN_Y]][node_x[CENTER_X]] == SEA
-		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == TIDE && Map::scene % 2 != 0)) {
+		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)) {
 		obstacle_cost[DOWN] = add_cost(SEA);
 	}
 	else obstacle_cost[DOWN] = 0;
