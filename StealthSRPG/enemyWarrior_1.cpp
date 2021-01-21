@@ -28,16 +28,18 @@ EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int
 }
 
 void EnemyWarrior_1::Update(vector<vector<int>>& map) {
-	Draw();
-	get_each_node();
-	get_minimum_husteric();
-	get_node_husteric();
-	get_obstacle_cost(map);
-	get_relative_position_cost();
-	get_node_cost();
-	get_node_score();
-	Move();
-	Dead(map);
+	if (this->isAlive) {
+		Draw();
+		get_each_node();
+		get_minimum_husteric();
+		get_node_husteric();
+		get_obstacle_cost(map);
+		get_relative_position_cost();
+		get_node_cost();
+		get_node_score();
+		Move();
+		Dead(map);
+	}
 }
 
 void EnemyWarrior_1::Draw() {

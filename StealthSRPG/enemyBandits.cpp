@@ -28,23 +28,27 @@ EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int att
 }
 
 void EnemyBandits::Update(vector<vector<int>>& map) {
-	Draw();
-	get_each_node();
-	get_minimum_husteric();
-	get_node_husteric();
-	get_obstacle_cost(map);
-	get_relative_position_cost();
-	get_node_cost();
-	get_node_score();
-	Move();
-	Dead(map);
+	if (this->isAlive) {
+		Draw();
+		get_each_node();
+		get_minimum_husteric();
+		get_node_husteric();
+		get_obstacle_cost(map);
+		get_relative_position_cost();
+		get_node_cost();
+		get_node_score();
+		Move();
+		Dead(map);
+	}
 }
 
 void EnemyBandits::Draw() {
 	if (this->x == current_x && this->y == current_y) {
 		moving_range = this->range; //移動範囲をプレイヤー移動範囲に置換する
 	}
-	DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
+	if (this->isAlive) {
+		DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
+	}
 	DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "山賊(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(200, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
