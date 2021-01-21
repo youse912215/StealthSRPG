@@ -29,7 +29,8 @@ void Input::input_info() {
 /// </summary>
 void Input::time_change() {
 	if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE]) {
-		Map::scene = (Map::scene == NIGHT_ENEMY) ? NOON_PLAY : ++Map::scene;
+		if (range_flag != 1 && Map::scene % 2 == 0)
+			Map::scene = (Map::scene == NIGHT_ENEMY) ? NOON_PLAY : ++Map::scene;
 	}
 }
 

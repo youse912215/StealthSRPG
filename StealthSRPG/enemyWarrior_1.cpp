@@ -296,13 +296,14 @@ void EnemyWarrior_1::moving_decision() {
 void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (minimum_score == 1 && this->activity && !attack_activity) {
+	if (!attack_activity && Map::scene % 2 != 0 && Map::turn_timer > 50) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
 			|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
 			*p_hp -= this->attack;
 			attack_activity = true;
+			this->activity = true;
 		}
 		else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
@@ -310,6 +311,7 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			|| parent_husteric[ENEMY_WARRIOR1][DOWN] == 0) {
 			*sw1_hp -= this->attack;
 			attack_activity = true;
+			this->activity = true;
 		}
 		else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
@@ -317,6 +319,7 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			|| parent_husteric[ENEMY_WARRIOR2][DOWN] == 0) {
 			*sw2_hp -= this->attack;
 			attack_activity = true;
+			this->activity = true;
 		}
 		else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
@@ -324,6 +327,7 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			|| parent_husteric[ENEMY_WARRIOR3][DOWN] == 0) {
 			*sw3_hp -= this->attack;
 			attack_activity = true;
+			this->activity = true;
 		}
 	}
 }

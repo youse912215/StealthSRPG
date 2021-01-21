@@ -47,6 +47,43 @@ void EnemyBandits::Draw() {
 	DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
 	DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "ŽR‘¯(%d, %d)", x / block_size, y / block_size, false);
+	DrawFormatString(200, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
+	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
+	DrawFormatString(200, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
+	                 "aF%d", attack_activity, false);
+	DrawFormatString(480, 340, GetColor(255, 0, 255),
+	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
+	DrawFormatString(480, 355, GetColor(255, 0, 255),
+	                 "NoY:%d, %d, %d", node_y[UP_Y], node_y[CENTER_Y], node_y[DOWN_Y], false);
+	DrawFormatString(480, 370, GetColor(200, 255, 125),
+	                 "rpDis:%d, %d", relative_distance[X], relative_distance[Y], false);
+	DrawFormatString(480, 385, GetColor(200, 255, 125),
+	                 "s_v:%d, %d, %d, %d", survival_value[ENEMY_PRINCESS], survival_value[ENEMY_WARRIOR1],
+	                 survival_value[ENEMY_WARRIOR2], survival_value[ENEMY_WARRIOR3], false);
+	DrawFormatString(480, 400, GetColor(200, 255, 125), "rpCo:L%d, R%d, U%d, D%d",
+	                 relative_position_cost[LEFT], relative_position_cost[RIGHT],
+	                 relative_position_cost[UP], relative_position_cost[DOWN], false);
+	DrawFormatString(480, 415, GetColor(200, 255, 125), "pHus:L%d, R%d, U%d, D%d",
+	                 parent_husteric[ENEMY_PRINCESS][LEFT], parent_husteric[ENEMY_PRINCESS][RIGHT],
+	                 parent_husteric[ENEMY_PRINCESS][UP], parent_husteric[ENEMY_PRINCESS][DOWN], false);
+	DrawFormatString(480, 430, GetColor(200, 255, 125), "w1Hus:L%d, R%d, U%d, D%d",
+	                 parent_husteric[ENEMY_WARRIOR1][LEFT], parent_husteric[ENEMY_WARRIOR1][RIGHT],
+	                 parent_husteric[ENEMY_WARRIOR1][UP], parent_husteric[ENEMY_WARRIOR1][DOWN], false);
+	DrawFormatString(480, 445, GetColor(200, 255, 125), "w2Hus:L%d, R%d, U%d, D%d",
+	                 parent_husteric[ENEMY_WARRIOR2][LEFT], parent_husteric[ENEMY_WARRIOR2][RIGHT],
+	                 parent_husteric[ENEMY_WARRIOR2][UP], parent_husteric[ENEMY_WARRIOR2][DOWN], false);
+	DrawFormatString(480, 460, GetColor(200, 255, 125), "w3Hus:L%d, R%d, U%d, D%d",
+	                 parent_husteric[ENEMY_WARRIOR3][LEFT], parent_husteric[ENEMY_WARRIOR3][RIGHT],
+	                 parent_husteric[ENEMY_WARRIOR3][UP], parent_husteric[ENEMY_WARRIOR3][DOWN], false);
+	DrawFormatString(480, 475, GetColor(200, 255, 125), "mHus:p%d, w%d, w%d, w%d",
+	                 minimum_husteric1[ENEMY_PRINCESS], minimum_husteric1[ENEMY_WARRIOR1],
+	                 minimum_husteric1[ENEMY_WARRIOR2], minimum_husteric1[ENEMY_WARRIOR3], false);
+	DrawFormatString(480, 490, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
+	                 obstacle_cost[LEFT], obstacle_cost[RIGHT], obstacle_cost[UP], obstacle_cost[DOWN], false);
+	DrawFormatString(480, 505, GetColor(200, 255, 125), "obs_cost:L%d, R%d, U%d, D%d",
+	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
+	DrawFormatString(480, 520, GetColor(200, 255, 125), "score:L%d, R%d, U%d, D%d, %d",
+	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);
 }
 
 void EnemyBandits::get_each_node() {
@@ -259,13 +296,14 @@ void EnemyBandits::moving_decision() {
 void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (minimum_score == 1 && this->activity && !attack_activity) {
+	if (!attack_activity && Map::scene % 2 != 0 && Map::turn_timer > 50) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
 			|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
 			*p_hp -= this->attack;
 			attack_activity = true;
+			this->activity = true;
 		}
 		else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
@@ -273,6 +311,7 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			|| parent_husteric[ENEMY_WARRIOR1][DOWN] == 0) {
 			*sw1_hp -= this->attack;
 			attack_activity = true;
+			this->activity = true;
 		}
 		else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
@@ -280,6 +319,7 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			|| parent_husteric[ENEMY_WARRIOR2][DOWN] == 0) {
 			*sw2_hp -= this->attack;
 			attack_activity = true;
+			this->activity = true;
 		}
 		else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
@@ -287,8 +327,11 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			|| parent_husteric[ENEMY_WARRIOR3][DOWN] == 0) {
 			*sw3_hp -= this->attack;
 			attack_activity = true;
+			this->activity = true;
 		}
 	}
+
+
 }
 
 void EnemyBandits::Dead(vector<vector<int>>& map) {

@@ -19,12 +19,12 @@ Map::~Map() {
 }
 
 void Map::booting_timer() {
-	if (scene % 2 == 0 || turn_timer >= INT_MAX) {
-		turn_timer = 0;
-	}
-	else {
+
+	if (scene % 2 != 0) {
 		turn_timer++;
+		if (turn_timer >= 175) scene = (scene == NIGHT_ENEMY) ? NOON_PLAY : ++scene;
 	}
+	else turn_timer = 0;
 }
 
 /// <summary>
