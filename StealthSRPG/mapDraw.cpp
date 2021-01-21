@@ -100,15 +100,16 @@ void MapDraw::drawing_format() {
 	}
 
 
-	DrawFormatString(0, 15, GetColor(255, 255, 255),
+	/*DrawFormatString(0, 15, GetColor(255, 255, 255),
 	                 "r1(%d), r2(%d), ti(%d), ic(%d), f1(%d), f2(%d), rb(%d)", phenomenonFlag[rain1],
 	                 phenomenonFlag[rain2], phenomenonFlag[tide],
 	                 phenomenonFlag[ice], phenomenonFlag[fog1], phenomenonFlag[fog2], phenomenonFlag[rainbow], false);
 	DrawFormatString(150, 0, GetColor(255, 255, 255), "CurMapInfo:%d",
-	                 map_20x20[current_y / block_size][current_x / block_size], false);
-	if (scene == NOON_PLAY) DrawFormatString(0, 0, GetColor(0, 255, 0), "昼プレイヤー%d", scene, false);
-	else if (scene == NOON_ENEMY) DrawFormatString(0, 0, GetColor(0, 255, 0), "昼エネミー%d", scene, false);
-	else if (scene == NIGHT_PLAY) DrawFormatString(0, 0, GetColor(0, 255, 0), "夜プレイヤー%d", scene, false);
-	else if (scene == NIGHT_ENEMY) DrawFormatString(0, 0, GetColor(0, 255, 0), "夜エネミー%d", scene, false);
+	                 map_20x20[current_y / block_size][current_x / block_size], false);*/
 	DrawFormatString(300, 0, GetColor(255, 255, 255), "TIME:%d", turn_timer, false);
+	if (scene == NOON_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼プレイヤー", false);
+	else if (scene == NOON_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼エネミー", false);
+	else if (scene == NIGHT_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜プレイヤー", false);
+	else if (scene == NIGHT_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜エネミー", false);
+
 }

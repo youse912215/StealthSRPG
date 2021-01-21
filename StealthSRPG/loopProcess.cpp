@@ -37,11 +37,11 @@ void loop_process() {
 		LoadGraph("Source/Charactor/shadow_warrior.png"),
 		block_size, 100, 3, false, true, input);
 
-	EnemyWarrior_1 E_Warrior1(block_size * 14, block_size * 14,
+	EnemyWarrior_1 E_Warrior1(block_size * 5, block_size * 8,
 	                          LoadGraph("Source/Charactor/enemy_1.png"),
 	                          block_size, 50, 3, false, true);
 
-	EnemyBandits Bandits(block_size * 6, block_size * 7,
+	EnemyBandits Bandits(block_size * 14, block_size * 14,
 	                     LoadGraph("Source/Charactor/enemy_2.png"),
 	                     block_size, 80, 2, false, true);
 
@@ -78,18 +78,22 @@ void loop_process() {
 
 
 		E_Warrior1.Update(_map->map_20x20); //敵兵1の更新処理
+		E_Warrior1.Move(Bandits.x, Bandits.y);
 		E_Warrior1.get_survival_activity(Princess.isAlive, Warrior1.isAlive,
 		                                 Warrior2.isAlive, Warrior3.isAlive);
 		E_Warrior1.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                                  Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
 		E_Warrior1.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
+		//E_Warrior1.duplicate_decision(Bandits.x, Bandits.y);
 
 		Bandits.Update(_map->map_20x20); //山賊の更新処理
+		Bandits.Move(E_Warrior1.x, E_Warrior1.y);
 		Bandits.get_survival_activity(Princess.isAlive, Warrior1.isAlive,
 		                              Warrior2.isAlive, Warrior3.isAlive);
 		Bandits.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                               Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
 		Bandits.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
+		//Bandits.duplicate_decision(E_Warrior1.x, E_Warrior1.y);
 
 		Cursor* cursor = new Cursor;
 		cursor->update();
@@ -98,7 +102,13 @@ void loop_process() {
 			&& Princess.moving_flag == -1)
 			break;
 
-		DrawFormatString(0, 30, GetColor(0, 0, 0), "現在C（%d, %d）",
+		DrawFormatString(0, 15, GetColor(200, 0, 0), " Z:プレイヤー選択", false);
+		DrawFormatString(0, 30, GetColor(200, 0, 0), " SPACE:Myフェイズ終了", false);
+		DrawFormatString(0, 45, GetColor(200, 0, 0), " ARROW:1マス移動", false);
+		DrawFormatString(0, 60, GetColor(230, 0, 230), "Hp:%d, %d, %d, %d",
+		                 Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp, false);
+
+		/*DrawFormatString(0, 30, GetColor(0, 0, 0), "現在C（%d, %d）",
 		                 Cursor::current_x / block_size, Cursor::current_y / block_size, false);
 		DrawFormatString(150, 30, GetColor(0, 0, 0), "現在Q（%d, %d）",
 		                 cursor->qx / block_size, cursor->qy / block_size, false);
@@ -115,7 +125,7 @@ void loop_process() {
 		DrawFormatString(WIN_WIDTH - block_size * 3, 15, GetColor(0, 0, 0),
 		                 "移動マス y:%d", abs(Cursor::range_y - Cursor::current_y) / block_size, false);
 		DrawFormatString(WIN_WIDTH - block_size * 3, 30, GetColor(0, 0, 0),
-		                 "移動範囲:%d", Cursor::moving_range, false);
+		                 "移動範囲:%d", Cursor::moving_range, false);*/
 
 		delete _map;
 		delete cursor;

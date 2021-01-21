@@ -18,4 +18,5 @@ protected:
 	};
 
 	int add_cost(const int& map_info);
+	int set_to_one(int x);
 };

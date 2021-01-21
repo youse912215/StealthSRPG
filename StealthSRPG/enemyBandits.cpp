@@ -8,8 +8,8 @@
 EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity,
                            bool isAlive) :
 	Enemy(x, y, graph, moving_quantity, attack, range, activity, isAlive),
-	node_x(3),
-	node_y(3),
+	node_x(5),
+	node_y(5),
 	parent_husteric(4, vector<unsigned int>(4, 0)),
 	minimum_husteric1(4, 0),
 	husteric(4, 0),
@@ -18,13 +18,16 @@ EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int att
 	relative_position_cost(4, 0),
 	obstacle_cost(4),
 	cost(4, 0),
-	score(4, 0) {
+	score(4, 0),
+	duplication_flag(4) {
 	moving_distance = 0;
 	husteric_x = 0;
 	husteric_y = 0;
 	minimum_husteric2 = 0;
 	minimum_score = 0;
 	attack_activity = false;
+	f1 = false;
+	f2 = false;
 }
 
 void EnemyBandits::Update(vector<vector<int>>& map) {
@@ -37,7 +40,6 @@ void EnemyBandits::Update(vector<vector<int>>& map) {
 		get_relative_position_cost();
 		get_node_cost();
 		get_node_score();
-		Move();
 		Dead(map);
 	}
 }
@@ -54,7 +56,7 @@ void EnemyBandits::Draw() {
 	DrawFormatString(200, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
 	DrawFormatString(200, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
-	                 "aF%d", attack_activity, false);
+	                 "aF%d, dF%d", attack_activity, f1, false);
 	DrawFormatString(480, 340, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
 	DrawFormatString(480, 355, GetColor(255, 0, 255),
@@ -82,9 +84,9 @@ void EnemyBandits::Draw() {
 	DrawFormatString(480, 475, GetColor(200, 255, 125), "mHus:p%d, w%d, w%d, w%d",
 	                 minimum_husteric1[ENEMY_PRINCESS], minimum_husteric1[ENEMY_WARRIOR1],
 	                 minimum_husteric1[ENEMY_WARRIOR2], minimum_husteric1[ENEMY_WARRIOR3], false);
-	DrawFormatString(480, 490, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 490, GetColor(200, 255, 125), "obs_cost:L%d, R%d, U%d, D%d",
 	                 obstacle_cost[LEFT], obstacle_cost[RIGHT], obstacle_cost[UP], obstacle_cost[DOWN], false);
-	DrawFormatString(480, 505, GetColor(200, 255, 125), "obs_cost:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
 	DrawFormatString(480, 520, GetColor(200, 255, 125), "score:L%d, R%d, U%d, D%d, %d",
 	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);
@@ -94,10 +96,14 @@ void EnemyBandits::get_each_node() {
 	node_x[LEFT_X] = (this->x - block_size) / block_size;
 	node_x[CENTER_X] = (this->x) / block_size;
 	node_x[RIGHT_X] = (this->x + block_size) / block_size;
+	node_x[LEFT_2X] = (this->x - block_size * 2) / block_size;
+	node_x[RIGHT_2X] = (this->x + block_size * 2) / block_size;
 
 	node_y[UP_Y] = (this->y - block_size) / block_size;
 	node_y[CENTER_Y] = (this->y) / block_size;
 	node_y[DOWN_Y] = (this->y + block_size) / block_size;
+	node_y[UP_2Y] = (this->y - block_size * 2) / block_size;
+	node_y[DOWN_2Y] = (this->y + block_size * 2) / block_size;
 }
 
 void EnemyBandits::get_survival_activity(const bool& p_s_activity, const bool& sw1_s_activity,
@@ -153,14 +159,14 @@ void EnemyBandits::get_two_point_distance(const int& p_x, const int& p_y, const 
 		+ abs(node_y[DOWN_Y] - sw3_y / block_size); //エネミー下ノードと姫の2点間距離
 
 	/* プレイヤーとの相対位置コスト計算 */
-	relative_distance[X] = (node_x[CENTER_X] - (p_x / block_size)) * survival_value[ENEMY_PRINCESS]
-		+ (node_x[CENTER_X] - (sw1_x / block_size)) * survival_value[ENEMY_WARRIOR1]
-		+ (node_x[CENTER_X] - (sw2_x / block_size)) * survival_value[ENEMY_WARRIOR2]
-		+ (node_x[CENTER_X] - (sw3_x / block_size)) * survival_value[ENEMY_WARRIOR3];
-	relative_distance[Y] = (node_y[CENTER_Y] - (p_y / block_size)) * survival_value[ENEMY_PRINCESS]
-		+ (node_y[CENTER_Y] - (sw1_y / block_size)) * survival_value[ENEMY_WARRIOR1]
-		+ (node_y[CENTER_Y] - (sw2_y / block_size)) * survival_value[ENEMY_WARRIOR2]
-		+ (node_y[CENTER_Y] - (sw3_y / block_size)) * survival_value[ENEMY_WARRIOR3];
+	relative_distance[X] = set_to_one(node_x[CENTER_X] - (p_x / block_size)) * survival_value[ENEMY_PRINCESS]
+		+ set_to_one(node_x[CENTER_X] - (sw1_x / block_size)) * survival_value[ENEMY_WARRIOR1]
+		+ set_to_one(node_x[CENTER_X] - (sw2_x / block_size)) * survival_value[ENEMY_WARRIOR2]
+		+ set_to_one(node_x[CENTER_X] - (sw3_x / block_size)) * survival_value[ENEMY_WARRIOR3];
+	relative_distance[Y] = set_to_one(node_y[CENTER_Y] - (p_y / block_size)) * survival_value[ENEMY_PRINCESS]
+		+ set_to_one(node_y[CENTER_Y] - (sw1_y / block_size)) * survival_value[ENEMY_WARRIOR1]
+		+ set_to_one(node_y[CENTER_Y] - (sw2_y / block_size)) * survival_value[ENEMY_WARRIOR2]
+		+ set_to_one(node_y[CENTER_Y] - (sw3_y / block_size)) * survival_value[ENEMY_WARRIOR3];
 }
 
 void EnemyBandits::get_minimum_husteric() {
@@ -196,45 +202,57 @@ void EnemyBandits::get_obstacle_cost(vector<vector<int>>& map) {
 	/* 左側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[LEFT_X]] == SEA
 		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == TIDE && Map::scene >= 2)) {
-		obstacle_cost[LEFT] = add_cost(SEA);
+		obstacle_cost[LEFT] = 10;
 	}
 	else obstacle_cost[LEFT] = 0;
 
 	/* 右側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == SEA
 		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == TIDE && Map::scene >= 2)) {
-		obstacle_cost[RIGHT] = add_cost(SEA);
+		obstacle_cost[RIGHT] = 10;
 	}
 	else obstacle_cost[RIGHT] = 0;
 
 	/* 上側のコスト */
 	if (map[node_y[UP_Y]][node_x[CENTER_X]] == SEA
 		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)) {
-		obstacle_cost[UP] = add_cost(SEA);
+		obstacle_cost[UP] = 10;
 	}
 	else obstacle_cost[UP] = 0;
 
 	/* 下側のコスト */
 	if (map[node_y[DOWN_Y]][node_x[CENTER_X]] == SEA
 		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)) {
-		obstacle_cost[DOWN] = add_cost(SEA);
+		obstacle_cost[DOWN] = 10;
 	}
 	else obstacle_cost[DOWN] = 0;
 }
 
 void EnemyBandits::get_relative_position_cost() {
 	/* x方向の相対位置コスト */
-	if (relative_distance[X] < 0) relative_position_cost[LEFT] = 5;
-	else if (relative_distance[X] > 0) relative_position_cost[RIGHT] = 5;
-	else {
+	if (relative_distance[X] < 0) {
+		relative_position_cost[LEFT] = 1;
+		relative_position_cost[RIGHT] = 0;
+	}
+	else if (relative_distance[X] > 0) {
+		relative_position_cost[LEFT] = 0;
+		relative_position_cost[RIGHT] = 1;
+	}
+	else if (relative_distance[X] == 0) {
 		relative_position_cost[LEFT] = 0;
 		relative_position_cost[RIGHT] = 0;
 	}
 
 	/* y方向の相対位置コスト */
-	if (relative_distance[Y] < 0) relative_position_cost[UP] = 5;
-	else if (relative_distance[Y] > 0) relative_position_cost[DOWN] = 5;
-	else {
+	if (relative_distance[Y] < 0) {
+		relative_position_cost[UP] = 1;
+		relative_position_cost[DOWN] = 0;
+	}
+	else if (relative_distance[Y] > 0) {
+		relative_position_cost[UP] = 0;
+		relative_position_cost[DOWN] = 1;
+	}
+	else if (relative_distance[Y] == 0) {
 		relative_position_cost[UP] = 0;
 		relative_position_cost[DOWN] = 0;
 	}
@@ -255,13 +273,34 @@ void EnemyBandits::get_node_score() {
 	minimum_score = *min_element(score.begin(), score.end());
 }
 
-void EnemyBandits::Move() {
+void EnemyBandits::Move(const int& ew1_x, const int& ew1_y) {
 	if (this->range == moving_distance) {
 		this->activity = true;
 	}
 
+	if (this->range == moving_distance
+		&& node_x[CENTER_X] == ew1_x / block_size
+		&& node_y[CENTER_Y] == ew1_y / block_size) {
+		if (minimum_score == score[DOWN] && !duplication_flag[DOWN]) {
+			this->y -= moving_quantity;
+			duplication_flag[DOWN] = true;
+		}
+		else if (minimum_score == score[RIGHT] && !duplication_flag[RIGHT]) {
+			this->x -= moving_quantity;
+			duplication_flag[RIGHT] = true;
+		}
+		else if (minimum_score == score[LEFT] && !duplication_flag[LEFT]) {
+			this->x += moving_quantity;
+			duplication_flag[LEFT] = true;
+		}
+		else if (minimum_score == score[UP] && !duplication_flag[UP]) {
+			this->y += moving_quantity;
+			duplication_flag[UP] = true;
+		}
+	}
+
 	if (Map::turn_timer % MOVEING_INTERVAL == 0
-		&& Map::turn_timer > 0
+		&& Map::turn_timer > 120
 		&& !this->activity) {
 		moving_decision();
 	}
@@ -269,6 +308,7 @@ void EnemyBandits::Move() {
 	if (Map::scene % 2 == 0) {
 		this->activity = false;
 		attack_activity = false;
+		fill(duplication_flag.begin(), duplication_flag.end(), false); //falseにリセット
 		moving_distance = 0;
 	}
 }
@@ -278,6 +318,7 @@ void EnemyBandits::moving_decision() {
 		this->activity = true;
 		moving_distance = this->range;
 	}
+
 
 	if (minimum_score == score[DOWN] && !this->activity) {
 		this->y += moving_quantity;
@@ -295,12 +336,13 @@ void EnemyBandits::moving_decision() {
 		this->y -= moving_quantity;
 		moving_distance++;
 	}
+
 }
 
 void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (!attack_activity && Map::scene % 2 != 0 && Map::turn_timer > 50) {
+	if (!attack_activity && Map::scene % 2 != 0 && Map::turn_timer > 120) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
@@ -334,9 +376,11 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			this->activity = true;
 		}
 	}
-
-
 }
+
+//void EnemyBandits::duplicate_decision() {
+//
+//}
 
 void EnemyBandits::Dead(vector<vector<int>>& map) {
 	if (map[this->y / block_size][this->x / block_size] == TIDE

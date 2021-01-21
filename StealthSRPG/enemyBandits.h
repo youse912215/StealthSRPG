@@ -13,6 +13,8 @@ public:
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y);
 	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp);
+	//void duplicate_decision(const int& ew1_x, const int& ew1_y);
+	void Move(const int& ew1_x, const int& ew1_y);
 
 private:
 	vector<int> node_x; //x方向のノード
@@ -32,6 +34,9 @@ private:
 	unsigned int minimum_score; //最小コスト
 	int moving_distance; //移動距離
 	bool attack_activity; //攻撃状態（true:攻撃済み、false:攻撃可能）
+	vector<bool> duplication_flag;
+	bool f1;
+	bool f2;
 
 	void Draw();
 	void get_each_node();
@@ -41,7 +46,6 @@ private:
 	void get_relative_position_cost();
 	void get_node_cost();
 	void get_node_score();
-	void Move();
 	void moving_decision();
 	void Dead(vector<vector<int>>& map);
 };

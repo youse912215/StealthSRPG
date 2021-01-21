@@ -37,7 +37,7 @@ void Cursor::pick() {
 
 void Cursor::draw() {
 	DrawGraph(disp_x, disp_y, graph, true);
-	DrawFormatString(400, 300, GetColor(255, 0, 0), "cq(%d, %d)", qx / block_size, qy / block_size, false);
+	//DrawFormatString(400, 300, GetColor(255, 0, 0), "cq(%d, %d)", qx / block_size, qy / block_size, false);
 }
 
 /// <summary>

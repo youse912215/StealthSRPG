@@ -30,12 +30,12 @@ void Princess::Draw() {
 		          this->y - init_position - current_y + block_size * 9,
 		          this->graph, true);
 	}
-	DrawFormatString(0, 45, GetColor(0, 0, 0), "•P(%d, %d)",
+	/*DrawFormatString(0, 45, GetColor(0, 0, 0), "•P(%d, %d)",
 	                 this->x / block_size, this->y / block_size, false);
 	DrawFormatString(0, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
 	                 moving_flag, this->activity, false);
 	DrawFormatString(0, 75, GetColor(255, 0, 0), "De%d,Hp%d",
-	                 this->isAlive, this->hp, false);
+	                 this->isAlive, this->hp, false);*/
 }
 
 /// <summary>
