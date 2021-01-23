@@ -5,9 +5,9 @@
 #include "mapAll.h"
 #include <algorithm>
 
-EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity,
-                               bool isAlive) :
-	Enemy(x, y, graph, moving_quantity, attack, range, activity, isAlive),
+EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int attack, int range, int act_time,
+                               bool activity, bool isAlive) :
+	Enemy(x, y, graph, moving_quantity, attack, range, act_time, activity, isAlive),
 	node_x(5),
 	node_y(5),
 	parent_husteric(4, vector<unsigned int>(4, 0)),
@@ -26,6 +26,7 @@ EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int
 	minimum_husteric2 = 0;
 	minimum_score = 0;
 	attack_activity = false;
+	attack_motion = 0;
 }
 
 void EnemyWarrior_1::Update(vector<vector<int>>& map) {
@@ -36,6 +37,7 @@ void EnemyWarrior_1::Update(vector<vector<int>>& map) {
 	moving_end();
 	get_slash_motion(this->attack_activity, &attack_motion);
 	Draw();
+	drawing_effect2();
 	get_each_node();
 	get_minimum_husteric();
 	get_node_husteric();
@@ -109,10 +111,10 @@ void EnemyWarrior_1::drawing_effect1(const int& nx, const int& ny, const int& di
 
 void EnemyWarrior_1::drawing_effect2() {
 	if (attack_activity) {
-		drawing_effect1(LEFT_X, CENTER_Y, LEFT);
-		drawing_effect1(RIGHT_X, CENTER_Y, RIGHT);
-		drawing_effect1(CENTER_X, UP_Y, UP);
-		drawing_effect1(CENTER_X, DOWN_Y, DOWN);
+		get_attack_direction(ENEMY_PRINCESS);
+		get_attack_direction(ENEMY_WARRIOR1);
+		get_attack_direction(ENEMY_WARRIOR2);
+		get_attack_direction(ENEMY_WARRIOR3);
 	}
 }
 
@@ -332,7 +334,7 @@ void EnemyWarrior_1::moving_decision() {
 void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (activity && !attack_activity && Map::scene % 2 != 0) {
+	if (activity && !attack_activity && Map::scene % 2 != 0 && Map::turn_timer > this->act_time) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
@@ -415,5 +417,20 @@ void EnemyWarrior_1::duplicate_process() {
 	else if (minimum_score == score[UP] && !duplication_activity[UP]) {
 		this->y += moving_quantity;
 		duplication_activity[UP] = true;
+	}
+}
+
+void EnemyWarrior_1::get_attack_direction(const int& player_num) {
+	if (minimum_husteric2 == parent_husteric[player_num][LEFT]) {
+		drawing_effect1(LEFT_X, CENTER_Y, LEFT);
+	}
+	else if (minimum_husteric2 == parent_husteric[player_num][RIGHT]) {
+		drawing_effect1(RIGHT_X, CENTER_Y, RIGHT);
+	}
+	else if (minimum_husteric2 == parent_husteric[player_num][UP]) {
+		drawing_effect1(CENTER_X, UP_Y, UP);
+	}
+	else if (minimum_husteric2 == parent_husteric[player_num][DOWN]) {
+		drawing_effect1(CENTER_X, DOWN_Y, DOWN);
 	}
 }

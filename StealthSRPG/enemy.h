@@ -7,18 +7,16 @@ public:
 	int range;
 	bool activity; //行動状態（trueなら行動済み）
 	bool isAlive;
+	int act_time;
 
 	Enemy(int x, int y, int graph, int moving_quantity, int attack, int range,
-	      bool activity, bool isAlive);
+	      int act_time, bool activity, bool isAlive);
 	~Enemy();
 
 protected:
 	int slash;
 	int impact;
 	int dead;
-	static int motion;
-	int impact_motion;
-	int dead_motion;
 
 	enum IWO_POINT {
 		ENEMY_PRINCESS,

@@ -40,11 +40,11 @@ void loop_process() {
 
 	EnemyWarrior_1 E_Warrior1(block_size * 5, block_size * 8,
 	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                          block_size, 50, 3, false, true);
+	                          block_size, 50, 3, 50, false, true);
 
 	EnemyBandits Bandits(block_size * 14, block_size * 14,
 	                     LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                     block_size, 80, 2, false, true);
+	                     block_size, 80, 2, 80, false, true);
 
 	// ゲームループ
 	while (true) {
@@ -88,11 +88,11 @@ void loop_process() {
 		}
 
 		if (Bandits.isAlive) {
+			Bandits.Update(_map->map_20x20); //山賊の更新処理
 			Bandits.get_survival_activity(Princess.isAlive, Warrior1.isAlive,
 			                              Warrior2.isAlive, Warrior3.isAlive);
 			Bandits.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 			                               Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			Bandits.Update(_map->map_20x20); //山賊の更新処理
 			Bandits.Move(E_Warrior1.x, E_Warrior1.y);
 			Bandits.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
 		}

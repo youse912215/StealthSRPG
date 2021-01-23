@@ -5,9 +5,9 @@
 #include "mapAll.h"
 #include <algorithm>
 
-EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity,
-                           bool isAlive) :
-	Enemy(x, y, graph, moving_quantity, attack, range, activity, isAlive),
+EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int attack, int range, int act_time,
+                           bool activity, bool isAlive) :
+	Enemy(x, y, graph, moving_quantity, attack, range, act_time, activity, isAlive),
 	node_x(5),
 	node_y(5),
 	parent_husteric(4, vector<unsigned int>(4, 0)),
@@ -26,7 +26,6 @@ EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int att
 	minimum_husteric2 = 0;
 	minimum_score = 0;
 	attack_activity = false;
-	attack_motion = 0;
 	attack_motion = 0;
 }
 
@@ -112,10 +111,10 @@ void EnemyBandits::drawing_effect1(const int& nx, const int& ny, const int& dire
 
 void EnemyBandits::drawing_effect2() {
 	if (attack_activity) {
-		drawing_effect1(LEFT_X, CENTER_Y, LEFT);
-		drawing_effect1(RIGHT_X, CENTER_Y, RIGHT);
-		drawing_effect1(CENTER_X, UP_Y, UP);
-		drawing_effect1(CENTER_X, DOWN_Y, DOWN);
+		get_attack_direction(ENEMY_PRINCESS);
+		get_attack_direction(ENEMY_WARRIOR1);
+		get_attack_direction(ENEMY_WARRIOR2);
+		get_attack_direction(ENEMY_WARRIOR3);
 	}
 }
 
@@ -307,7 +306,7 @@ void EnemyBandits::Move(const int& ew1_x, const int& ew1_y) {
 	}
 
 	if (Map::turn_timer % MOVEING_INTERVAL == 0
-		&& Map::turn_timer > 100
+		&& Map::turn_timer > this->act_time
 		&& !this->activity) {
 		moving_decision();
 	}
@@ -335,7 +334,7 @@ void EnemyBandits::moving_decision() {
 void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (activity && !attack_activity && Map::scene % 2 != 0) {
+	if (activity && !attack_activity && Map::scene % 2 != 0 && Map::turn_timer > this->act_time) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
@@ -419,4 +418,21 @@ void EnemyBandits::duplicate_process() {
 		this->y += moving_quantity;
 		duplication_flag[UP] = true;
 	}
+}
+
+void EnemyBandits::get_attack_direction(const int& player_num) {
+
+	if (minimum_husteric2 == parent_husteric[player_num][LEFT]) {
+		drawing_effect1(LEFT_X, CENTER_Y, LEFT);
+	}
+	else if (minimum_husteric2 == parent_husteric[player_num][RIGHT]) {
+		drawing_effect1(RIGHT_X, CENTER_Y, RIGHT);
+	}
+	else if (minimum_husteric2 == parent_husteric[player_num][UP]) {
+		drawing_effect1(CENTER_X, UP_Y, UP);
+	}
+	else if (minimum_husteric2 == parent_husteric[player_num][DOWN]) {
+		drawing_effect1(CENTER_X, DOWN_Y, DOWN);
+	}
+
 }

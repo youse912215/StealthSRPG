@@ -30,34 +30,34 @@ void Phenomenon::Switching() {
 	}
 }
 
-void Phenomenon::Rain() {
-	//移動範囲制限
-	if (phenomenonFlag[rain1] == true) {
-
-	}
-}
-
-void Phenomenon::Ice() {
-	if (phenomenonFlag[ice] == false) {
-
-	}
-	else {
-
-	}
-}
-
-void Phenomenon::Tide() {
-
-	if (phenomenonFlag[tide] == true) {
-
-	}
-	else {
-
-	}
-}
-
-void Phenomenon::Fog() {
-}
-
-void Phenomenon::RainBow() {
-}
+//void Phenomenon::Rain() {
+//	//移動範囲制限
+//	if (phenomenonFlag[rain1] == true) {
+//
+//	}
+//}
+//
+//void Phenomenon::Ice() {
+//	if (phenomenonFlag[ice] == false) {
+//
+//	}
+//	else {
+//
+//	}
+//}
+//
+//void Phenomenon::Tide() {
+//
+//	if (phenomenonFlag[tide] == true) {
+//
+//	}
+//	else {
+//
+//	}
+//}
+//
+//void Phenomenon::Fog() {
+//}
+//
+//void Phenomenon::RainBow() {
+//}

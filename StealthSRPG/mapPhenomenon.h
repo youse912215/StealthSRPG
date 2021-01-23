@@ -18,9 +18,9 @@ public:
 	Phenomenon();
 	~Phenomenon();
 	void Switching(); ///’©–éØ‚è‘Ö‚¦
-	void Rain(); ///‰J
+	/*void Rain(); ///‰J
 	void Ice(); ///•X
 	void Tide(); ///’ª
 	void Fog(); ///–¶
-	void RainBow(); ///“ø
+	void RainBow(); ///“ø*/
 };
