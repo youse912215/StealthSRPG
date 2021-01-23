@@ -13,7 +13,6 @@ public:
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y);
 	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp);
-	//void duplicate_decision(const int& ew1_x, const int& ew1_y);
 	void Move(const int& ew1_x, const int& ew1_y);
 
 private:
@@ -34,11 +33,12 @@ private:
 	unsigned int minimum_score; //最小コスト
 	int moving_distance; //移動距離
 	bool attack_activity; //攻撃状態（true:攻撃済み、false:攻撃可能）
-	vector<bool> duplication_flag;
-	bool f1;
-	bool f2;
+	vector<bool> duplication_flag; //重複状態（true:重複、false:それ以外）
+	int attack_motion;
 
 	void Draw();
+	void drawing_effect1(const int& nx, const int& ny, const int& direction);
+	void drawing_effect2();
 	void get_each_node();
 	void get_minimum_husteric();
 	void get_node_husteric();
@@ -48,4 +48,8 @@ private:
 	void get_node_score();
 	void moving_decision();
 	void Dead(vector<vector<int>>& map);
+	void score_decision();
+	void moving_end();
+	void activate_reset();
+	void duplicate_process();
 };

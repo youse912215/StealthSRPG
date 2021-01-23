@@ -8,8 +8,18 @@ public:
 	bool activity; //行動状態（trueなら行動済み）
 	bool isAlive;
 
-	Enemy(int x, int y, int graph, int moving_quantity, int attack, int range, bool activity, bool isAlive);
+	Enemy(int x, int y, int graph, int moving_quantity, int attack, int range,
+	      bool activity, bool isAlive);
+	~Enemy();
+
 protected:
+	int slash;
+	int impact;
+	int dead;
+	static int motion;
+	int impact_motion;
+	int dead_motion;
+
 	enum IWO_POINT {
 		ENEMY_PRINCESS,
 		ENEMY_WARRIOR1,
@@ -19,4 +29,5 @@ protected:
 
 	int add_cost(const int& map_info);
 	int set_to_one(int x);
+	void get_slash_motion(const int& a_activity, int* motion);
 };

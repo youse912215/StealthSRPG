@@ -9,7 +9,6 @@ public:
 	static int range_flag;
 	static int moving_range;
 	int radius; //半径
-	int moving_distance; //移動距離
 	int graph; //カーソル画像
 	int qx; //中心からのxの移動量
 	int qy; //中心からのyの移動量

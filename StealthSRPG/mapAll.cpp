@@ -22,7 +22,7 @@ void Map::booting_timer() {
 
 	if (scene % 2 != 0) {
 		turn_timer++;
-		if (turn_timer >= 220) scene = (scene == NIGHT_ENEMY) ? NOON_PLAY : ++scene;
+		if (turn_timer >= 200) scene = (scene == NIGHT_ENEMY) ? NOON_PLAY : ++scene;
 	}
 	else turn_timer = 0;
 }

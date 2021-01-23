@@ -26,37 +26,45 @@ EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int att
 	minimum_husteric2 = 0;
 	minimum_score = 0;
 	attack_activity = false;
-	f1 = false;
-	f2 = false;
+	attack_motion = 0;
+	attack_motion = 0;
 }
 
 void EnemyBandits::Update(vector<vector<int>>& map) {
-	if (this->isAlive) {
-		Draw();
-		get_each_node();
-		get_minimum_husteric();
-		get_node_husteric();
-		get_obstacle_cost(map);
-		get_relative_position_cost();
-		get_node_cost();
-		get_node_score();
-		Dead(map);
-	}
+	get_latency();
+	wait_motion();
+	activate_reset();
+	score_decision();
+	moving_end();
+	get_slash_motion(this->attack_activity, &attack_motion);
+	Draw();
+	drawing_effect2();
+	get_each_node();
+	get_minimum_husteric();
+	get_node_husteric();
+	get_obstacle_cost(map);
+	get_relative_position_cost();
+	get_node_cost();
+	get_node_score();
+	Dead(map);
 }
 
 void EnemyBandits::Draw() {
 	if (this->x == current_x && this->y == current_y) {
 		moving_range = this->range; //移動範囲をプレイヤー移動範囲に置換する
 	}
-	if (this->isAlive) {
-		DrawGraph(x - current_x + block_size * 9, y - init_position - current_y + block_size * 9, graph, true);
-	}
+	DrawRectGraph(this->x - current_x + block_size * 9,
+	              this->y - init_position - current_y + block_size * 9,
+	              src_x * block_size, block_size,
+	              block_size, block_size,
+	              this->graph, true, false);
+
 	DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "山賊(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(200, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
 	DrawFormatString(200, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
-	                 "aF%d, dF%d", attack_activity, f1, false);
+	                 "aF%d, :aT%d", attack_activity, attack_motion, false);
 	DrawFormatString(480, 340, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
 	DrawFormatString(480, 355, GetColor(255, 0, 255),
@@ -88,8 +96,27 @@ void EnemyBandits::Draw() {
 	                 obstacle_cost[LEFT], obstacle_cost[RIGHT], obstacle_cost[UP], obstacle_cost[DOWN], false);
 	DrawFormatString(480, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
-	DrawFormatString(480, 520, GetColor(200, 255, 125), "score:L%d, R%d, U%d, D%d, %d",
+	DrawFormatString(480, 520, GetColor(255, 0, 50), "score:L%d, R%d, U%d, D%d, %d",
 	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);
+}
+
+void EnemyBandits::drawing_effect1(const int& nx, const int& ny, const int& direction) {
+	if (minimum_score == score[direction]) {
+		DrawRectGraph(node_x[nx] * block_size - current_x + block_size * 9,
+		              node_y[ny] * block_size - init_position - current_y + block_size * 9,
+		              block_size * attack_motion, 0,
+		              block_size, block_size,
+		              slash, true, false);
+	}
+}
+
+void EnemyBandits::drawing_effect2() {
+	if (attack_activity) {
+		drawing_effect1(LEFT_X, CENTER_Y, LEFT);
+		drawing_effect1(RIGHT_X, CENTER_Y, RIGHT);
+		drawing_effect1(CENTER_X, UP_Y, UP);
+		drawing_effect1(CENTER_X, DOWN_Y, DOWN);
+	}
 }
 
 void EnemyBandits::get_each_node() {
@@ -274,52 +301,19 @@ void EnemyBandits::get_node_score() {
 }
 
 void EnemyBandits::Move(const int& ew1_x, const int& ew1_y) {
-	if (this->range == moving_distance) {
-		this->activity = true;
-	}
-
-	if (this->range == moving_distance
-		&& node_x[CENTER_X] == ew1_x / block_size
-		&& node_y[CENTER_Y] == ew1_y / block_size) {
-		if (minimum_score == score[DOWN] && !duplication_flag[DOWN]) {
-			this->y -= moving_quantity;
-			duplication_flag[DOWN] = true;
-		}
-		else if (minimum_score == score[RIGHT] && !duplication_flag[RIGHT]) {
-			this->x -= moving_quantity;
-			duplication_flag[RIGHT] = true;
-		}
-		else if (minimum_score == score[LEFT] && !duplication_flag[LEFT]) {
-			this->x += moving_quantity;
-			duplication_flag[LEFT] = true;
-		}
-		else if (minimum_score == score[UP] && !duplication_flag[UP]) {
-			this->y += moving_quantity;
-			duplication_flag[UP] = true;
-		}
+	if (this->range == moving_distance && !this->activity) {
+		if (node_x[CENTER_X] == ew1_x / block_size && node_y[CENTER_Y] == ew1_y / block_size)
+			duplicate_process();
 	}
 
 	if (Map::turn_timer % MOVEING_INTERVAL == 0
-		&& Map::turn_timer > 120
+		&& Map::turn_timer > 100
 		&& !this->activity) {
 		moving_decision();
-	}
-
-	if (Map::scene % 2 == 0) {
-		this->activity = false;
-		attack_activity = false;
-		fill(duplication_flag.begin(), duplication_flag.end(), false); //falseにリセット
-		moving_distance = 0;
 	}
 }
 
 void EnemyBandits::moving_decision() {
-	if (minimum_score == 1) {
-		this->activity = true;
-		moving_distance = this->range;
-	}
-
-
 	if (minimum_score == score[DOWN] && !this->activity) {
 		this->y += moving_quantity;
 		moving_distance++;
@@ -336,13 +330,12 @@ void EnemyBandits::moving_decision() {
 		this->y -= moving_quantity;
 		moving_distance++;
 	}
-
 }
 
 void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (!attack_activity && Map::scene % 2 != 0 && Map::turn_timer > 120) {
+	if (activity && !attack_activity && Map::scene % 2 != 0) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
@@ -378,15 +371,52 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	}
 }
 
-//void EnemyBandits::duplicate_decision() {
-//
-//}
-
 void EnemyBandits::Dead(vector<vector<int>>& map) {
 	if (map[this->y / block_size][this->x / block_size] == TIDE
 		&& Map::scene == NIGHT_PLAY) {
 		this->isAlive = false; //生存状態をfalse
 		this->x = -1;
 		this->y = -1;
+	}
+}
+
+void EnemyBandits::score_decision() {
+	if (minimum_score == 1) {
+		this->activity = true;
+		moving_distance = this->range;
+	}
+}
+
+void EnemyBandits::moving_end() {
+	if (this->range == moving_distance) {
+		this->activity = true;
+	}
+}
+
+void EnemyBandits::activate_reset() {
+	if (Map::scene % 2 == 0) {
+		this->activity = false;
+		attack_activity = false;
+		fill(duplication_flag.begin(), duplication_flag.end(), false); //falseにリセット
+		moving_distance = 0;
+	}
+}
+
+void EnemyBandits::duplicate_process() {
+	if (minimum_score == score[DOWN] && !duplication_flag[DOWN]) {
+		this->y -= moving_quantity;
+		duplication_flag[DOWN] = true;
+	}
+	else if (minimum_score == score[RIGHT] && !duplication_flag[RIGHT]) {
+		this->x -= moving_quantity;
+		duplication_flag[RIGHT] = true;
+	}
+	else if (minimum_score == score[LEFT] && !duplication_flag[LEFT]) {
+		this->x += moving_quantity;
+		duplication_flag[LEFT] = true;
+	}
+	else if (minimum_score == score[UP] && !duplication_flag[UP]) {
+		this->y += moving_quantity;
+		duplication_flag[UP] = true;
 	}
 }

@@ -19,11 +19,11 @@ void Phenomenon::Switching() {
 	switch (scene) {
 	case NOON_PLAY:
 	case NOON_ENEMY:
-		memset(phenomenonFlag + 2, false, 2); //ice, tide‚ğfalse‚É•ÏX
+		memset(phenomenonFlag + 2, false, 2); //ice, tideã‚’falseã«å¤‰æ›´
 		break;
 	case NIGHT_PLAY:
 	case NIGHT_ENEMY:
-		memset(phenomenonFlag + 2, true, 2); //ice, tide‚ğtrue‚É•ÏX
+		memset(phenomenonFlag + 2, true, 2); //ice, tideã‚’trueã«å¤‰æ›´
 		break;
 	default:
 		break;
@@ -31,7 +31,7 @@ void Phenomenon::Switching() {
 }
 
 void Phenomenon::Rain() {
-	//ˆÚ“®”ÍˆÍ§ŒÀ
+	//ç§»å‹•ç¯„å›²åˆ¶é™
 	if (phenomenonFlag[rain1] == true) {
 
 	}
@@ -48,11 +48,6 @@ void Phenomenon::Ice() {
 
 void Phenomenon::Tide() {
 
-	/*“ñdfor•¶“à‚ÉA
-	if(map[i][j]==4)
-	{
-		map[i][j] = 1;
-	}*/
 	if (phenomenonFlag[tide] == true) {
 
 	}
@@ -62,10 +57,7 @@ void Phenomenon::Tide() {
 }
 
 void Phenomenon::Fog() {
-	//ˆÚ“®§ŒÀ
-	//Œ©‚¦‚È‚­‚È‚éƒOƒ‰ƒtƒBƒbƒN
 }
 
 void Phenomenon::RainBow() {
-	//“ø‚ª‚©‚©‚éƒ}ƒX‚ğ‚·‚·‚ß‚é‚æ‚¤‚É‚·‚é
 }

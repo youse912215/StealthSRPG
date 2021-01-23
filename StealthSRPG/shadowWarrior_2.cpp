@@ -16,6 +16,8 @@ ShadowWarrior_2::ShadowWarrior_2(int x, int y, int graph, int moving_quantity, i
 void ShadowWarrior_2::Update(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
                              const int& sw3_x, const int& sw3_y, const int& ew1_x, const int& ew1_y,
                              const int& eb1_x, const int& eb1_y) {
+	get_latency();
+	wait_motion();
 	Draw();
 	Move();
 	Pickup();
@@ -27,9 +29,11 @@ void ShadowWarrior_2::Update(const int& p_x, const int& p_y, const int& sw1_x, c
 /// </summary>
 void ShadowWarrior_2::Draw() {
 	if (this->isAlive) {
-		DrawGraph(this->x - current_x + block_size * 9,
-		          this->y - init_position - current_y + block_size * 9,
-		          this->graph, true);
+		DrawRectGraph(this->x - current_x + block_size * 9,
+		              this->y - init_position - current_y + block_size * 9,
+		              src_x * block_size, block_size * 3,
+		              block_size, block_size,
+		              this->graph, true, false);
 	}
 	/*DrawFormatString(200, 45, GetColor(0, 0, 0), "•º2(%d, %d)",
 	                 this->x / block_size, this->y / block_size, false);

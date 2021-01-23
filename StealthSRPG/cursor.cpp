@@ -13,7 +13,6 @@ Cursor::Cursor() {
 	disp_x = block_size * 9;
 	disp_y = block_size * 5;
 	radius = block_size / 2;
-	moving_distance = block_size;
 	graph = LoadGraph("Source/Charactor/Cursor.png");
 	qx = current_x - block_size * 9;
 	qy = current_y - block_size * 9;
