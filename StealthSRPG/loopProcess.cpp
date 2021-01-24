@@ -2,6 +2,7 @@
 #include "windowPreference.h"
 #include "inputProcess.h"
 #include "mapDraw.h"
+#include "mapUI.h"
 #include "cursor.h"
 #include "charactor.h"
 #include "Princess.h"
@@ -44,7 +45,7 @@ void loop_process() {
 
 	EnemyBandits Bandits(block_size * 14, block_size * 14,
 	                     LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                     block_size, 80, 2, 80, false, true);
+	                     block_size, 80, 2, 100, false, true);
 
 	// ゲームループ
 	while (true) {
@@ -95,6 +96,7 @@ void loop_process() {
 			                               Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
 			Bandits.Move(E_Warrior1.x, E_Warrior1.y);
 			Bandits.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
+
 		}
 
 		Cursor* cursor = new Cursor;
@@ -104,12 +106,13 @@ void loop_process() {
 			&& Princess.moving_flag == -1)
 			break;
 
-		DrawFormatString(0, 15, GetColor(200, 0, 0), " Z:プレイヤー選択", false);
-		DrawFormatString(0, 30, GetColor(200, 0, 0), " SPACE:Myフェイズ終了", false);
-		DrawFormatString(0, 45, GetColor(200, 0, 0), " ARROW:1マス移動", false);
-		DrawFormatString(0, 60, GetColor(230, 0, 230), "Hp:%d, %d, %d, %d",
+		DrawFormatString(0, 15, GetColor(255, 255, 255), " Z:プレイヤー選択", false);
+		DrawFormatString(0, 30, GetColor(255, 255, 255), " SPACE:Myフェイズ終了", false);
+		DrawFormatString(0, 45, GetColor(255, 255, 255), " ARROW:1マス移動", false);
+		DrawFormatString(0, 60, GetColor(255, 255, 255), "Hp:%d, %d, %d, %d",
 		                 Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp, false);
 		DrawFormatString(300, 15, GetColor(0, 200, 0), "%d", Princess.latency, false);
+
 
 		/*DrawFormatString(0, 30, GetColor(0, 0, 0), "現在C（%d, %d）",
 		                 Cursor::current_x / block_size, Cursor::current_y / block_size, false);
@@ -129,6 +132,11 @@ void loop_process() {
 		                 "移動マス y:%d", abs(Cursor::range_y - Cursor::current_y) / block_size, false);
 		DrawFormatString(WIN_WIDTH - block_size * 3, 30, GetColor(0, 0, 0),
 		                 "移動範囲:%d", Cursor::moving_range, false);*/
+
+		MapUI* UI = new MapUI;
+		UI->yes_or_no(input.yes_or_no);
+		UI->update();
+		delete UI;
 
 		delete _map;
 		delete cursor;

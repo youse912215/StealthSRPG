@@ -123,6 +123,9 @@
     <ClCompile Include="random.cpp">
       <Filter>ソース ファイル\Random</Filter>
     </ClCompile>
+    <ClCompile Include="mapUI.cpp">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constant.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="random.h">
       <Filter>ヘッダー ファイル\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="mapUI.h">
+      <Filter>ヘッダー ファイル\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

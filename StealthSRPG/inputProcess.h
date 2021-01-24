@@ -18,8 +18,10 @@ private:
 
 public:
 	bool collision_flag[4];
+	bool yes_or_no;
 	char keys[256] = {0}; //最新のキーボード情報用
 	char oldkeys[256] = {0}; //1ループ(フレーム)前のキーボード情報
+	static bool confirmation_flag;
 
 	Input();
 	void input_info();

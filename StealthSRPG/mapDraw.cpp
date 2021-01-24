@@ -3,10 +3,13 @@
 #include "cursor.h"
 #include "constant.h"
 
-MapDraw::MapDraw() : info{SEA, ROAD, GOAL, TIDE, RAINBOW, BRIDGE, ICE, CENTER, RANGE},
+MapDraw::MapDraw() : info{
+	                     SEA, LAND, GOAL, TIDE, RAINBOW, BRIDGE, ICE, LAND_TOP, LAND_BOT, LAND_LEFT, LAND_RIGHT,
+	                     LAND_RIGHT_BOT, LAND_LEFT_BOT, LAND_LEFT_TOP, LAND_RIGHT_TOP, CENTER, RANGE
+                     },
                      map_20x20(area_height, vector<int>(area_width)),
                      range_11x11(11, vector<int>(11)) {
-	map_graph = LoadGraph("Source/Map/stealthSRPG_mapchip.png"); //マップチップ画像
+	map_graph = LoadGraph("Source/Map/mapchips.png"); //マップチップ画像
 	column = 0; //行番号
 	row = 0; //列番号
 	map_width = map_20x20.at(0).size();
@@ -43,7 +46,7 @@ void MapDraw::map_import(const int& map_info, vector<vector<int>>& map) {
 void MapDraw::range_import(const int& map_info, vector<vector<int>>& range) {
 
 	get_map_info(&column, &row, map_info); //マップ情報から列と行を取り出す
-	//マップの描画
+	//移動範囲の描画
 	for (int y = 0; y < range_height; y++) {
 		for (int x = 0; x < range_width; x++) {
 			//map_infoのチップをdestの位置に描画
@@ -67,15 +70,15 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
                           const int& eb1_x, const int& eb1_y) {
 	map_file_import(map_20x20, mapcsv_file, 0, MAP);
 
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 15; i++) {
 		map_import(info[i], map_20x20);
 	}
 
 	/* 範囲フラグがtrueのとき各プレイヤーの移動範囲を描画 */
 	if (range_flag == 1) {
 		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
-		range_import(info[7], range_11x11);
-		range_import(info[8], range_11x11);
+		range_import(info[15], range_11x11);
+		range_import(info[16], range_11x11);
 	}
 
 	drawing_enemy_range(ew1_x, ew1_y); //敵兵1
@@ -89,7 +92,7 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
 void MapDraw::drawing_enemy_range(const int& ex, const int& ey) {
 	if (current_x == ex && current_y == ey) {
 		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
-		range_import(info[8], range_11x11);
+		range_import(info[16], range_11x11);
 	}
 }
 

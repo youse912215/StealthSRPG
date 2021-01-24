@@ -22,8 +22,8 @@ enum SCENE {
 enum map_info {
 	//海
 	SEA = 1,
-	//道
-	ROAD,
+	//陸
+	LAND,
 	//目的地点
 	GOAL,
 	//潮
@@ -34,6 +34,23 @@ enum map_info {
 	BRIDGE,
 	//氷
 	ICE,
+	//陸上
+	LAND_TOP = 21,
+	//陸下
+	LAND_BOT,
+	//陸左
+	LAND_LEFT,
+	//陸右
+	LAND_RIGHT,
+	//陸右下
+	LAND_RIGHT_BOT,
+	//陸左下
+	LAND_LEFT_BOT,
+	//陸左上
+	LAND_LEFT_TOP,
+	//陸右上
+	LAND_RIGHT_TOP,
+	//移動範囲中央
 	CENTER = 98,
 	//移動範囲
 	RANGE,

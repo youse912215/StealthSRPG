@@ -140,6 +140,7 @@
     <ClCompile Include="mapDraw.cpp" />
     <ClCompile Include="mapInfomation.cpp" />
     <ClCompile Include="mapPhenomenon.cpp" />
+    <ClCompile Include="mapUI.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="Princess.cpp" />
     <ClCompile Include="random.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="mapDraw.h" />
     <ClInclude Include="mapInfomation.h" />
     <ClInclude Include="mapPhenomenon.h" />
+    <ClInclude Include="mapUI.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="Princess.h" />
     <ClInclude Include="random.h" />

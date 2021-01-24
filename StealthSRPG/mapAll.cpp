@@ -1,4 +1,5 @@
 #include "mapAll.h"
+#include "mapUI.h"
 #include "constant.h"
 #include <fstream>
 #include <sstream>
@@ -21,7 +22,7 @@ Map::~Map() {
 void Map::booting_timer() {
 
 	if (scene % 2 != 0) {
-		turn_timer++;
+		turn_timer = !MapUI::UI_flag ? ++turn_timer : 0;
 		if (turn_timer >= 200) scene = (scene == NIGHT_ENEMY) ? NOON_PLAY : ++scene;
 	}
 	else turn_timer = 0;

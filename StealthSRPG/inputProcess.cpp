@@ -1,14 +1,17 @@
 #include "DxLib.h"
 #include "mapAll.h"
+#include "mapUI.h"
 #include "inputProcess.h"
 #include "constant.h"
 #include "cursor.h"
 #include <cstdlib>
-#include "enemyWarrior_1.h"
 
 using namespace std;
 
+bool Input::confirmation_flag = false;
+
 Input::Input() : collision_flag{} {
+	yes_or_no = true;
 }
 
 /// <summary>
@@ -28,9 +31,31 @@ void Input::input_info() {
 /// 夜の敵ターンなら、昼のプレイヤーターンに移行
 /// </summary>
 void Input::time_change() {
-	if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE]) {
-		if (range_flag != 1 && Map::scene % 2 == 0)
+	if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE]
+		&& Map::scene % 2 == 0 && !MapUI::UI_flag) {
+		confirmation_flag = true;
+	}
+	else if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE] && MapUI::blend_time >= 120) {
+		MapUI::UI_flag = false;
+	}
+
+	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]
+		&& confirmation_flag && yes_or_no) {
+		if (range_flag != 1 && Map::scene % 2 == 0 && !MapUI::UI_flag)
 			Map::scene = (Map::scene == NIGHT_ENEMY) ? NOON_PLAY : ++Map::scene;
+		confirmation_flag = false;
+		MapUI::UI_flag = true;
+	}
+	else if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]
+		&& confirmation_flag && !yes_or_no) {
+		confirmation_flag = false;
+	}
+
+	if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && confirmation_flag) {
+		yes_or_no = true;
+	}
+	else if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && confirmation_flag) {
+		yes_or_no = false;
 	}
 }
 
@@ -209,7 +234,10 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 
 void Input::update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
                    const int& eb1_x, const int& eb1_y) {
-	moving_cursor();
+	if (!MapUI::UI_flag && !confirmation_flag) {
+		moving_cursor();
+		collision_flag_update(map, ew1_x, ew1_y, eb1_x, eb1_y);
+	}
 	time_change();
-	collision_flag_update(map, ew1_x, ew1_y, eb1_x, eb1_y);
+	DrawFormatString(300, 30, GetColor(255, 255, 255), "%d", yes_or_no, false);
 }

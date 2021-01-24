@@ -22,7 +22,7 @@ void window_out_loop() {
 	SetWindowSizeExtendRate(1.0);
 
 	// ‰æ–Ê‚Ì”wŒiF‚ğİ’è‚·‚é
-	SetBackgroundColor(0x00, 0x00, 0xFF);
+	SetBackgroundColor(69, 107, 115);
 }
 
 void window_in_roop() {

@@ -16,7 +16,7 @@ private:
 	int range_height; //移動範囲の縦幅
 	int draw_range_x;
 	int draw_range_y;
-	int info[9];
+	vector<int> info;
 
 	void drawing_enemy_range(const int& ex, const int& ey); //エネミーの移動範囲描画
 	void map_import(const int& map_info, vector<vector<int>>& map); //マップ読み込み
