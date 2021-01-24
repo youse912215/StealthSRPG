@@ -20,32 +20,32 @@ void loop_process() {
 	Input input;
 
 	Princess Princess(
-		block_size * 9, block_size * 11,
+		block_size * 8, block_size * 13,
 		LoadGraph("Source/Charactor/Player/princess.png"),
-		block_size, 75, 4, false, true, input);
+		block_size, 3, 4, false, true, input);
 
 	ShadowWarrior_1 Warrior1(
 		block_size * 8, block_size * 14,
 		LoadGraph("Source/Charactor/Player/princess.png"),
-		block_size, 100, 3, false, true, input);
+		block_size, 3, 3, false, true, input);
 
 	ShadowWarrior_2 Warrior2(
 		block_size * 9, block_size * 13,
 		LoadGraph("Source/Charactor/Player/princess.png"),
-		block_size, 100, 3, false, true, input);
+		block_size, 3, 3, false, true, input);
 
 	ShadowWarrior_3 Warrior3(
-		block_size * 7, block_size * 12,
+		block_size * 7, block_size * 13,
 		LoadGraph("Source/Charactor/Player/princess.png"),
-		block_size, 100, 3, false, true, input);
+		block_size, 3, 3, false, true, input);
 
 	EnemyWarrior_1 E_Warrior1(block_size * 5, block_size * 8,
 	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                          block_size, 50, 3, 50, false, true);
+	                          block_size, 1, 3, 50, false, true);
 
 	EnemyBandits Bandits(block_size * 14, block_size * 14,
 	                     LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                     block_size, 80, 2, 100, false, true);
+	                     block_size, 2, 2, 100, false, true);
 
 	// ゲームループ
 	while (true) {
@@ -107,11 +107,11 @@ void loop_process() {
 			break;
 
 		DrawFormatString(0, 15, GetColor(255, 255, 255), " Z:プレイヤー選択", false);
-		DrawFormatString(0, 30, GetColor(255, 255, 255), " SPACE:Myフェイズ終了", false);
+		DrawFormatString(0, 30, GetColor(255, 255, 255), " SPACE:次フェイスへ", false);
 		DrawFormatString(0, 45, GetColor(255, 255, 255), " ARROW:1マス移動", false);
-		DrawFormatString(0, 60, GetColor(255, 255, 255), "Hp:%d, %d, %d, %d",
+		/*DrawFormatString(0, 60, GetColor(255, 255, 255), "Hp:%d, %d, %d, %d",
 		                 Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp, false);
-		DrawFormatString(300, 15, GetColor(0, 200, 0), "%d", Princess.latency, false);
+		DrawFormatString(300, 15, GetColor(0, 200, 0), "%d", Princess.latency, false);*/
 
 
 		/*DrawFormatString(0, 30, GetColor(0, 0, 0), "現在C（%d, %d）",
@@ -135,6 +135,8 @@ void loop_process() {
 
 		MapUI* UI = new MapUI;
 		UI->yes_or_no(input.yes_or_no);
+		UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
+		                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 		UI->update();
 		delete UI;
 

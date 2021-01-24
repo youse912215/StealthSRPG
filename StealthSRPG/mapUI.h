@@ -14,6 +14,8 @@ public:
 	~MapUI();
 	void update();
 	void yes_or_no(const bool& y_n);
+	void drawing_life_status(const int& p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp,
+	                         const bool& p_alive, const bool& sw1_alive, const bool& sw2_alive, const bool& sw3_alive);
 
 private:
 	int x;
@@ -24,6 +26,10 @@ private:
 	int yes;
 	int no;
 	int red;
+	int status;
+	int life;
+	int status_size_x;
+	int status_size_y;
 
 	void reset_blend();
 	void drawing_blend(const int& graph_num);

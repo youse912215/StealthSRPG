@@ -20,6 +20,10 @@ MapUI::MapUI() : UI_graph{
 	yes = LoadGraph("Source/UI/Yes.png");
 	no = LoadGraph("Source/UI/No.png");
 	red = LoadGraph("Source/UI/red.png");
+	status = LoadGraph("Source/UI/Status.png");
+	life = LoadGraph("Source/UI/Life.png");
+	status_size_x = 240;
+	status_size_y = 128;
 }
 
 MapUI::~MapUI() {
@@ -35,6 +39,7 @@ MapUI::~MapUI() {
 }
 
 void MapUI::update() {
+
 	if (UI_flag) {
 		drawing_blend(scene);
 		blend_time += 5;
@@ -42,10 +47,11 @@ void MapUI::update() {
 	else
 		reset_blend();
 
-	if (turn_timer == 200) UI_flag = true;
+	if (turn_timer == ENEMY_TURN_TIME) UI_flag = true;
 
 	if (Input::confirmation_flag) drawing_comfirmation();
-	DrawFormatString(0, 300, GetColor(255, 255, 255), "bT:%d, UF:%d", blend_time, UI_flag, false);
+
+	//DrawFormatString(0, 300, GetColor(255, 255, 255), "bT:%d, UF:%d", blend_time, UI_flag, false);
 }
 
 void MapUI::reset_blend() {
@@ -64,6 +70,37 @@ void MapUI::drawing_comfirmation() {
 	DrawGraph(x, y, end, true);
 	DrawGraph((WIN_WIDTH / 2) - 160, y + 64, yes, true);
 	DrawGraph((WIN_WIDTH / 2) + 40, y + 64, no, true);
+}
+
+void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp,
+                                const bool& p_alive, const bool& sw1_alive, const bool& sw2_alive,
+                                const bool& sw3_alive) {
+	DrawGraph(0, WIN_HEIGHT - 128, status, true);
+
+	if (p_alive) {
+		DrawRectGraph(status_size_x * 0, WIN_HEIGHT - status_size_y,
+		              status_size_x * (3 - p_hp), 0,
+		              status_size_x, status_size_y,
+		              life, true, false);
+	}
+	if (sw1_alive) {
+		DrawRectGraph(status_size_x * 1, WIN_HEIGHT - status_size_y,
+		              status_size_x * (3 - sw1_hp), 0,
+		              status_size_x, status_size_y,
+		              life, true, false);
+	}
+	if (sw2_alive) {
+		DrawRectGraph(status_size_x * 2, WIN_HEIGHT - status_size_y,
+		              status_size_x * (3 - sw2_hp), 0, status_size_x, status_size_y,
+		              life,
+		              true, false);
+	}
+	if (sw3_alive) {
+		DrawRectGraph(status_size_x * 3, WIN_HEIGHT - status_size_y,
+		              status_size_x * (3 - sw3_hp), 0,
+		              status_size_x, status_size_y,
+		              life, true, false);
+	}
 }
 
 void MapUI::yes_or_no(const bool& y_n) {

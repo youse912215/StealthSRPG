@@ -27,7 +27,7 @@ void Infomation::get_map_info(int* column, int* row, const int& map_info) {
 		break;
 	case TIDE:
 		//満潮マスを干潮マスにするまたは干潮マスを満潮マスにする
-		*column = phenomenonFlag[tide] ? 0 : 7;
+		*column = phenomenonFlag[tide] ? 0 : 12;
 		*row = phenomenonFlag[tide] ? 0 : 1;
 		break;
 	case RAINBOW:

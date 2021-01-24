@@ -35,7 +35,7 @@ void Input::time_change() {
 		&& Map::scene % 2 == 0 && !MapUI::UI_flag) {
 		confirmation_flag = true;
 	}
-	else if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE] && MapUI::blend_time >= 120) {
+	else if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE] && MapUI::blend_time >= CONFIRMATION_TIME) {
 		MapUI::UI_flag = false;
 	}
 
@@ -239,5 +239,4 @@ void Input::update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
 		collision_flag_update(map, ew1_x, ew1_y, eb1_x, eb1_y);
 	}
 	time_change();
-	DrawFormatString(300, 30, GetColor(255, 255, 255), "%d", yes_or_no, false);
 }

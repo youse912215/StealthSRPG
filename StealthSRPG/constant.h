@@ -9,7 +9,9 @@ const int area_height = 20;
 const int init_position = block_size * 4; //èâä˙à íu
 const int RANDOM_MIN = 0;
 const int RANDOM_MAX = 100;
-const int MOVEING_INTERVAL = 30;
+const int MOVEING_INTERVAL = 25;
+const int CONFIRMATION_TIME = 100;
+const int ENEMY_TURN_TIME = 180;
 
 enum SCENE {
 	NOON_PLAY,
