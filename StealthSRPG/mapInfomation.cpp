@@ -27,21 +27,34 @@ void Infomation::get_map_info(int* column, int* row, const int& map_info) {
 		break;
 	case TIDE:
 		//満潮マスを干潮マスにするまたは干潮マスを満潮マスにする
-		*column = phenomenonFlag[tide] ? 0 : 12;
+		*column = phenomenonFlag[tide] ? 0 : 2;
 		*row = phenomenonFlag[tide] ? 0 : 1;
 		break;
-	case RAINBOW:
+	case RAINBOW_WIDTH:
 		*column = 5;
 		*row = 1;
 		break;
-	case BRIDGE:
+	case RAINBOW_HEIGHT:
+		*column = 6;
+		*row = 1;
+		break;
+	case BRIDGE_WIDTH:
+		*column = 3;
+		*row = 1;
+		break;
+	case BRIDGE_HEIGHT:
 		*column = 4;
 		*row = 1;
 		break;
-	case ICE:
-		//道マスを氷マスにするまたは氷のマスを道マスにする
-		*column = phenomenonFlag[ice] ? 0 : 1;
-		*row = 6;
+	case ICE_LAND:
+		//陸マスを氷マスにするまたは氷のマスを陸マスにする
+		*column = phenomenonFlag[ice] ? 11 : 12;
+		*row = 1;
+		break;
+	case ICE_SEA:
+		//海マスを氷マスにするまたは氷のマスを海マスにする
+		*column = phenomenonFlag[ice] ? 13 : 0;
+		*row = phenomenonFlag[ice] ? 1 : 0;
 		break;
 	case LAND_TOP:
 		*column = 0;

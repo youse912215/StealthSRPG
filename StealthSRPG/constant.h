@@ -32,11 +32,14 @@ enum map_info {
 	//í™
 	TIDE,
 	//ì¯
-	RAINBOW,
+	RAINBOW_WIDTH,
+	RAINBOW_HEIGHT,
 	//ã¥
-	BRIDGE,
+	BRIDGE_WIDTH,
+	BRIDGE_HEIGHT,
 	//ïX
-	ICE,
+	ICE_LAND,
+	ICE_SEA,
 	//ó§è„
 	LAND_TOP = 21,
 	//ó§â∫

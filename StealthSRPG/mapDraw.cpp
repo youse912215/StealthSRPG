@@ -4,9 +4,10 @@
 #include "constant.h"
 
 MapDraw::MapDraw() : info{
-	                     SEA, LAND, GOAL, TIDE, RAINBOW, BRIDGE, ICE, LAND_TOP, LAND_BOT, LAND_LEFT, LAND_RIGHT,
-	                     LAND_RIGHT_BOT, LAND_LEFT_BOT, LAND_LEFT_TOP, LAND_RIGHT_TOP, LAND_RIGHT_BOT2, LAND_LEFT_BOT2,
-	                     LAND_RIGHT_TOP2, LAND_LEFT_TOP2, LAND_OBLIQUE1, LAND_OBLIQUE2, CENTER, RANGE
+	                     SEA, LAND, GOAL, TIDE, RAINBOW_WIDTH, RAINBOW_HEIGHT, BRIDGE_WIDTH, BRIDGE_HEIGHT, ICE_LAND,
+	                     ICE_SEA, LAND_TOP, LAND_BOT, LAND_LEFT, LAND_RIGHT, LAND_RIGHT_BOT, LAND_LEFT_BOT,
+	                     LAND_LEFT_TOP, LAND_RIGHT_TOP, LAND_RIGHT_BOT2, LAND_LEFT_BOT2, LAND_RIGHT_TOP2,
+	                     LAND_LEFT_TOP2, LAND_OBLIQUE1, LAND_OBLIQUE2, CENTER, RANGE
                      },
                      map_20x20(area_height, vector<int>(area_width)),
                      range_11x11(11, vector<int>(11)) {
@@ -78,7 +79,7 @@ void MapDraw::switching_map_scene() {
 void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
                           const int& ew2_x, const int& ew2_y,
                           const int& eb1_x, const int& eb1_y) {
-	map_file_import(map_20x20, mapcsv_file, 0, MAP);
+	map_file_import(map_20x20, mapcsv_file, 1, MAP);
 	switching_map_scene();
 
 	for (int i = 0; i != info.size(); i++) {
@@ -88,8 +89,8 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
 	/* 範囲フラグがtrueのとき各プレイヤーの移動範囲を描画 */
 	if (range_flag == 1) {
 		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
-		range_import(info[21], range_11x11);
-		range_import(info[22], range_11x11);
+		range_import(info[24], range_11x11);
+		range_import(info[25], range_11x11);
 	}
 
 	drawing_enemy_range(ew1_x, ew1_y); //敵兵1
@@ -104,7 +105,7 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
 void MapDraw::drawing_enemy_range(const int& ex, const int& ey) {
 	if (current_x == ex && current_y == ey) {
 		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
-		range_import(info[22], range_11x11);
+		range_import(info[25], range_11x11);
 	}
 }
 
@@ -121,10 +122,10 @@ void MapDraw::drawing_format() {
 	                 phenomenonFlag[ice], phenomenonFlag[fog1], phenomenonFlag[fog2], phenomenonFlag[rainbow], false);
 	DrawFormatString(150, 0, GetColor(255, 255, 255), "CurMapInfo:%d",
 	                 map_20x20[current_y / block_size][current_x / block_size], false);*/
-	DrawFormatString(300, 0, GetColor(255, 255, 255), "TIME:%d", turn_timer, false);
+	/*DrawFormatString(300, 0, GetColor(255, 255, 255), "TIME:%d", turn_timer, false);
 	if (scene == NOON_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼プレイヤー", false);
 	else if (scene == NOON_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼エネミー", false);
 	else if (scene == NIGHT_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜プレイヤー", false);
-	else if (scene == NIGHT_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜エネミー", false);
+	else if (scene == NIGHT_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜エネミー", false);*/
 
 }

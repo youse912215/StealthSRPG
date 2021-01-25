@@ -63,7 +63,7 @@ void loop_process() {
 		_map->drawing_format(); //フォーマット
 
 		input.input_info(); //入力情報
-		input.update(_map->map_20x20, E_Warrior1.x, E_Warrior1.y,
+		input.update(_map->map_20x20, E_Warrior1.x, E_Warrior1.y, E_Warrior2.x, E_Warrior2.y,
 		             Bandits.x, Bandits.y); //入力更新処理
 
 		Princess.Update(Warrior1.x, Warrior1.y, Warrior2.x, Warrior2.y,

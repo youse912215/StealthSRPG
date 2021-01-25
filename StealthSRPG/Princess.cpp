@@ -40,12 +40,12 @@ void Princess::Draw() {
 		              block_size, block_size,
 		              this->graph, true, false);
 	}
-	DrawFormatString(0, 145, GetColor(0, 0, 0), "•P(%d, %d)",
+	/*DrawFormatString(0, 145, GetColor(0, 0, 0), "•P(%d, %d)",
 	                 this->x / block_size, this->y / block_size, false);
 	DrawFormatString(0, 160, GetColor(255, 0, 0), "Fl:%d,Ac:%d",
 	                 moving_flag, this->activity, false);
 	DrawFormatString(0, 175, GetColor(255, 0, 0), "ox:%d,oy:%d",
-	                 old_x, old_y, false);
+	                 old_x, old_y, false);*/
 }
 
 /// <summary>
