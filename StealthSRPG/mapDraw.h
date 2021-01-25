@@ -9,7 +9,9 @@ private:
 	//int map_20x20[area_width][area_height]; //マップを格納
 	//int range_11x11[11][11]; //移動範囲を格納
 
+	int base_graph;
 	int map_graph; //マップチップ画像
+	int map_graph2;
 	int column; //行番号
 	int row; //列番号
 	int range_width; //移動範囲の横幅
@@ -21,6 +23,7 @@ private:
 	void drawing_enemy_range(const int& ex, const int& ey); //エネミーの移動範囲描画
 	void map_import(const int& map_info, vector<vector<int>>& map); //マップ読み込み
 	void range_import(const int& map_info, vector<vector<int>>& range); //移動範囲読み込み
+	void switching_map_scene();
 
 public:
 	vector<vector<int>> map_20x20;

@@ -11,6 +11,8 @@ ShadowWarrior_1::ShadowWarrior_1(int x, int y, int graph, int moving_quantity, i
 	this->moving_flag = -1;
 	this->duplication_flag[7] = {};
 	this->tracking_priority = 1;
+	old_x = 0;
+	old_y = 0;
 }
 
 void ShadowWarrior_1::Update(const int& p_x, const int& p_y, const int& sw2_x, const int& sw2_y,
@@ -19,8 +21,12 @@ void ShadowWarrior_1::Update(const int& p_x, const int& p_y, const int& sw2_x, c
 	get_latency();
 	wait_motion();
 	Draw();
-	Move();
-	Pickup();
+	if (!Input::confirmation_flag) {
+		Move();
+		Pickup();
+		get_old_node();
+		act_cancel();
+	}
 	duplicate_decision(p_x, p_y, sw2_x, sw2_y, sw3_x, sw3_y, ew1_x, ew1_y, ew2_x, ew2_y, eb1_x, eb1_y);
 }
 
@@ -116,4 +122,20 @@ void ShadowWarrior_1::get_survival_activity() {
 	this->isAlive = false; //¶‘¶ó‘Ô‚ðfalse
 	this->x = -1;
 	this->y = -1;
+}
+
+void ShadowWarrior_1::get_old_node() {
+	if (moving_flag == -1 && !this->activity) {
+		old_x = this->x;
+		old_y = this->y;
+	}
+}
+
+void ShadowWarrior_1::act_cancel() {
+	if (input.keys[KEY_INPUT_X] && !input.oldkeys[KEY_INPUT_X]
+		&& this->activity && Map::scene % 2 == 0) {
+		this->x = old_x;
+		this->y = old_y;
+		this->activity = false;
+	}
 }

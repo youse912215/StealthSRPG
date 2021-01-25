@@ -27,5 +27,5 @@ void window_out_loop() {
 
 void window_in_roop() {
 	ScreenFlip(); //(ダブルバッファ)裏面
-	WaitTimer(20); //20ミリ秒待機(疑似60FPS)
+	WaitTimer(5); //20ミリ秒待機(疑似60FPS)
 }

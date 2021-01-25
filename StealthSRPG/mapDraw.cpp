@@ -11,6 +11,7 @@ MapDraw::MapDraw() : info{
                      map_20x20(area_height, vector<int>(area_width)),
                      range_11x11(11, vector<int>(11)) {
 	map_graph = LoadGraph("Source/Map/mapchips.png"); //マップチップ画像
+	map_graph2 = LoadGraph("Source/Map/mapchips2.png"); //マップチップ画像
 	column = 0; //行番号
 	row = 0; //列番号
 	map_width = map_20x20.at(0).size();
@@ -19,26 +20,28 @@ MapDraw::MapDraw() : info{
 	range_height = range_11x11.size();
 	draw_range_x = range_x - 5 * block_size;
 	draw_range_y = range_y - 9 * block_size;
+	base_graph = 0;
 }
 
 MapDraw::~MapDraw() {
 	DeleteGraph(map_graph);
+	DeleteGraph(map_graph2);
 }
 
 void MapDraw::map_import(const int& map_info, vector<vector<int>>& map) {
-
 	get_map_info(&column, &row, map_info); //マップ情報から列と行を取り出す
 	//マップの描画
 	for (int y = 0; y < map_height; y++) {
 		for (int x = 0; x < map_width; x++) {
 			//map_infoのチップをdestの位置に描画
 			if (map[y][x] == map_info) {
+
 				DrawRectGraph(
 					x * block_size - qx,
 					y * block_size - qy - init_position,
 					column * block_size, row * block_size,
 					block_size, block_size,
-					map_graph, true, false);
+					base_graph, true, false);
 			}
 		}
 	}
@@ -52,6 +55,7 @@ void MapDraw::range_import(const int& map_info, vector<vector<int>>& range) {
 		for (int x = 0; x < range_width; x++) {
 			//map_infoのチップをdestの位置に描画
 			if (range[y][x] == map_info) {
+
 				DrawRectGraph(
 					x * block_size - qx + draw_range_x,
 					y * block_size - qy + draw_range_y,
@@ -63,6 +67,10 @@ void MapDraw::range_import(const int& map_info, vector<vector<int>>& range) {
 	}
 }
 
+void MapDraw::switching_map_scene() {
+	base_graph = scene < NIGHT_PLAY ? map_graph : map_graph2;
+}
+
 
 /// <summary>
 /// マップ関係を描画
@@ -71,6 +79,7 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
                           const int& ew2_x, const int& ew2_y,
                           const int& eb1_x, const int& eb1_y) {
 	map_file_import(map_20x20, mapcsv_file, 0, MAP);
+	switching_map_scene();
 
 	for (int i = 0; i != info.size(); i++) {
 		map_import(info[i], map_20x20);
@@ -112,10 +121,10 @@ void MapDraw::drawing_format() {
 	                 phenomenonFlag[ice], phenomenonFlag[fog1], phenomenonFlag[fog2], phenomenonFlag[rainbow], false);
 	DrawFormatString(150, 0, GetColor(255, 255, 255), "CurMapInfo:%d",
 	                 map_20x20[current_y / block_size][current_x / block_size], false);*/
-	/*DrawFormatString(300, 0, GetColor(255, 255, 255), "TIME:%d", turn_timer, false);
+	DrawFormatString(300, 0, GetColor(255, 255, 255), "TIME:%d", turn_timer, false);
 	if (scene == NOON_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼プレイヤー", false);
 	else if (scene == NOON_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼エネミー", false);
 	else if (scene == NIGHT_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜プレイヤー", false);
-	else if (scene == NIGHT_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜エネミー", false);*/
+	else if (scene == NIGHT_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜エネミー", false);
 
 }

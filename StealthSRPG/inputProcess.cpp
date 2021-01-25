@@ -35,7 +35,7 @@ void Input::time_change() {
 		&& Map::scene % 2 == 0 && !MapUI::UI_flag) {
 		confirmation_flag = true;
 	}
-	else if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE] && MapUI::blend_time >= CONFIRMATION_TIME) {
+	else if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z] && MapUI::blend_time >= CONFIRMATION_TIME) {
 		MapUI::UI_flag = false;
 	}
 

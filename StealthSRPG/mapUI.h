@@ -20,7 +20,7 @@ public:
 private:
 	int x;
 	int y;
-	int background;
+	int background_black;
 	vector<int> UI_graph;
 	int end;
 	int yes;
@@ -28,10 +28,13 @@ private:
 	int red;
 	int status;
 	int life;
+	int sun;
+	int moon;
 	int status_size_x;
 	int status_size_y;
 
 	void reset_blend();
 	void drawing_blend(const int& graph_num);
 	void drawing_comfirmation();
+	void drawing_scene_symbol();
 };

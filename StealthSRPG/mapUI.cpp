@@ -15,13 +15,15 @@ MapUI::MapUI() : UI_graph{
 	} {
 	x = 240;
 	y = 220;
-	background = LoadGraph("Source/UI/background.png");
+	background_black = LoadGraph("Source/UI/background.png");
 	end = LoadGraph("Source/UI/end_the_turn.png");
 	yes = LoadGraph("Source/UI/Yes.png");
 	no = LoadGraph("Source/UI/No.png");
 	red = LoadGraph("Source/UI/red.png");
 	status = LoadGraph("Source/UI/Status.png");
 	life = LoadGraph("Source/UI/Life.png");
+	sun = LoadGraph("Source/UI/sun256.png");
+	moon = LoadGraph("Source/UI/moon256.png");
 	status_size_x = 240;
 	status_size_y = 128;
 }
@@ -31,27 +33,30 @@ MapUI::~MapUI() {
 	DeleteGraph(UI_graph[1]);
 	DeleteGraph(UI_graph[2]);
 	DeleteGraph(UI_graph[3]);
-	DeleteGraph(background);
+	DeleteGraph(background_black);
 	DeleteGraph(end);
 	DeleteGraph(yes);
 	DeleteGraph(no);
 	DeleteGraph(red);
+	DeleteGraph(sun);
+	DeleteGraph(moon);
 }
 
 void MapUI::update() {
+	drawing_scene_symbol();
 
 	if (UI_flag) {
 		drawing_blend(scene);
-		blend_time += 5;
+		blend_time += 10;
 	}
 	else
 		reset_blend();
 
+	if (blend_time > 300) UI_flag = false;
+
 	if (turn_timer == ENEMY_TURN_TIME) UI_flag = true;
 
 	if (Input::confirmation_flag) drawing_comfirmation();
-
-	//DrawFormatString(0, 300, GetColor(255, 255, 255), "bT:%d, UF:%d", blend_time, UI_flag, false);
 }
 
 void MapUI::reset_blend() {
@@ -59,23 +64,42 @@ void MapUI::reset_blend() {
 }
 
 void MapUI::drawing_blend(const int& graph_num) {
-	DrawGraph(0, 0, background, true);
+	DrawGraph(0, 0, background_black, true);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, blend_time);
 	DrawGraph(x, y, UI_graph[graph_num], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void MapUI::drawing_comfirmation() {
-	DrawGraph(0, 0, background, true);
+	DrawGraph(0, 0, background_black, true);
 	DrawGraph(x, y, end, true);
 	DrawGraph((WIN_WIDTH / 2) - 160, y + 64, yes, true);
 	DrawGraph((WIN_WIDTH / 2) + 40, y + 64, no, true);
 }
 
+void MapUI::drawing_scene_symbol() {
+	if (scene < NIGHT_PLAY)
+		DrawGraph(-96, -96, sun, true);
+	else {
+		DrawGraph(-96, -96, moon, true);
+	}
+}
+
 void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp,
                                 const bool& p_alive, const bool& sw1_alive, const bool& sw2_alive,
                                 const bool& sw3_alive) {
-	DrawGraph(0, WIN_HEIGHT - 128, status, true);
+	DrawRectGraph(0, WIN_HEIGHT - 128,
+	              0, 0, status_size_x, status_size_y,
+	              status, true, false);
+	DrawRectGraph(status_size_x, WIN_HEIGHT - 128,
+	              status_size_x, 0, status_size_x, status_size_y,
+	              status, true, false);
+	DrawRectGraph(status_size_x * 2, WIN_HEIGHT - 128,
+	              status_size_x, 0, status_size_x, status_size_y,
+	              status, true, false);
+	DrawRectGraph(status_size_x * 3, WIN_HEIGHT - 128,
+	              status_size_x, 0, status_size_x, status_size_y,
+	              status, true, false);
 
 	if (p_alive) {
 		DrawRectGraph(status_size_x * 0, WIN_HEIGHT - status_size_y,

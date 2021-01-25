@@ -2,8 +2,8 @@
 #include "DxLib.h"
 #include "constant.h"
 
-int Cursor::current_x = block_size * 9;
-int Cursor::current_y = block_size * 9;
+int Cursor::current_x = block_size * 8;
+int Cursor::current_y = block_size * 8;
 int Cursor::range_x = 0;
 int Cursor::range_y = 0;
 int Cursor::range_flag = -1;

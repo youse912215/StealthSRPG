@@ -10,6 +10,8 @@ Princess::Princess(int x, int y, int graph, int moving_quantity, int hp, int ran
 	this->moving_flag = -1;
 	this->duplication_flag[7] = {};
 	this->tracking_priority = 0;
+	old_x = 0;
+	old_y = 0;
 }
 
 void Princess::Update(const int& sw1_x, const int& sw1_y, const int& sw2_x, const int& sw2_y,
@@ -18,8 +20,12 @@ void Princess::Update(const int& sw1_x, const int& sw1_y, const int& sw2_x, cons
 	get_latency();
 	wait_motion();
 	Draw();
-	Move();
-	Pickup();
+	if (!Input::confirmation_flag) {
+		Move();
+		Pickup();
+		get_old_node();
+		act_cancel();
+	}
 	duplicate_decision(sw1_x, sw1_y, sw2_x, sw2_y, sw3_x, sw3_y, ew1_x, ew1_y, ew2_x, ew2_y, eb1_x, eb1_y);
 }
 
@@ -34,12 +40,12 @@ void Princess::Draw() {
 		              block_size, block_size,
 		              this->graph, true, false);
 	}
-	/*DrawFormatString(0, 45, GetColor(0, 0, 0), "•P(%d, %d)",
+	DrawFormatString(0, 145, GetColor(0, 0, 0), "•P(%d, %d)",
 	                 this->x / block_size, this->y / block_size, false);
-	DrawFormatString(0, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
+	DrawFormatString(0, 160, GetColor(255, 0, 0), "Fl:%d,Ac:%d",
 	                 moving_flag, this->activity, false);
-	DrawFormatString(0, 75, GetColor(255, 0, 0), "De%d,Hp%d",
-	                 this->isAlive, this->hp, false);*/
+	DrawFormatString(0, 175, GetColor(255, 0, 0), "ox:%d,oy:%d",
+	                 old_x, old_y, false);
 }
 
 /// <summary>
@@ -115,4 +121,20 @@ void Princess::get_survival_activity() {
 	this->isAlive = false; //¶‘¶ó‘Ô‚ðfalse
 	this->x = -1;
 	this->y = -1;
+}
+
+void Princess::get_old_node() {
+	if (moving_flag == -1 && !this->activity) {
+		old_x = this->x;
+		old_y = this->y;
+	}
+}
+
+void Princess::act_cancel() {
+	if (input.keys[KEY_INPUT_X] && !input.oldkeys[KEY_INPUT_X]
+		&& this->activity && Map::scene % 2 == 0) {
+		this->x = old_x;
+		this->y = old_y;
+		this->activity = false;
+	}
 }

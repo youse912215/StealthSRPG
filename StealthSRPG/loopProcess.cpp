@@ -21,22 +21,22 @@ void loop_process() {
 	Input input;
 
 	Princess Princess(
-		block_size * 8, block_size * 7,
+		block_size * 8, block_size * 8,
 		LoadGraph("Source/Charactor/Player/princess.png"),
 		block_size, 4, 4, false, true, input);
 
 	ShadowWarrior_1 Warrior1(
-		block_size * 8, block_size * 8,
+		block_size * 8, block_size * 9,
 		LoadGraph("Source/Charactor/Player/princess.png"),
 		block_size, 6, 3, false, true, input);
 
 	ShadowWarrior_2 Warrior2(
-		block_size * 9, block_size * 7,
+		block_size * 9, block_size * 8,
 		LoadGraph("Source/Charactor/Player/princess.png"),
 		block_size, 6, 3, false, true, input);
 
 	ShadowWarrior_3 Warrior3(
-		block_size * 7, block_size * 7,
+		block_size * 7, block_size * 8,
 		LoadGraph("Source/Charactor/Player/princess.png"),
 		block_size, 6, 3, false, true, input);
 
@@ -44,7 +44,7 @@ void loop_process() {
 	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
 	                          block_size, 3, 3, 50, false, true);
 
-	EnemyWarrior_2 E_Warrior2(block_size * 10, block_size * 12,
+	EnemyWarrior_2 E_Warrior2(block_size * 10, block_size * 13,
 	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
 	                          block_size, 3, 3, 80, false, true);
 

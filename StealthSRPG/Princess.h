@@ -20,6 +20,9 @@ public:
 	void Dead(vector<vector<int>>& map);
 
 private:
+	int old_x;
+	int old_y;
+
 	void Pickup();
 	void pickup_switching() override;
 	void duplicate_decision(const int& sw1_x, const int& sw1_y, const int& sw2_x, const int& sw2_y,
@@ -27,4 +30,6 @@ private:
 	                        const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y);
 	void Move();
 	void get_survival_activity();
+	void get_old_node();
+	void act_cancel();
 };
