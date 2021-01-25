@@ -75,6 +75,30 @@ void Infomation::get_map_info(int* column, int* row, const int& map_info) {
 		*column = 0;
 		*row = 9;
 		break;
+	case LAND_RIGHT_BOT2:
+		*column = 8;
+		*row = 2;
+		break;
+	case LAND_LEFT_BOT2:
+		*column = 9;
+		*row = 2;
+		break;
+	case LAND_RIGHT_TOP2:
+		*column = 10;
+		*row = 2;
+		break;
+	case LAND_LEFT_TOP2:
+		*column = 11;
+		*row = 2;
+		break;
+	case LAND_OBLIQUE1:
+		*column = 12;
+		*row = 2;
+		break;
+	case LAND_OBLIQUE2:
+		*column = 13;
+		*row = 2;
+		break;
 	case CENTER:
 		*column = 9;
 		*row = 1;

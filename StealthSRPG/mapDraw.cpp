@@ -5,7 +5,8 @@
 
 MapDraw::MapDraw() : info{
 	                     SEA, LAND, GOAL, TIDE, RAINBOW, BRIDGE, ICE, LAND_TOP, LAND_BOT, LAND_LEFT, LAND_RIGHT,
-	                     LAND_RIGHT_BOT, LAND_LEFT_BOT, LAND_LEFT_TOP, LAND_RIGHT_TOP, CENTER, RANGE
+	                     LAND_RIGHT_BOT, LAND_LEFT_BOT, LAND_LEFT_TOP, LAND_RIGHT_TOP, LAND_RIGHT_BOT2, LAND_LEFT_BOT2,
+	                     LAND_RIGHT_TOP2, LAND_LEFT_TOP2, LAND_OBLIQUE1, LAND_OBLIQUE2, CENTER, RANGE
                      },
                      map_20x20(area_height, vector<int>(area_width)),
                      range_11x11(11, vector<int>(11)) {
@@ -67,21 +68,23 @@ void MapDraw::range_import(const int& map_info, vector<vector<int>>& range) {
 /// マップ関係を描画
 /// </summary>
 void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
+                          const int& ew2_x, const int& ew2_y,
                           const int& eb1_x, const int& eb1_y) {
 	map_file_import(map_20x20, mapcsv_file, 0, MAP);
 
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i != info.size(); i++) {
 		map_import(info[i], map_20x20);
 	}
 
 	/* 範囲フラグがtrueのとき各プレイヤーの移動範囲を描画 */
 	if (range_flag == 1) {
 		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
-		range_import(info[15], range_11x11);
-		range_import(info[16], range_11x11);
+		range_import(info[21], range_11x11);
+		range_import(info[22], range_11x11);
 	}
 
 	drawing_enemy_range(ew1_x, ew1_y); //敵兵1
+	drawing_enemy_range(ew2_x, ew2_y); //敵兵2
 	drawing_enemy_range(eb1_x, eb1_y); //山賊1
 	booting_timer(); //タイマー起動
 }
@@ -92,7 +95,7 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
 void MapDraw::drawing_enemy_range(const int& ex, const int& ey) {
 	if (current_x == ex && current_y == ey) {
 		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
-		range_import(info[16], range_11x11);
+		range_import(info[22], range_11x11);
 	}
 }
 

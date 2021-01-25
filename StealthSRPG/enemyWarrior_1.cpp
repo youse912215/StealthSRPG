@@ -60,44 +60,44 @@ void EnemyWarrior_1::Draw() {
 	              block_size, block_size,
 	              this->graph, true, false);
 
-	DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
+	/*DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "“G•º1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
 	                 "aF%d, :aT%d", attack_activity, attack_motion, false);
-	/*DrawFormatString(710, 340, GetColor(255, 0, 255),
+	DrawFormatString(480, 340, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
-	DrawFormatString(710, 355, GetColor(255, 0, 255),
+	DrawFormatString(480, 355, GetColor(255, 0, 255),
 	                 "NoY:%d, %d, %d", node_y[UP_Y], node_y[CENTER_Y], node_y[DOWN_Y], false);
-	DrawFormatString(710, 370, GetColor(200, 255, 125),
+	DrawFormatString(480, 370, GetColor(200, 255, 125),
 	                 "rpDis:%d, %d", relative_distance[X], relative_distance[Y], false);
-	DrawFormatString(710, 385, GetColor(200, 255, 125),
+	DrawFormatString(480, 385, GetColor(200, 255, 125),
 	                 "s_v:%d, %d, %d, %d", survival_value[ENEMY_PRINCESS], survival_value[ENEMY_WARRIOR1],
 	                 survival_value[ENEMY_WARRIOR2], survival_value[ENEMY_WARRIOR3], false);
-	DrawFormatString(710, 400, GetColor(200, 255, 125), "rpCo:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 400, GetColor(200, 255, 125), "rpCo:L%d, R%d, U%d, D%d",
 	                 relative_position_cost[LEFT], relative_position_cost[RIGHT],
 	                 relative_position_cost[UP], relative_position_cost[DOWN], false);
-	DrawFormatString(710, 415, GetColor(200, 255, 125), "pHus:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 415, GetColor(200, 255, 125), "pHus:L%d, R%d, U%d, D%d",
 	                 parent_husteric[ENEMY_PRINCESS][LEFT], parent_husteric[ENEMY_PRINCESS][RIGHT],
 	                 parent_husteric[ENEMY_PRINCESS][UP], parent_husteric[ENEMY_PRINCESS][DOWN], false);
-	DrawFormatString(710, 430, GetColor(200, 255, 125), "w1Hus:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 430, GetColor(200, 255, 125), "w1Hus:L%d, R%d, U%d, D%d",
 	                 parent_husteric[ENEMY_WARRIOR1][LEFT], parent_husteric[ENEMY_WARRIOR1][RIGHT],
 	                 parent_husteric[ENEMY_WARRIOR1][UP], parent_husteric[ENEMY_WARRIOR1][DOWN], false);
-	DrawFormatString(710, 445, GetColor(200, 255, 125), "w2Hus:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 445, GetColor(200, 255, 125), "w2Hus:L%d, R%d, U%d, D%d",
 	                 parent_husteric[ENEMY_WARRIOR2][LEFT], parent_husteric[ENEMY_WARRIOR2][RIGHT],
 	                 parent_husteric[ENEMY_WARRIOR2][UP], parent_husteric[ENEMY_WARRIOR2][DOWN], false);
-	DrawFormatString(710, 460, GetColor(200, 255, 125), "w3Hus:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 460, GetColor(200, 255, 125), "w3Hus:L%d, R%d, U%d, D%d",
 	                 parent_husteric[ENEMY_WARRIOR3][LEFT], parent_husteric[ENEMY_WARRIOR3][RIGHT],
 	                 parent_husteric[ENEMY_WARRIOR3][UP], parent_husteric[ENEMY_WARRIOR3][DOWN], false);
-	DrawFormatString(710, 475, GetColor(200, 255, 125), "mHus:p%d, w%d, w%d, w%d",
+	DrawFormatString(480, 475, GetColor(200, 255, 125), "mHus:p%d, w%d, w%d, w%d",
 	                 minimum_husteric1[ENEMY_PRINCESS], minimum_husteric1[ENEMY_WARRIOR1],
 	                 minimum_husteric1[ENEMY_WARRIOR2], minimum_husteric1[ENEMY_WARRIOR3], false);
-	DrawFormatString(710, 490, GetColor(200, 255, 125), "obs_cost:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 490, GetColor(200, 255, 125), "obs_cost:L%d, R%d, U%d, D%d",
 	                 obstacle_cost[LEFT], obstacle_cost[RIGHT], obstacle_cost[UP], obstacle_cost[DOWN], false);
-	DrawFormatString(710, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
+	DrawFormatString(480, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
-	DrawFormatString(710, 520, GetColor(255, 0, 50), "score:L%d, R%d, U%d, D%d, %d",
+	DrawFormatString(480, 520, GetColor(255, 0, 50), "score:L%d, R%d, U%d, D%d, %d",
 	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);*/
 }
 

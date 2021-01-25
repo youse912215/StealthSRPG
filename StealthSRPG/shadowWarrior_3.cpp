@@ -32,7 +32,7 @@ void ShadowWarrior_3::Draw() {
 	if (this->isAlive) {
 		DrawRectGraph(this->x - current_x + block_size * 9,
 		              this->y - init_position - current_y + block_size * 9,
-		              src_x * block_size, block_size * 3,
+		              src_x * block_size, block_size,
 		              block_size, block_size,
 		              this->graph, true, false);
 	}
