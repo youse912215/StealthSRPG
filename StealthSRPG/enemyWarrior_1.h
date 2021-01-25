@@ -14,7 +14,8 @@ public:
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y);
 	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp);
-	void Move(const int& eb1_x, const int& eb1_y);
+	void Move();
+	void get_enemy_cost(const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y);
 
 private:
 	vector<int> node_x; //x方向のノード
@@ -36,6 +37,7 @@ private:
 	bool attack_activity; //攻撃状態（true:攻撃済み、false:攻撃可能）
 	vector<bool> duplication_activity; //重複状態（true:重複、false:それ以外）
 	int attack_motion;
+	vector<int> enemy_cost;
 
 	void Draw();
 	void drawing_effect1(const int& nx, const int& ny, const int& direction);
@@ -52,6 +54,7 @@ private:
 	void score_decision();
 	void moving_end();
 	void activate_reset();
-	void duplicate_process();
+	void duplicate_process(const int& dir_num);
 	void get_attack_direction(const int& player_num);
+	void get_slash_motion(const int& a_activity, int* motion);
 };

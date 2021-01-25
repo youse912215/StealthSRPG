@@ -27,5 +27,4 @@ protected:
 
 	int add_cost(const int& map_info);
 	int set_to_one(int x);
-	void get_slash_motion(const int& a_activity, int* motion);
 };

@@ -10,6 +10,7 @@
 #include "shadowWarrior_2.h"
 #include "shadowWarrior_3.h"
 #include "enemyWarrior_1.h"
+#include "enemyWarrior_2.h"
 #include "enemyBandits.h"
 #include <cstdlib>
 
@@ -43,9 +44,13 @@ void loop_process() {
 	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
 	                          block_size, 1, 3, 50, false, true);
 
+	EnemyWarrior_2 E_Warrior2(block_size * 7, block_size * 6,
+	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
+	                          block_size, 1, 3, 80, false, true);
+
 	EnemyBandits Bandits(block_size * 14, block_size * 14,
 	                     LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                     block_size, 2, 2, 100, false, true);
+	                     block_size, 2, 2, 150, false, true);
 
 	// ゲームループ
 	while (true) {
@@ -63,19 +68,19 @@ void loop_process() {
 
 		Princess.Update(Warrior1.x, Warrior1.y, Warrior2.x, Warrior2.y,
 		                Warrior3.x, Warrior3.y, E_Warrior1.x, E_Warrior1.y,
-		                Bandits.x, Bandits.y); //姫の更新処理
+		                E_Warrior2.x, E_Warrior2.y, Bandits.x, Bandits.y); //姫の更新処理
 		Princess.Dead(_map->map_20x20); //姫の死亡処理
 		Warrior1.Update(Princess.x, Princess.y, Warrior2.x, Warrior2.y,
 		                Warrior3.x, Warrior3.y, E_Warrior1.x, E_Warrior1.y,
-		                Bandits.x, Bandits.y); //影武者1の更新処理
+		                E_Warrior2.x, E_Warrior2.y, Bandits.x, Bandits.y); //影武者1の更新処理
 		Warrior1.Dead(_map->map_20x20); //姫の死亡処理
 		Warrior2.Update(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                Warrior3.x, Warrior3.y, E_Warrior1.x, E_Warrior1.y,
-		                Bandits.x, Bandits.y); //影武者2の更新処理
+		                E_Warrior2.x, E_Warrior2.y, Bandits.x, Bandits.y); //影武者2の更新処理
 		Warrior2.Dead(_map->map_20x20); //姫の死亡処理
 		Warrior3.Update(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 		                Warrior2.x, Warrior2.y, E_Warrior1.x, E_Warrior1.y,
-		                Bandits.x, Bandits.y); //影武者3の更新処理
+		                E_Warrior2.x, E_Warrior2.y, Bandits.x, Bandits.y); //影武者3の更新処理
 		Warrior3.Dead(_map->map_20x20); //姫の死亡処理
 
 		if (E_Warrior1.isAlive) {
@@ -83,20 +88,29 @@ void loop_process() {
 			                                 Warrior2.isAlive, Warrior3.isAlive);
 			E_Warrior1.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 			                                  Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			E_Warrior1.Update(_map->map_20x20); //敵兵1の更新処理
-			E_Warrior1.Move(Bandits.x, Bandits.y);
+			E_Warrior1.get_enemy_cost(E_Warrior2.x, E_Warrior2.y, Bandits.x, Bandits.y);
+			E_Warrior1.Update(_map->map_20x20); //敵兵1の更新処理	
 			E_Warrior1.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
 		}
 
+		if (E_Warrior2.isAlive) {
+			E_Warrior2.get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+			                                 Warrior2.isAlive, Warrior3.isAlive);
+			E_Warrior2.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+			                                  Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+			E_Warrior2.get_enemy_cost(E_Warrior1.x, E_Warrior1.y, Bandits.x, Bandits.y);
+			E_Warrior2.Update(_map->map_20x20); //敵兵1の更新処理
+			E_Warrior2.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
+		}
+
 		if (Bandits.isAlive) {
-			Bandits.Update(_map->map_20x20); //山賊の更新処理
 			Bandits.get_survival_activity(Princess.isAlive, Warrior1.isAlive,
 			                              Warrior2.isAlive, Warrior3.isAlive);
 			Bandits.get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 			                               Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			Bandits.Move(E_Warrior1.x, E_Warrior1.y);
+			Bandits.get_enemy_cost(E_Warrior1.x, E_Warrior1.y, E_Warrior2.x, E_Warrior2.y);
+			Bandits.Update(_map->map_20x20); //山賊の更新処理
 			Bandits.Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp);
-
 		}
 
 		Cursor* cursor = new Cursor;

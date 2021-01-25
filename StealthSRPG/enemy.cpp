@@ -27,8 +27,3 @@ int Enemy::set_to_one(int x) {
 	if (x < 0) return -1;
 	return 0;
 }
-
-void Enemy::get_slash_motion(const int& a_activity, int* motion) {
-	if (motion == nullptr) { return; }
-	*motion = a_activity ? ++*motion : -1;
-}

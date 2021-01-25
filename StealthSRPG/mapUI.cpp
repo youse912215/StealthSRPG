@@ -75,7 +75,7 @@ void MapUI::drawing_comfirmation() {
 void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp,
                                 const bool& p_alive, const bool& sw1_alive, const bool& sw2_alive,
                                 const bool& sw3_alive) {
-	DrawGraph(0, WIN_HEIGHT - 128, status, true);
+	/*DrawGraph(0, WIN_HEIGHT - 128, status, true);
 
 	if (p_alive) {
 		DrawRectGraph(status_size_x * 0, WIN_HEIGHT - status_size_y,
@@ -100,7 +100,7 @@ void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& s
 		              status_size_x * (3 - sw3_hp), 0,
 		              status_size_x, status_size_y,
 		              life, true, false);
-	}
+	}*/
 }
 
 void MapUI::yes_or_no(const bool& y_n) {

@@ -11,7 +11,8 @@ const int RANDOM_MIN = 0;
 const int RANDOM_MAX = 100;
 const int MOVEING_INTERVAL = 25;
 const int CONFIRMATION_TIME = 100;
-const int ENEMY_TURN_TIME = 180;
+const int ENEMY_TURN_TIME = 250;
+const int ENEMY_COST = 3;
 
 enum SCENE {
 	NOON_PLAY,

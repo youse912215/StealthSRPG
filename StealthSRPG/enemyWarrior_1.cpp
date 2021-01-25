@@ -19,7 +19,8 @@ EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int
 	obstacle_cost(4),
 	cost(4, 0),
 	score(4, 0),
-	duplication_activity(4) {
+	duplication_activity(4),
+	enemy_cost(4) {
 	moving_distance = 0;
 	husteric_x = 0;
 	husteric_y = 0;
@@ -46,6 +47,7 @@ void EnemyWarrior_1::Update(vector<vector<int>>& map) {
 	get_node_cost();
 	get_node_score();
 	Dead(map);
+	Move();
 }
 
 void EnemyWarrior_1::Draw() {
@@ -58,13 +60,13 @@ void EnemyWarrior_1::Draw() {
 	              block_size, block_size,
 	              this->graph, true, false);
 
-	/*DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
+	DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "“G•º1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size + 15, GetColor(0, 0, 0),
 	                 "aF%d, :aT%d", attack_activity, attack_motion, false);
-	DrawFormatString(710, 340, GetColor(255, 0, 255),
+	/*DrawFormatString(710, 340, GetColor(255, 0, 255),
 	                 "NoX:%d, %d, %d", node_x[LEFT_X], node_x[CENTER_X], node_x[RIGHT_X], false);
 	DrawFormatString(710, 355, GetColor(255, 0, 255),
 	                 "NoY:%d, %d, %d", node_y[UP_Y], node_y[CENTER_Y], node_y[DOWN_Y], false);
@@ -285,10 +287,14 @@ void EnemyWarrior_1::get_relative_position_cost() {
 }
 
 void EnemyWarrior_1::get_node_cost() {
-	cost[LEFT] = abs(node_x[CENTER_X] - node_x[LEFT_X] + obstacle_cost[LEFT] + relative_position_cost[LEFT]);
-	cost[RIGHT] = abs(node_x[CENTER_X] - node_x[RIGHT_X] + obstacle_cost[RIGHT] + relative_position_cost[RIGHT]);
-	cost[UP] = abs(node_y[CENTER_Y] - node_y[UP_Y] + obstacle_cost[UP] + relative_position_cost[UP]);
-	cost[DOWN] = abs(node_y[CENTER_Y] - node_y[DOWN_Y] + obstacle_cost[DOWN] + relative_position_cost[DOWN]);
+	cost[LEFT] = abs(
+		node_x[CENTER_X] - node_x[LEFT_X] + obstacle_cost[LEFT] + relative_position_cost[LEFT] + enemy_cost[LEFT]);
+	cost[RIGHT] = abs(
+		node_x[CENTER_X] - node_x[RIGHT_X] + obstacle_cost[RIGHT] + relative_position_cost[RIGHT] + enemy_cost[RIGHT]);
+	cost[UP] = abs(
+		node_y[CENTER_Y] - node_y[UP_Y] + obstacle_cost[UP] + relative_position_cost[UP] + enemy_cost[UP]);
+	cost[DOWN] = abs(
+		node_y[CENTER_Y] - node_y[DOWN_Y] + obstacle_cost[DOWN] + relative_position_cost[DOWN] + enemy_cost[DOWN]);
 }
 
 void EnemyWarrior_1::get_node_score() {
@@ -299,12 +305,7 @@ void EnemyWarrior_1::get_node_score() {
 	minimum_score = *min_element(score.begin(), score.end());
 }
 
-void EnemyWarrior_1::Move(const int& eb1_x, const int& eb1_y) {
-	if (this->range == moving_distance && !this->activity) {
-		if (node_x[CENTER_X] == eb1_x / block_size && node_y[CENTER_Y] == eb1_y / block_size)
-			duplicate_process();
-	}
-
+void EnemyWarrior_1::Move() {
 	if (Map::turn_timer % MOVEING_INTERVAL == 0
 		&& Map::turn_timer > 0
 		&& !this->activity) {
@@ -313,19 +314,19 @@ void EnemyWarrior_1::Move(const int& eb1_x, const int& eb1_y) {
 }
 
 void EnemyWarrior_1::moving_decision() {
-	if (minimum_score == score[DOWN] && !this->activity) {
+	if (minimum_score == score[DOWN] && !this->activity && Map::scene % 2 != 0) {
 		this->y += moving_quantity;
 		moving_distance++;
 	}
-	else if (minimum_score == score[RIGHT] && !this->activity) {
+	else if (minimum_score == score[RIGHT] && !this->activity && Map::scene % 2 != 0) {
 		this->x += moving_quantity;
 		moving_distance++;
 	}
-	else if (minimum_score == score[LEFT] && !this->activity) {
+	else if (minimum_score == score[LEFT] && !this->activity && Map::scene % 2 != 0) {
 		this->x -= moving_quantity;
 		moving_distance++;
 	}
-	else if (minimum_score == score[UP] && !this->activity) {
+	else if (minimum_score == score[UP] && !this->activity && Map::scene % 2 != 0) {
 		this->y -= moving_quantity;
 		moving_distance++;
 	}
@@ -370,6 +371,30 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	}
 }
 
+void EnemyWarrior_1::get_enemy_cost(const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
+	if (!this->activity) {
+		if ((node_x[LEFT_X] == ew2_x / block_size && node_y[CENTER_Y] == ew2_y / block_size)
+			|| (node_x[LEFT_X] == eb1_x / block_size && node_y[CENTER_Y] == eb1_y / block_size))
+			enemy_cost[LEFT] = ENEMY_COST;
+		else enemy_cost[LEFT] = 0;
+
+		if ((node_x[RIGHT_X] == ew2_x / block_size && node_y[CENTER_Y] == ew2_y / block_size)
+			|| (node_x[RIGHT_X] == eb1_x / block_size && node_y[CENTER_Y] == eb1_y / block_size))
+			enemy_cost[RIGHT] = ENEMY_COST;
+		else enemy_cost[RIGHT] = 0;
+
+		if ((node_x[CENTER_X] == ew2_x / block_size && node_y[UP_Y] == ew2_y / block_size)
+			|| (node_x[CENTER_X] == eb1_x / block_size && node_y[UP_Y] == eb1_y / block_size))
+			enemy_cost[UP] = ENEMY_COST;
+		else enemy_cost[UP] = 0;
+
+		if ((node_x[CENTER_X] == ew2_x / block_size && node_y[DOWN_Y] == ew2_y / block_size)
+			|| (node_x[CENTER_X] == eb1_x / block_size && node_y[DOWN_Y] == eb1_y / block_size))
+			enemy_cost[DOWN] = ENEMY_COST;
+		else enemy_cost[DOWN] = 0;
+	}
+}
+
 void EnemyWarrior_1::Dead(vector<vector<int>>& map) {
 	if (map[this->y / block_size][this->x / block_size] == TIDE
 		&& Map::scene == NIGHT_PLAY) {
@@ -401,23 +426,8 @@ void EnemyWarrior_1::activate_reset() {
 	}
 }
 
-void EnemyWarrior_1::duplicate_process() {
-	if (minimum_score == score[DOWN] && !duplication_activity[DOWN]) {
-		this->y -= moving_quantity;
-		duplication_activity[DOWN] = true;
-	}
-	else if (minimum_score == score[RIGHT] && !duplication_activity[RIGHT]) {
-		this->x -= moving_quantity;
-		duplication_activity[RIGHT] = true;
-	}
-	else if (minimum_score == score[LEFT] && !duplication_activity[LEFT]) {
-		this->x += moving_quantity;
-		duplication_activity[LEFT] = true;
-	}
-	else if (minimum_score == score[UP] && !duplication_activity[UP]) {
-		this->y += moving_quantity;
-		duplication_activity[UP] = true;
-	}
+void EnemyWarrior_1::duplicate_process(const int& dir_num) {
+	enemy_cost[dir_num] = 2;
 }
 
 void EnemyWarrior_1::get_attack_direction(const int& player_num) {
@@ -433,4 +443,9 @@ void EnemyWarrior_1::get_attack_direction(const int& player_num) {
 	else if (minimum_husteric2 == parent_husteric[player_num][DOWN]) {
 		drawing_effect1(CENTER_X, DOWN_Y, DOWN);
 	}
+}
+
+void EnemyWarrior_1::get_slash_motion(const int& a_activity, int* motion) {
+	if (motion == nullptr) { return; }
+	*motion = a_activity ? ++*motion : -1;
 }
