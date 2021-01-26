@@ -13,6 +13,8 @@ private:
 	string map_confirmation(const int& num, const int& num2, string& csv); //csv‚Ì–¼‘O‚ğ•ÏX
 
 protected:
+	const int ENEMY_TURN_TIME = 180;
+
 	void booting_timer();
 
 public:

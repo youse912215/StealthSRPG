@@ -8,6 +8,7 @@ public:
 	bool activity; //行動状態（trueなら行動済み）
 	bool isAlive;
 	int act_time;
+	static int act_order;
 
 	Enemy(int x, int y, int graph, int moving_quantity, int attack, int range,
 	      int act_time, bool activity, bool isAlive);
@@ -27,4 +28,5 @@ protected:
 
 	int add_cost(const int& map_info);
 	int set_to_one(int x);
+	void reset_act_order();
 };

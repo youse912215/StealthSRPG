@@ -1,6 +1,7 @@
 #include "Cursor.h"
 #include "DxLib.h"
 #include "constant.h"
+#include "enemy.h"
 
 int Cursor::current_x = block_size * 8;
 int Cursor::current_y = block_size * 8;
@@ -27,7 +28,26 @@ void Cursor::update() {
 	Rangelimit();
 }
 
-void Cursor::move() {
+void Cursor::move(const int& p_x, const int& p_y, const int& ew1_x, const int& ew1_y, const int& ew2_x,
+                  const int& ew2_y, const int& eb1_x, const int& eb1_y) {
+	switch (Enemy::act_order) {
+	case WARRIOR1:
+		current_x = ew1_x;
+		current_y = ew1_y;
+		break;
+	case WARRIOR2:
+		current_x = ew2_x;
+		current_y = ew2_y;
+		break;
+	case BANDITS1:
+		current_x = eb1_x;
+		current_y = eb1_y;
+		break;
+	default:
+		current_x = p_x;
+		current_y = p_y;
+		break;
+	}
 
 }
 

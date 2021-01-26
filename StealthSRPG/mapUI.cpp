@@ -3,6 +3,7 @@
 #include "mapAll.h"
 #include "inputProcess.h"
 #include "constant.h"
+#include "enemy.h"
 
 int MapUI::blend_time = 0;
 bool MapUI::UI_flag = true;
@@ -54,7 +55,7 @@ void MapUI::update() {
 
 	if (blend_time > 300) UI_flag = false;
 
-	if (turn_timer == ENEMY_TURN_TIME) UI_flag = true;
+	if (Enemy::act_order == END) UI_flag = true;
 
 	if (Input::confirmation_flag) drawing_comfirmation();
 }

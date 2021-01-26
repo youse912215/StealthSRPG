@@ -15,11 +15,12 @@ public:
 	Cursor();
 	~Cursor();
 	void update();
+	void move(const int& p_x, const int& p_y, const int& ew1_x, const int& ew1_y, const int& ew2_x, const int& ew2_y,
+	          const int& eb1_x, const int& eb1_y);
 
 private:
 	int disp_x;
 	int disp_y;
-	void move();
 	void pick();
 	void draw();
 	void Rangelimit();

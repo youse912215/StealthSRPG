@@ -40,7 +40,7 @@ void loop_process() {
 		LoadGraph("Source/Charactor/Player/princess.png"),
 		block_size, 6, 3, false, true, input);
 
-	EnemyWarrior_1 E_Warrior1(block_size * 6, block_size * 12,
+	EnemyWarrior_1 E_Warrior1(block_size * 5, block_size * 12,
 	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
 	                          block_size, 3, 3, 50, false, true);
 
@@ -115,14 +115,19 @@ void loop_process() {
 
 		Cursor* cursor = new Cursor;
 		cursor->update();
+		if (Map::scene % 2 != 0) {
+			cursor->move(Princess.x, Princess.y, E_Warrior1.x, E_Warrior1.y,
+			             E_Warrior2.x, E_Warrior2.y, Bandits.x, Bandits.y);
+		}
 
 		if (_map->map_20x20[(Princess.y / block_size)][(Princess.x / block_size)] == GOAL
 			&& Princess.moving_flag == -1)
 			break;
 
-		DrawFormatString(700, 15, GetColor(255, 255, 255), " Z:プレイヤー選択", false);
+		DrawFormatString(700, 0, GetColor(255, 0, 255), "ao:%d", Enemy::act_order, false);
+		/*DrawFormatString(700, 15, GetColor(255, 255, 255), " Z:プレイヤー選択", false);
 		DrawFormatString(700, 30, GetColor(255, 255, 255), " SPACE:次フェイスへ", false);
-		DrawFormatString(700, 45, GetColor(255, 255, 255), " ARROW:1マス移動", false);
+		DrawFormatString(700, 45, GetColor(255, 255, 255), " ARROW:1マス移動", false);*/
 		/*DrawFormatString(0, 60, GetColor(255, 255, 255), "Hp:%d, %d, %d, %d",
 		                 Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp, false);
 		DrawFormatString(300, 15, GetColor(0, 200, 0), "%d", Princess.latency, false);*/

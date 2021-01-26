@@ -19,13 +19,13 @@ void Princess::Update(const int& sw1_x, const int& sw1_y, const int& sw2_x, cons
                       const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
 	get_latency();
 	wait_motion();
-	Draw();
 	if (!Input::confirmation_flag) {
 		Move();
 		Pickup();
 		get_old_node();
 		act_cancel();
 	}
+	Draw();
 	duplicate_decision(sw1_x, sw1_y, sw2_x, sw2_y, sw3_x, sw3_y, ew1_x, ew1_y, ew2_x, ew2_y, eb1_x, eb1_y);
 }
 

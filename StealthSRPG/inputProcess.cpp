@@ -147,8 +147,14 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 		collision_flag[LEFT] = true;
 	}
 	else if (map[(current_y / block_size)][(current_x / block_size) - 1] == TIDE
-		&& Map::scene >= NIGHT_PLAY && range_flag == 1) {
+		&& Map::scene == NIGHT_PLAY && range_flag == 1) {
 		//–ž’ª‚Ì‚Æ‚«
+		collision_flag[LEFT] = true;
+	}
+	else if ((map[(current_y / block_size)][(current_x / block_size) - 1] == ICE_LAND
+			|| map[(current_y / block_size)][(current_x / block_size) - 1] == ICE_SEA)
+		&& Map::scene == NOON_PLAY && range_flag == 1) {
+		//•XŒŠ‚Ì‚Æ‚«
 		collision_flag[LEFT] = true;
 	}
 	else if (current_x - block_size == ew1_x && current_y == ew1_y && range_flag == 1) {
@@ -173,8 +179,14 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 		collision_flag[RIGHT] = true;
 	}
 	else if (map[(current_y / block_size)][(current_x / block_size) + 1] == TIDE
-		&& Map::scene >= NIGHT_PLAY && range_flag == 1) {
+		&& Map::scene == NIGHT_PLAY && range_flag == 1) {
 		//–ž’ª‚Ì‚Æ‚«
+		collision_flag[RIGHT] = true;
+	}
+	else if ((map[(current_y / block_size)][(current_x / block_size) + 1] == ICE_LAND
+			|| map[(current_y / block_size)][(current_x / block_size) + 1] == ICE_SEA)
+		&& Map::scene == NOON_PLAY && range_flag == 1) {
+		//•XŒŠ‚Ì‚Æ‚«
 		collision_flag[RIGHT] = true;
 	}
 	else if (current_x + block_size == ew1_x && current_y == ew1_y && range_flag == 1) {
@@ -199,8 +211,14 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 		collision_flag[UP] = true;
 	}
 	else if (map[(current_y / block_size) - 1][(current_x / block_size)] == TIDE
-		&& Map::scene >= NIGHT_PLAY && range_flag == 1) {
+		&& Map::scene == NIGHT_PLAY && range_flag == 1) {
 		//–ž’ª‚Ì‚Æ‚«
+		collision_flag[UP] = true;
+	}
+	else if ((map[(current_y / block_size) - 1][(current_x / block_size)] == ICE_LAND
+			|| map[(current_y / block_size) - 1][(current_x / block_size)] == ICE_SEA)
+		&& Map::scene == NOON_PLAY && range_flag == 1) {
+		//•XŒŠ‚Ì‚Æ‚«
 		collision_flag[UP] = true;
 	}
 	else if (current_x == ew1_x && current_y - block_size == ew1_y && range_flag == 1) {
@@ -225,8 +243,14 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 		collision_flag[DOWN] = true;
 	}
 	else if (map[(current_y / block_size) + 1][(current_x / block_size)] == TIDE
-		&& Map::scene >= NIGHT_PLAY && range_flag == 1) {
+		&& Map::scene == NIGHT_PLAY && range_flag == 1) {
 		//–ž’ª‚Ì‚Æ‚«
+		collision_flag[DOWN] = true;
+	}
+	else if ((map[(current_y / block_size) + 1][(current_x / block_size)] == ICE_LAND
+			|| map[(current_y / block_size) + 1][(current_x / block_size)] == ICE_SEA)
+		&& Map::scene == NOON_PLAY && range_flag == 1) {
+		//•XŒŠ‚Ì‚Æ‚«
 		collision_flag[DOWN] = true;
 	}
 	else if (current_x == ew1_x && current_y + block_size == ew1_y && range_flag == 1) {

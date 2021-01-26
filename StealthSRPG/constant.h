@@ -9,16 +9,27 @@ const int area_height = 20;
 const int init_position = block_size * 4; //初期位置
 const int RANDOM_MIN = 0;
 const int RANDOM_MAX = 100;
-const int MOVEING_INTERVAL = 25;
+const int MOVING_INTERVAL = 15;
 const int CONFIRMATION_TIME = 100;
-const int ENEMY_TURN_TIME = 250;
 const int ENEMY_COST = 3;
 
-enum SCENE {
+enum MAP_SCENE {
 	NOON_PLAY,
 	NOON_ENEMY,
 	NIGHT_PLAY,
 	NIGHT_ENEMY
+};
+
+enum GAME_SCENE {
+	TUTORIAL,
+	STAGE1,
+	STAGE2,
+	TITLE,
+	DESCRIPTION1,
+	DESCRIPTION2,
+	GAME_PLAY,
+	GAME_RESULT,
+	GAME_HELP
 };
 
 //--- マップチップ名称 ---//
@@ -111,4 +122,11 @@ enum NODE_Y {
 enum XY {
 	X,
 	Y
+};
+
+enum ACT_ORDER {
+	WARRIOR1,
+	WARRIOR2,
+	BANDITS1,
+	END = 99
 };

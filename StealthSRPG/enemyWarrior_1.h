@@ -57,4 +57,5 @@ private:
 	void duplicate_process(const int& dir_num);
 	void get_attack_direction(const int& player_num);
 	void get_slash_motion(const int& a_activity, int* motion);
+	void forward_act_order();
 };

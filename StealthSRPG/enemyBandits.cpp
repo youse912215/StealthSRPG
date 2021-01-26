@@ -47,7 +47,7 @@ void EnemyBandits::Update(vector<vector<int>>& map) {
 	get_node_cost();
 	get_node_score();
 	Dead(map);
-	Move();
+	if (act_order == BANDITS1) Move();
 }
 
 void EnemyBandits::Draw() {
@@ -229,28 +229,32 @@ void EnemyBandits::get_node_husteric() {
 void EnemyBandits::get_obstacle_cost(vector<vector<int>>& map) {
 	/* 左側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[LEFT_X]] == SEA
-		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == TIDE && Map::scene >= 2)) {
+		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == TIDE && Map::scene >= 2)
+		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == ICE_LAND && Map::scene <= 1)) {
 		obstacle_cost[LEFT] = 10;
 	}
 	else obstacle_cost[LEFT] = 0;
 
 	/* 右側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == SEA
-		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == TIDE && Map::scene >= 2)) {
+		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == TIDE && Map::scene >= 2)
+		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == ICE_LAND && Map::scene <= 1)) {
 		obstacle_cost[RIGHT] = 10;
 	}
 	else obstacle_cost[RIGHT] = 0;
 
 	/* 上側のコスト */
 	if (map[node_y[UP_Y]][node_x[CENTER_X]] == SEA
-		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)) {
+		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)
+		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == ICE_LAND && Map::scene <= 1)) {
 		obstacle_cost[UP] = 10;
 	}
 	else obstacle_cost[UP] = 0;
 
 	/* 下側のコスト */
 	if (map[node_y[DOWN_Y]][node_x[CENTER_X]] == SEA
-		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)) {
+		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)
+		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == ICE_LAND && Map::scene <= 1)) {
 		obstacle_cost[DOWN] = 10;
 	}
 	else obstacle_cost[DOWN] = 0;
@@ -306,8 +310,8 @@ void EnemyBandits::get_node_score() {
 }
 
 void EnemyBandits::Move() {
-	if (Map::turn_timer % MOVEING_INTERVAL == 0
-		&& Map::turn_timer > this->act_time
+	if (Map::turn_timer % MOVING_INTERVAL == 0
+		&& Map::turn_timer > 0
 		&& !this->activity) {
 		moving_decision();
 	}
@@ -335,7 +339,7 @@ void EnemyBandits::moving_decision() {
 void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (activity && !attack_activity && Map::scene % 2 != 0 && Map::turn_timer > this->act_time) {
+	if (activity && !attack_activity && Map::scene % 2 != 0 && act_order == BANDITS1) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
@@ -369,6 +373,7 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			this->activity = true;
 		}
 	}
+	forward_act_order();
 }
 
 void EnemyBandits::get_enemy_cost(const int& ew1_x, const int& ew1_y, const int& ew2_x, const int& ew2_y) {
@@ -450,4 +455,8 @@ void EnemyBandits::get_attack_direction(const int& player_num) {
 void EnemyBandits::get_slash_motion(const int& a_activity, int* motion) {
 	if (motion == nullptr) { return; }
 	*motion = a_activity ? ++*motion : -1;
+}
+
+void EnemyBandits::forward_act_order() {
+	if (this->activity && act_order == BANDITS1) act_order = END;
 }

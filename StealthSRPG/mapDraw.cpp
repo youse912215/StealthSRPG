@@ -79,7 +79,7 @@ void MapDraw::switching_map_scene() {
 void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
                           const int& ew2_x, const int& ew2_y,
                           const int& eb1_x, const int& eb1_y) {
-	map_file_import(map_20x20, mapcsv_file, 1, MAP);
+	map_file_import(map_20x20, mapcsv_file, 0, MAP);
 	switching_map_scene();
 
 	for (int i = 0; i != info.size(); i++) {
@@ -93,9 +93,11 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
 		range_import(info[25], range_11x11);
 	}
 
-	drawing_enemy_range(ew1_x, ew1_y); //敵兵1
-	drawing_enemy_range(ew2_x, ew2_y); //敵兵2
-	drawing_enemy_range(eb1_x, eb1_y); //山賊1
+	if (scene % 2 == 0) {
+		drawing_enemy_range(ew1_x, ew1_y); //敵兵1
+		drawing_enemy_range(ew2_x, ew2_y); //敵兵2
+		drawing_enemy_range(eb1_x, eb1_y); //山賊1
+	}
 	booting_timer(); //タイマー起動
 }
 
