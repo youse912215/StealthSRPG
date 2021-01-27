@@ -2,7 +2,7 @@
 #include "constant.h"
 
 // ウィンドウのタイトルに表示する文字列
-const char TITLE[] = "Stealth test";
+const char TITLE[] = "表裏一体 -Day and Night-";
 
 void window_out_loop() {
 	// ウィンドウモードに設定

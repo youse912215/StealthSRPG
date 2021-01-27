@@ -25,6 +25,6 @@ public:
 
 	Input();
 	void input_info();
-	void update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
-	            const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y);
+	void map_scene_update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
+	                      const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y);
 };

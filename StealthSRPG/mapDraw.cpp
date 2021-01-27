@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "cursor.h"
 #include "constant.h"
+#include "sceneTransition.h"
 
 MapDraw::MapDraw() : info{
 	                     SEA, LAND, GOAL, TIDE, RAINBOW_WIDTH, RAINBOW_HEIGHT, BRIDGE_WIDTH, BRIDGE_HEIGHT, ICE_LAND,
@@ -79,6 +80,7 @@ void MapDraw::switching_map_scene() {
 void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
                           const int& ew2_x, const int& ew2_y,
                           const int& eb1_x, const int& eb1_y) {
+
 	map_file_import(map_20x20, mapcsv_file, 0, MAP);
 	switching_map_scene();
 
@@ -99,6 +101,8 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
 		drawing_enemy_range(eb1_x, eb1_y); //山賊1
 	}
 	booting_timer(); //タイマー起動
+	drawing_format();
+
 }
 
 /// <summary>

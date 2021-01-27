@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\Map">
-      <UniqueIdentifier>{007b1a1d-9d86-407b-96c1-e1e6490732f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Main">
       <UniqueIdentifier>{c7ddaffe-5ee7-4252-8cab-fd2c353ffb0b}</UniqueIdentifier>
     </Filter>
@@ -33,9 +30,6 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\System">
       <UniqueIdentifier>{d2e6e653-6d36-497f-b22b-4db91dee730a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Map">
-      <UniqueIdentifier>{5ed1e827-9814-4653-90df-6a3dbbcfd856}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Cursor">
       <UniqueIdentifier>{a72eeece-bbaa-4085-9ff3-3f7000ee0931}</UniqueIdentifier>
@@ -61,16 +55,40 @@
     <Filter Include="ソース ファイル\Random">
       <UniqueIdentifier>{da2a8628-7ddc-492d-a6aa-09b4b31aebee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Scene">
+      <UniqueIdentifier>{156ece3d-860b-4d15-aade-494a4ce52bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{66e67e86-fde2-49b4-9229-1a3719993e1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Charactor\Draw">
+      <UniqueIdentifier>{d5cce037-052f-4b77-97b5-ca8e63eec38b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Charactor\Draw\Map">
+      <UniqueIdentifier>{5ed1e827-9814-4653-90df-6a3dbbcfd856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Charactor\Draw">
+      <UniqueIdentifier>{555091a5-13b1-4316-87c1-b6944d09b97f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Charactor\Draw\Map">
+      <UniqueIdentifier>{007b1a1d-9d86-407b-96c1-e1e6490732f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Charactor\Draw\Each Scene">
+      <UniqueIdentifier>{7c394115-eea6-451b-8345-ff8c177d95e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Charactor\Draw\Each Scene">
+      <UniqueIdentifier>{88945bdf-3613-4722-b0f3-a6614421faff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mapAll.cpp">
-      <Filter>ソース ファイル\Map</Filter>
+      <Filter>ソース ファイル\Charactor\Draw\Map</Filter>
     </ClCompile>
     <ClCompile Include="mapDraw.cpp">
-      <Filter>ソース ファイル\Map</Filter>
+      <Filter>ソース ファイル\Charactor\Draw\Map</Filter>
     </ClCompile>
     <ClCompile Include="mapInfomation.cpp">
-      <Filter>ソース ファイル\Map</Filter>
+      <Filter>ソース ファイル\Charactor\Draw\Map</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\Main</Filter>
@@ -88,7 +106,7 @@
       <Filter>ソース ファイル\Charactor</Filter>
     </ClCompile>
     <ClCompile Include="mapPhenomenon.cpp">
-      <Filter>ソース ファイル\Map</Filter>
+      <Filter>ソース ファイル\Charactor\Draw\Map</Filter>
     </ClCompile>
     <ClCompile Include="cursor.cpp">
       <Filter>ソース ファイル\Cursor</Filter>
@@ -124,7 +142,13 @@
       <Filter>ソース ファイル\Random</Filter>
     </ClCompile>
     <ClCompile Include="mapUI.cpp">
-      <Filter>ソース ファイル\Map</Filter>
+      <Filter>ソース ファイル\Charactor\Draw\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="sceneTransition.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="gameResult.cpp">
+      <Filter>ソース ファイル\Charactor\Draw\Each Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -144,16 +168,16 @@
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="mapAll.h">
-      <Filter>ヘッダー ファイル\Map</Filter>
+      <Filter>ヘッダー ファイル\Charactor\Draw\Map</Filter>
     </ClInclude>
     <ClInclude Include="mapDraw.h">
-      <Filter>ヘッダー ファイル\Map</Filter>
+      <Filter>ヘッダー ファイル\Charactor\Draw\Map</Filter>
     </ClInclude>
     <ClInclude Include="mapInfomation.h">
-      <Filter>ヘッダー ファイル\Map</Filter>
+      <Filter>ヘッダー ファイル\Charactor\Draw\Map</Filter>
     </ClInclude>
     <ClInclude Include="mapPhenomenon.h">
-      <Filter>ヘッダー ファイル\Map</Filter>
+      <Filter>ヘッダー ファイル\Charactor\Draw\Map</Filter>
     </ClInclude>
     <ClInclude Include="cursor.h">
       <Filter>ヘッダー ファイル\Cursor</Filter>
@@ -189,7 +213,13 @@
       <Filter>ヘッダー ファイル\Random</Filter>
     </ClInclude>
     <ClInclude Include="mapUI.h">
-      <Filter>ヘッダー ファイル\Map</Filter>
+      <Filter>ヘッダー ファイル\Charactor\Draw\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneTransition.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="gameResult.h">
+      <Filter>ヘッダー ファイル\Charactor\Draw\Each Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

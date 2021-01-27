@@ -134,6 +134,7 @@
     <ClCompile Include="enemyBandits.cpp" />
     <ClCompile Include="enemyWarrior_1.cpp" />
     <ClCompile Include="enemyWarrior_2.cpp" />
+    <ClCompile Include="gameResult.cpp" />
     <ClCompile Include="inputProcess.cpp" />
     <ClCompile Include="loopProcess.cpp" />
     <ClCompile Include="main.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="Princess.cpp" />
     <ClCompile Include="random.cpp" />
+    <ClCompile Include="sceneTransition.cpp" />
     <ClCompile Include="shadowWarrior_1.cpp" />
     <ClCompile Include="shadowWarrior_2.cpp" />
     <ClCompile Include="shadowWarrior_3.cpp" />
@@ -168,6 +170,8 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="Princess.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="gameResult.h" />
+    <ClInclude Include="sceneTransition.h" />
     <ClInclude Include="shadowWarrior_1.h" />
     <ClInclude Include="shadowWarrior_2.h" />
     <ClInclude Include="shadowWarrior_3.h" />

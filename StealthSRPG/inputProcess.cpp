@@ -270,8 +270,8 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 	}
 }
 
-void Input::update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
-                   const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
+void Input::map_scene_update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
+                             const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
 	if (!MapUI::UI_flag && !confirmation_flag) {
 		moving_cursor();
 		if (range_flag == 1) collision_flag_update(map, ew1_x, ew1_y, ew2_x, ew2_y, eb1_x, eb1_y);
