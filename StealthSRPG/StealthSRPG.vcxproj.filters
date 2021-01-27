@@ -150,6 +150,9 @@
     <ClCompile Include="gameResult.cpp">
       <Filter>ソース ファイル\Charactor\Draw\Each Scene</Filter>
     </ClCompile>
+    <ClCompile Include="gameHelp.cpp">
+      <Filter>ソース ファイル\Charactor\Draw\Each Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constant.h">
@@ -219,6 +222,9 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="gameResult.h">
+      <Filter>ヘッダー ファイル\Charactor\Draw\Each Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="gameHelp.h">
       <Filter>ヘッダー ファイル\Charactor\Draw\Each Scene</Filter>
     </ClInclude>
   </ItemGroup>

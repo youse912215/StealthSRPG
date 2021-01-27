@@ -373,7 +373,7 @@ void EnemyWarrior_2::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			this->activity = true;
 		}
 	}
-	forward_act_order();
+	if (Map::turn_timer >= 60) forward_act_order();
 }
 
 void EnemyWarrior_2::get_enemy_cost(const int& ew1_x, const int& ew1_y, const int& eb1_x, const int& eb1_y) {
@@ -456,5 +456,8 @@ void EnemyWarrior_2::get_slash_motion(const int& a_activity, int* motion) {
 }
 
 void EnemyWarrior_2::forward_act_order() {
-	if (this->activity && act_order == WARRIOR2) act_order = BANDITS1;
+	if (this->activity && act_order == WARRIOR2) {
+		Map::turn_timer = 0;
+		act_order = BANDITS1;
+	}
 }

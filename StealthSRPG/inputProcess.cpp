@@ -4,6 +4,8 @@
 #include "inputProcess.h"
 #include "constant.h"
 #include "cursor.h"
+#include "sceneTransition.h"
+#include "gameHelp.h"
 #include <cstdlib>
 
 using namespace std;
@@ -12,6 +14,7 @@ bool Input::confirmation_flag = false;
 
 Input::Input() : collision_flag{} {
 	yes_or_no = true;
+	current_map_scene = TUTORIAL;
 }
 
 /// <summary>
@@ -286,5 +289,35 @@ void Input::map_scene_update(vector<vector<int>>& map, const int& ew1_x, const i
 			else collision_flag[DOWN] = false;
 		}
 	}
+
+	if (keys[KEY_INPUT_ESCAPE] && !oldkeys[KEY_INPUT_ESCAPE]) {
+		current_map_scene = SceneTransition::game_scene;
+		SceneTransition::game_scene = GAME_HELP;
+	}
 	time_change();
+}
+
+void Input::game_help_update() {
+	if (SceneTransition::game_scene == GAME_HELP) {
+		if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && GameHelp::help_num > 0) {
+			GameHelp::help_num--;
+		}
+		else if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && GameHelp::help_num < 2) {
+			GameHelp::help_num++;
+		}
+
+		if (keys[KEY_INPUT_ESCAPE] && !oldkeys[KEY_INPUT_ESCAPE]) {
+			SceneTransition::game_scene = current_map_scene;
+			GameHelp::help_num = 0;
+		}
+	}
+}
+
+void Input::game_result_update() {
+	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]) {
+		SceneTransition::game_scene = current_map_scene + 1;
+
+		Map::scene = NOON_PLAY;
+		MapUI::UI_flag = true;
+	}
 }

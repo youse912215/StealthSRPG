@@ -5,9 +5,15 @@
 
 GameResult::GameResult() {
 	rank = 0;
+	/*char_rank = LoadGraph("Source/UI/rank.png");
+	char_next = LoadGraph("Source/UI/next.png");
+	background = LoadGraph("Source/UI/result.png");*/
 }
 
 GameResult::~GameResult() {
+	/*DeleteGraph(char_rank);
+	DeleteGraph(char_next);
+	DeleteGraph(background);*/
 }
 
 void GameResult::draw() {

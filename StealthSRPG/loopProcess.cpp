@@ -14,6 +14,7 @@
 #include "enemyBandits.h"
 #include "sceneTransition.h"
 #include "gameResult.h"
+#include "gameHelp.h"
 #include <cstdlib>
 
 using namespace std;
@@ -132,6 +133,12 @@ void loop_process() {
 			UI->update();
 			delete UI;
 		}
+		else if (SceneTransition::game_scene == GAME_RESULT) {
+			input.game_result_update();
+		}
+		else if (SceneTransition::game_scene == GAME_HELP) {
+			input.game_help_update();
+		}
 
 		SceneTransition* scene = new SceneTransition;
 		if (_map->map_20x20[(Princess.y / block_size)][(Princess.x / block_size)] == GOAL
@@ -146,7 +153,8 @@ void loop_process() {
 
 		delete _map;
 
-		DrawFormatString(700, 0, GetColor(255, 0, 255), "ao:%d", SceneTransition::game_scene, false);
+		DrawFormatString(700, 0, GetColor(255, 0, 255),
+		                 "Scene:%d, help:%d", SceneTransition::game_scene, GameHelp::help_num, false);
 		/*DrawFormatString(700, 15, GetColor(255, 255, 255), " Z:プレイヤー選択", false);
 		DrawFormatString(700, 30, GetColor(255, 255, 255), " SPACE:次フェイスへ", false);
 		DrawFormatString(700, 45, GetColor(255, 255, 255), " ARROW:1マス移動", false);*/

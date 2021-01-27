@@ -61,7 +61,7 @@ void EnemyWarrior_1::Draw() {
 	              block_size, block_size,
 	              this->graph, true, false);
 
-	/*DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
+	DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "“G•º1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
@@ -99,7 +99,7 @@ void EnemyWarrior_1::Draw() {
 	DrawFormatString(480, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
 	DrawFormatString(480, 520, GetColor(255, 0, 50), "score:L%d, R%d, U%d, D%d, %d",
-	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);*/
+	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);
 }
 
 void EnemyWarrior_1::drawing_effect1(const int& nx, const int& ny, const int& direction) {
@@ -374,7 +374,8 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 			this->activity = true;
 		}
 	}
-	forward_act_order();
+
+	if (Map::turn_timer >= 60) forward_act_order();
 }
 
 void EnemyWarrior_1::get_enemy_cost(const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
@@ -457,5 +458,8 @@ void EnemyWarrior_1::get_slash_motion(const int& a_activity, int* motion) {
 }
 
 void EnemyWarrior_1::forward_act_order() {
-	if (this->activity && act_order == WARRIOR1) act_order = WARRIOR2;
+	if (this->activity && act_order == WARRIOR1) {
+		Map::turn_timer = 0;
+		act_order = WARRIOR2;
+	}
 }

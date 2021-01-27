@@ -67,12 +67,16 @@ enum map_info {
 	LAND_LEFT_TOP,
 	//—¤‰Eã
 	LAND_RIGHT_TOP,
+	//—¤Šp
 	LAND_RIGHT_BOT2,
 	LAND_LEFT_BOT2,
 	LAND_RIGHT_TOP2,
 	LAND_LEFT_TOP2,
+	//—¤ŽÎ‚ß
 	LAND_OBLIQUE1,
 	LAND_OBLIQUE2,
+	//–¶
+	MIST,
 	//ˆÚ“®”ÍˆÍ’†‰›
 	CENTER = 98,
 	//ˆÚ“®”ÍˆÍ

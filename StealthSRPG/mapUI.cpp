@@ -89,7 +89,7 @@ void MapUI::drawing_scene_symbol() {
 void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp,
                                 const bool& p_alive, const bool& sw1_alive, const bool& sw2_alive,
                                 const bool& sw3_alive) {
-	DrawRectGraph(0, WIN_HEIGHT - 128,
+	/*DrawRectGraph(0, WIN_HEIGHT - 128,
 	              0, 0, status_size_x, status_size_y,
 	              status, true, false);
 	DrawRectGraph(status_size_x, WIN_HEIGHT - 128,
@@ -125,7 +125,7 @@ void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& s
 		              status_size_x * (6 - sw3_hp), 0,
 		              status_size_x, status_size_y,
 		              life, true, false);
-	}
+	}*/
 }
 
 void MapUI::yes_or_no(const bool& y_n) {
