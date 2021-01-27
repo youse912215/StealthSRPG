@@ -30,7 +30,7 @@ void Cursor::update() {
 }
 
 void Cursor::move(const int& p_x, const int& p_y, const int& ew1_x, const int& ew1_y, const int& ew2_x,
-                  const int& ew2_y, const int& eb1_x, const int& eb1_y) {
+                  const int& ew2_y, const int& eb1_x, const int& eb1_y, const int& wl1_x, const int& wl1_y) {
 	switch (Enemy::act_order) {
 	case WARRIOR1:
 		current_x = ew1_x;
@@ -43,6 +43,10 @@ void Cursor::move(const int& p_x, const int& p_y, const int& ew1_x, const int& e
 	case BANDITS1:
 		current_x = eb1_x;
 		current_y = eb1_y;
+		break;
+	case WOLF1:
+		current_x = wl1_x;
+		current_y = wl1_y;
 		break;
 	default:
 		current_x = p_x;

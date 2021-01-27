@@ -4,10 +4,10 @@
 
 using namespace std;
 
-class EnemyWarrior_2 : public Enemy {
+class EnemyWolf_1 : public Enemy {
 public:
-	EnemyWarrior_2(int x, int y, int graph, int moving_quantity, int attack, int range, int act_time, bool activity,
-	               bool isAlive);
+	EnemyWolf_1(int x, int y, int graph, int moving_quantity, int attack, int range, int act_time, bool activity,
+	            bool isAlive);
 	void Update(vector<vector<int>>& map) override;
 	void get_survival_activity(const bool& p_s_activity, const bool& sw1_s_activity, const bool& sw2_s_activity,
 	                           const bool& sw3_s_activity) override;
@@ -58,5 +58,5 @@ private:
 	void activate_reset();
 	void duplicate_process(const int& dir_num);
 	void get_attack_direction(const int& player_num);
-	void get_slash_motion(const int& a_activity, int* motion);
+	void get_impact_motion(const int& a_activity, int* motion);
 };

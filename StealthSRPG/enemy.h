@@ -1,5 +1,8 @@
 #pragma once
 #include "charactor.h"
+#include <vector>
+
+using namespace std;
 
 class Enemy : public Charactor {
 public:
@@ -13,6 +16,17 @@ public:
 	Enemy(int x, int y, int graph, int moving_quantity, int attack, int range,
 	      int act_time, bool activity, bool isAlive);
 	~Enemy();
+
+	virtual void Update(vector<vector<int>>& map) = 0;
+	virtual void get_survival_activity(const bool& p_s_activity, const bool& sw1_s_activity, const bool& sw2_s_activity,
+	                                   const bool& sw3_s_activity) = 0;
+	virtual void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
+	                                    const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y) = 0;
+	virtual void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) = 0;
+	virtual void Move() = 0;
+	virtual void get_enemy_cost(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+	                            const int& ey3, const int& ex4, const int& ey4) = 0;
+	virtual void forward_act_order(const int& a_order) = 0;
 
 protected:
 	int slash;

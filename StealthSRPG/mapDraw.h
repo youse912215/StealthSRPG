@@ -36,5 +36,6 @@ public:
 	~MapDraw(); //デスクトラクタ
 	void drawing_map(const int& ew1_x, const int& ew1_y,
 	                 const int& ew2_x, const int& ew2_y,
-	                 const int& eb1_x, const int& eb1_y); //マップを描画
+	                 const int& eb1_x, const int& eb1_y,
+	                 const int& wl1_x, const int& wl1_y); //マップを描画
 };

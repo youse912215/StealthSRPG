@@ -153,6 +153,9 @@
     <ClCompile Include="gameHelp.cpp">
       <Filter>ソース ファイル\Charactor\Draw\Each Scene</Filter>
     </ClCompile>
+    <ClCompile Include="enemyWolf1.cpp">
+      <Filter>ソース ファイル\Charactor\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constant.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="gameHelp.h">
       <Filter>ヘッダー ファイル\Charactor\Draw\Each Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyWolf1.h">
+      <Filter>ヘッダー ファイル\Charactor\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

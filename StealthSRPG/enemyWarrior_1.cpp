@@ -48,7 +48,6 @@ void EnemyWarrior_1::Update(vector<vector<int>>& map) {
 	get_node_cost();
 	get_node_score();
 	Dead(map);
-	if (act_order == WARRIOR1) Move();
 }
 
 void EnemyWarrior_1::Draw() {
@@ -337,11 +336,13 @@ void EnemyWarrior_1::moving_decision() {
 	}
 }
 
-void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
+void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
+	if (act_order == a_order) Move();
+
 	if (activity && !attack_activity && Map::scene % 2 != 0
-		&& act_order == WARRIOR1 && Map::turn_timer > this->act_time) {
+		&& act_order == a_order && Map::turn_timer > this->act_time) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
@@ -376,28 +377,37 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 		}
 	}
 
-	if (Map::turn_timer >= 60) forward_act_order();
+	if (Map::turn_timer >= 60) forward_act_order(a_order);
 }
 
-void EnemyWarrior_1::get_enemy_cost(const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
+void EnemyWarrior_1::get_enemy_cost(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+                                    const int& ey3, const int& ex4, const int& ey4) {
 	if (!this->activity) {
-		if ((node_x[LEFT_X] == ew2_x / block_size && node_y[CENTER_Y] == ew2_y / block_size)
-			|| (node_x[LEFT_X] == eb1_x / block_size && node_y[CENTER_Y] == eb1_y / block_size))
+		if ((node_x[LEFT_X] == ex1 / block_size && node_y[CENTER_Y] == ey1 / block_size)
+			|| (node_x[LEFT_X] == ex2 / block_size && node_y[CENTER_Y] == ey2 / block_size)
+			|| (node_x[LEFT_X] == ex3 / block_size && node_y[CENTER_Y] == ey3 / block_size)
+			|| (node_x[LEFT_X] == ex4 / block_size && node_y[CENTER_Y] == ey4 / block_size))
 			enemy_cost[LEFT] = ENEMY_COST;
 		else enemy_cost[LEFT] = 0;
 
-		if ((node_x[RIGHT_X] == ew2_x / block_size && node_y[CENTER_Y] == ew2_y / block_size)
-			|| (node_x[RIGHT_X] == eb1_x / block_size && node_y[CENTER_Y] == eb1_y / block_size))
+		if ((node_x[RIGHT_X] == ex1 / block_size && node_y[CENTER_Y] == ey1 / block_size)
+			|| (node_x[RIGHT_X] == ex2 / block_size && node_y[CENTER_Y] == ey2 / block_size)
+			|| (node_x[RIGHT_X] == ex3 / block_size && node_y[CENTER_Y] == ey3 / block_size)
+			|| (node_x[RIGHT_X] == ex4 / block_size && node_y[CENTER_Y] == ey4 / block_size))
 			enemy_cost[RIGHT] = ENEMY_COST;
 		else enemy_cost[RIGHT] = 0;
 
-		if ((node_x[CENTER_X] == ew2_x / block_size && node_y[UP_Y] == ew2_y / block_size)
-			|| (node_x[CENTER_X] == eb1_x / block_size && node_y[UP_Y] == eb1_y / block_size))
+		if ((node_x[CENTER_X] == ex1 / block_size && node_y[UP_Y] == ey1 / block_size)
+			|| (node_x[CENTER_X] == ex2 / block_size && node_y[UP_Y] == ey2 / block_size)
+			|| (node_x[CENTER_X] == ex3 / block_size && node_y[UP_Y] == ey3 / block_size)
+			|| (node_x[CENTER_X] == ex4 / block_size && node_y[UP_Y] == ey4 / block_size))
 			enemy_cost[UP] = ENEMY_COST;
 		else enemy_cost[UP] = 0;
 
-		if ((node_x[CENTER_X] == ew2_x / block_size && node_y[DOWN_Y] == ew2_y / block_size)
-			|| (node_x[CENTER_X] == eb1_x / block_size && node_y[DOWN_Y] == eb1_y / block_size))
+		if ((node_x[CENTER_X] == ex1 / block_size && node_y[DOWN_Y] == ey1 / block_size)
+			|| (node_x[CENTER_X] == ex2 / block_size && node_y[DOWN_Y] == ey2 / block_size)
+			|| (node_x[CENTER_X] == ex3 / block_size && node_y[DOWN_Y] == ey3 / block_size)
+			|| (node_x[CENTER_X] == ex4 / block_size && node_y[DOWN_Y] == ey4 / block_size))
 			enemy_cost[DOWN] = ENEMY_COST;
 		else enemy_cost[DOWN] = 0;
 	}
@@ -458,9 +468,9 @@ void EnemyWarrior_1::get_slash_motion(const int& a_activity, int* motion) {
 	*motion = a_activity ? ++*motion : -1;
 }
 
-void EnemyWarrior_1::forward_act_order() {
-	if (this->activity && act_order == WARRIOR1) {
+void EnemyWarrior_1::forward_act_order(const int& a_order) {
+	if (this->activity && act_order == a_order) {
 		Map::turn_timer = 0;
-		act_order = WARRIOR2;
+		act_order = a_order + 1;
 	}
 }
