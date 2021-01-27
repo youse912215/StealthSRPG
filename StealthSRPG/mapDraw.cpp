@@ -77,10 +77,7 @@ void MapDraw::switching_map_scene() {
 /// <summary>
 /// マップ関係を描画
 /// </summary>
-void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
-                          const int& ew2_x, const int& ew2_y,
-                          const int& eb1_x, const int& eb1_y,
-                          const int& wl1_x, const int& wl1_y) {
+void MapDraw::drawing_map() {
 
 	map_file_import(map_20x20, mapcsv_file, SceneTransition::game_scene, MAP);
 	switching_map_scene();
@@ -96,12 +93,6 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
 		range_import(info[25], range_11x11);
 	}
 
-	if (scene % 2 == 0) {
-		drawing_enemy_range(ew1_x, ew1_y); //敵兵1
-		drawing_enemy_range(ew2_x, ew2_y); //敵兵2
-		drawing_enemy_range(eb1_x, eb1_y); //山賊
-		drawing_enemy_range(wl1_x, wl1_y); //番犬1
-	}
 	booting_timer(); //タイマー起動
 	drawing_format();
 
@@ -111,7 +102,7 @@ void MapDraw::drawing_map(const int& ew1_x, const int& ew1_y,
 /// エネミーの座標と現在のカーソル座標が一致しているときに移動範囲を描画
 /// </summary>
 void MapDraw::drawing_enemy_range(const int& ex, const int& ey) {
-	if (current_x == ex && current_y == ey) {
+	if (current_x == ex && current_y == ey && scene % 2 == 0) {
 		map_file_import(range_11x11, rangecsv_file, moving_range, _RANGE);
 		range_import(info[25], range_11x11);
 	}

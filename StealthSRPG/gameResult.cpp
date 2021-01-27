@@ -17,7 +17,7 @@ GameResult::~GameResult() {
 }
 
 void GameResult::draw() {
-	DrawFormatString(800, 0, GetColor(255, 0, 0), "Rank:%d", rank, false);
+	DrawFormatString(900, 0, GetColor(255, 0, 0), "Rank:%d", rank, false);
 }
 
 void GameResult::rank_check(const bool& p_ac, const bool& sw1_ac, const bool& sw2_ac, const bool& sw3_ac) {

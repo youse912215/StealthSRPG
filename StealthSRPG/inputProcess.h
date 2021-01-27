@@ -15,8 +15,7 @@ private:
 	void cursorLimit();
 	void moving_cursor();
 	void time_change();
-	void collision_flag_update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
-	                           const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y);
+	void collision_flag_update(vector<vector<int>>& map);
 
 public:
 	bool collision_flag[4];
@@ -28,8 +27,7 @@ public:
 
 	Input();
 	void input_info();
-	void map_scene_update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
-	                      const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y);
+	void map_scene_update(vector<vector<int>>& map);
 	void game_help_update();
 	void game_result_update();
 };

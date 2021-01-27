@@ -59,7 +59,7 @@ void EnemyWolf_1::Draw() {
 	              block_size, block_size,
 	              this->graph, true, false);
 
-	/*DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
+	DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "敵兵1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(200, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
@@ -97,7 +97,7 @@ void EnemyWolf_1::Draw() {
 	DrawFormatString(710, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
 	DrawFormatString(710, 520, GetColor(255, 0, 50), "score:L%d, R%d, U%d, D%d, %d",
-	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);*/
+	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);
 }
 
 void EnemyWolf_1::drawing_effect1(const int& nx, const int& ny, const int& direction) {
@@ -229,7 +229,8 @@ void EnemyWolf_1::get_obstacle_cost(vector<vector<int>>& map) {
 	/* 左側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[LEFT_X]] == SEA
 		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == TIDE && Map::scene >= 2)
-		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == ICE_LAND && Map::scene <= 1)) {
+		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == ICE_LAND && Map::scene <= 1)
+		|| (map[node_y[CENTER_Y]][node_x[LEFT_X]] == ICE_SEA && Map::scene <= 1)) {
 		obstacle_cost[LEFT] = 10;
 	}
 	else obstacle_cost[LEFT] = 0;
@@ -237,7 +238,8 @@ void EnemyWolf_1::get_obstacle_cost(vector<vector<int>>& map) {
 	/* 右側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == SEA
 		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == TIDE && Map::scene >= 2)
-		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == ICE_LAND && Map::scene <= 1)) {
+		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == ICE_LAND && Map::scene <= 1)
+		|| (map[node_y[CENTER_Y]][node_x[RIGHT_X]] == ICE_SEA && Map::scene <= 1)) {
 		obstacle_cost[RIGHT] = 10;
 	}
 	else obstacle_cost[RIGHT] = 0;
@@ -245,7 +247,8 @@ void EnemyWolf_1::get_obstacle_cost(vector<vector<int>>& map) {
 	/* 上側のコスト */
 	if (map[node_y[UP_Y]][node_x[CENTER_X]] == SEA
 		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)
-		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == ICE_LAND && Map::scene <= 1)) {
+		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == ICE_LAND && Map::scene <= 1)
+		|| (map[node_y[UP_Y]][node_x[CENTER_X]] == ICE_SEA && Map::scene <= 1)) {
 		obstacle_cost[UP] = 10;
 	}
 	else obstacle_cost[UP] = 0;
@@ -253,7 +256,8 @@ void EnemyWolf_1::get_obstacle_cost(vector<vector<int>>& map) {
 	/* 下側のコスト */
 	if (map[node_y[DOWN_Y]][node_x[CENTER_X]] == SEA
 		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == TIDE && Map::scene >= 2)
-		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == ICE_LAND && Map::scene <= 1)) {
+		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == ICE_LAND && Map::scene <= 1)
+		|| (map[node_y[DOWN_Y]][node_x[CENTER_X]] == ICE_SEA && Map::scene <= 1)) {
 		obstacle_cost[DOWN] = 10;
 	}
 	else obstacle_cost[DOWN] = 0;
@@ -338,9 +342,9 @@ void EnemyWolf_1::moving_decision() {
 void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (act_order == a_order) Move();
+	if (act_order == a_order && Map::scene == NIGHT_ENEMY) Move();
 
-	if (activity && !attack_activity && Map::scene % 2 != 0
+	if (activity && !attack_activity && Map::scene == NIGHT_ENEMY
 		&& act_order == a_order && Map::turn_timer > this->act_time) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
@@ -378,42 +382,90 @@ void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const
 	if (Map::turn_timer >= 60) forward_act_order(a_order);
 }
 
-void EnemyWolf_1::get_enemy_cost(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
-                                 const int& ey3, const int& ex4, const int& ey4) {
+void EnemyWolf_1::get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+                                   const int& ey3) {
+	if (!this->activity) {
+		if ((node_x[LEFT_X] == ex1 / block_size && node_y[CENTER_Y] == ey1 / block_size)
+			|| (node_x[LEFT_X] == ex2 / block_size && node_y[CENTER_Y] == ey2 / block_size)
+			|| (node_x[LEFT_X] == ex3 / block_size && node_y[CENTER_Y] == ey3 / block_size))
+			enemy_cost[LEFT] = ENEMY_COST;
+		else enemy_cost[LEFT] = 0;
+
+		if ((node_x[RIGHT_X] == ex1 / block_size && node_y[CENTER_Y] == ey1 / block_size)
+			|| (node_x[RIGHT_X] == ex2 / block_size && node_y[CENTER_Y] == ey2 / block_size)
+			|| (node_x[RIGHT_X] == ex3 / block_size && node_y[CENTER_Y] == ey3 / block_size))
+			enemy_cost[RIGHT] = ENEMY_COST;
+		else enemy_cost[RIGHT] = 0;
+
+		if ((node_x[CENTER_X] == ex1 / block_size && node_y[UP_Y] == ey1 / block_size)
+			|| (node_x[CENTER_X] == ex2 / block_size && node_y[UP_Y] == ey2 / block_size)
+			|| (node_x[CENTER_X] == ex3 / block_size && node_y[UP_Y] == ey3 / block_size))
+			enemy_cost[UP] = ENEMY_COST;
+		else enemy_cost[UP] = 0;
+
+		if ((node_x[CENTER_X] == ex1 / block_size && node_y[DOWN_Y] == ey1 / block_size)
+			|| (node_x[CENTER_X] == ex2 / block_size && node_y[DOWN_Y] == ey2 / block_size)
+			|| (node_x[CENTER_X] == ex3 / block_size && node_y[DOWN_Y] == ey3 / block_size))
+			enemy_cost[DOWN] = ENEMY_COST;
+		else enemy_cost[DOWN] = 0;
+	}
+}
+
+void EnemyWolf_1::get_enemy_cost_1(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+                                   const int& ey3, const int& ex4, const int& ey4, const int& ex5, const int& ey5,
+                                   const int& ex6, const int& ey6, const int& ex7, const int& ey7, const int& ex8,
+                                   const int& ey8) {
 	if (!this->activity) {
 		if ((node_x[LEFT_X] == ex1 / block_size && node_y[CENTER_Y] == ey1 / block_size)
 			|| (node_x[LEFT_X] == ex2 / block_size && node_y[CENTER_Y] == ey2 / block_size)
 			|| (node_x[LEFT_X] == ex3 / block_size && node_y[CENTER_Y] == ey3 / block_size)
-			|| (node_x[LEFT_X] == ex4 / block_size && node_y[CENTER_Y] == ey4 / block_size))
+			|| (node_x[LEFT_X] == ex4 / block_size && node_y[CENTER_Y] == ey4 / block_size)
+			|| (node_x[LEFT_X] == ex5 / block_size && node_y[CENTER_Y] == ey5 / block_size)
+			|| (node_x[LEFT_X] == ex6 / block_size && node_y[CENTER_Y] == ey6 / block_size)
+			|| (node_x[LEFT_X] == ex7 / block_size && node_y[CENTER_Y] == ey7 / block_size)
+			|| (node_x[LEFT_X] == ex8 / block_size && node_y[CENTER_Y] == ey8 / block_size))
 			enemy_cost[LEFT] = ENEMY_COST;
 		else enemy_cost[LEFT] = 0;
 
 		if ((node_x[RIGHT_X] == ex1 / block_size && node_y[CENTER_Y] == ey1 / block_size)
 			|| (node_x[RIGHT_X] == ex2 / block_size && node_y[CENTER_Y] == ey2 / block_size)
 			|| (node_x[RIGHT_X] == ex3 / block_size && node_y[CENTER_Y] == ey3 / block_size)
-			|| (node_x[RIGHT_X] == ex4 / block_size && node_y[CENTER_Y] == ey4 / block_size))
+			|| (node_x[RIGHT_X] == ex4 / block_size && node_y[CENTER_Y] == ey4 / block_size)
+			|| (node_x[RIGHT_X] == ex5 / block_size && node_y[CENTER_Y] == ey5 / block_size)
+			|| (node_x[RIGHT_X] == ex6 / block_size && node_y[CENTER_Y] == ey6 / block_size)
+			|| (node_x[RIGHT_X] == ex7 / block_size && node_y[CENTER_Y] == ey7 / block_size)
+			|| (node_x[RIGHT_X] == ex8 / block_size && node_y[CENTER_Y] == ey8 / block_size))
 			enemy_cost[RIGHT] = ENEMY_COST;
 		else enemy_cost[RIGHT] = 0;
 
 		if ((node_x[CENTER_X] == ex1 / block_size && node_y[UP_Y] == ey1 / block_size)
 			|| (node_x[CENTER_X] == ex2 / block_size && node_y[UP_Y] == ey2 / block_size)
 			|| (node_x[CENTER_X] == ex3 / block_size && node_y[UP_Y] == ey3 / block_size)
-			|| (node_x[CENTER_X] == ex4 / block_size && node_y[UP_Y] == ey4 / block_size))
+			|| (node_x[CENTER_X] == ex4 / block_size && node_y[UP_Y] == ey4 / block_size)
+			|| (node_x[CENTER_X] == ex5 / block_size && node_y[UP_Y] == ey5 / block_size)
+			|| (node_x[CENTER_X] == ex6 / block_size && node_y[UP_Y] == ey6 / block_size)
+			|| (node_x[CENTER_X] == ex7 / block_size && node_y[UP_Y] == ey7 / block_size)
+			|| (node_x[CENTER_X] == ex8 / block_size && node_y[UP_Y] == ey8 / block_size))
 			enemy_cost[UP] = ENEMY_COST;
 		else enemy_cost[UP] = 0;
 
 		if ((node_x[CENTER_X] == ex1 / block_size && node_y[DOWN_Y] == ey1 / block_size)
 			|| (node_x[CENTER_X] == ex2 / block_size && node_y[DOWN_Y] == ey2 / block_size)
 			|| (node_x[CENTER_X] == ex3 / block_size && node_y[DOWN_Y] == ey3 / block_size)
-			|| (node_x[CENTER_X] == ex4 / block_size && node_y[DOWN_Y] == ey4 / block_size))
+			|| (node_x[CENTER_X] == ex4 / block_size && node_y[DOWN_Y] == ey4 / block_size)
+			|| (node_x[CENTER_X] == ex5 / block_size && node_y[DOWN_Y] == ey5 / block_size)
+			|| (node_x[CENTER_X] == ex6 / block_size && node_y[DOWN_Y] == ey6 / block_size)
+			|| (node_x[CENTER_X] == ex7 / block_size && node_y[DOWN_Y] == ey7 / block_size)
+			|| (node_x[CENTER_X] == ex8 / block_size && node_y[DOWN_Y] == ey8 / block_size))
 			enemy_cost[DOWN] = ENEMY_COST;
 		else enemy_cost[DOWN] = 0;
 	}
 }
 
 void EnemyWolf_1::Dead(vector<vector<int>>& map) {
-	if (map[this->y / block_size][this->x / block_size] == TIDE
-		&& Map::scene == NIGHT_PLAY) {
+	if ((map[this->y / block_size][this->x / block_size] == TIDE && Map::scene == NIGHT_PLAY)
+		|| (map[this->y / block_size][this->x / block_size] == ICE_LAND && Map::scene == NOON_PLAY)
+		|| (map[this->y / block_size][this->x / block_size] == ICE_SEA && Map::scene == NOON_PLAY)) {
 		this->isAlive = false; //生存状態をfalse
 		this->x = -1;
 		this->y = -1;
@@ -467,8 +519,8 @@ void EnemyWolf_1::get_impact_motion(const int& a_activity, int* motion) {
 }
 
 void EnemyWolf_1::forward_act_order(const int& a_order) {
-	if (this->activity && act_order == a_order) {
+	if (act_order == a_order) {
 		Map::turn_timer = 0;
-		act_order = END;
+		act_order = a_order + 1;
 	}
 }

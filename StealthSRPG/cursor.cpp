@@ -29,28 +29,24 @@ void Cursor::update() {
 	Rangelimit();
 }
 
-void Cursor::move(const int& p_x, const int& p_y, const int& ew1_x, const int& ew1_y, const int& ew2_x,
-                  const int& ew2_y, const int& eb1_x, const int& eb1_y, const int& wl1_x, const int& wl1_y) {
+void Cursor::move_0(const int& px, const int& py, const int& ex1, const int& ey1,
+                    const int& ex2, const int& ey2, const int& ex3, const int& ey3) {
 	switch (Enemy::act_order) {
-	case WARRIOR1:
-		current_x = ew1_x;
-		current_y = ew1_y;
+	case 0:
+		current_x = ex1;
+		current_y = ey1;
 		break;
-	case WARRIOR2:
-		current_x = ew2_x;
-		current_y = ew2_y;
+	case 1:
+		current_x = ex2;
+		current_y = ey2;
 		break;
-	case BANDITS1:
-		current_x = eb1_x;
-		current_y = eb1_y;
-		break;
-	case WOLF1:
-		current_x = wl1_x;
-		current_y = wl1_y;
+	case 2:
+		current_x = ex3;
+		current_y = ey3;
 		break;
 	default:
-		current_x = p_x;
-		current_y = p_y;
+		current_x = px;
+		current_y = py;
 		break;
 	}
 }

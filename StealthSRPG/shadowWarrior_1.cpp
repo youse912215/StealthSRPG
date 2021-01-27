@@ -8,17 +8,15 @@
 ShadowWarrior_1::ShadowWarrior_1(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity,
                                  bool isAlive,
                                  Input& input):
-	Player(x, y, graph, moving_quantity, hp, range, activity, isAlive), input(input) {
+	Player(x, y, graph, moving_quantity, hp, range, activity, isAlive), input(input),
+	duplication_flag(30) {
 	this->moving_flag = -1;
-	this->duplication_flag[7] = {};
 	this->tracking_priority = 1;
 	old_x = 0;
 	old_y = 0;
 }
 
-void ShadowWarrior_1::Update(const int& p_x, const int& p_y, const int& sw2_x, const int& sw2_y,
-                             const int& sw3_x, const int& sw3_y, const int& ew1_x, const int& ew1_y,
-                             const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
+void ShadowWarrior_1::Update() {
 	get_latency();
 	wait_motion();
 	if (!Input::confirmation_flag) {
@@ -28,7 +26,6 @@ void ShadowWarrior_1::Update(const int& p_x, const int& p_y, const int& sw2_x, c
 		act_cancel();
 	}
 	Draw();
-	duplicate_decision(p_x, p_y, sw2_x, sw2_y, sw3_x, sw3_y, ew1_x, ew1_y, ew2_x, ew2_y, eb1_x, eb1_y);
 }
 
 /// <summary>
@@ -68,7 +65,13 @@ void ShadowWarrior_1::Pickup() {
 void ShadowWarrior_1::pickup_switching() {
 	if (!this->duplication_flag[_princess] && !this->duplication_flag[_s_warrior2]
 		&& !this->duplication_flag[_s_warrior3]) {
-		if (!this->duplication_flag[_e_warrior1] && !this->duplication_flag[_e_bandits1]) {
+		if (!this->duplication_flag[_e_warrior1] && !this->duplication_flag[_e_warrior2]
+			&& !this->duplication_flag[_e_warrior2] && !this->duplication_flag[_e_warrior4]
+			&& !this->duplication_flag[_e_warrior5] && !this->duplication_flag[_e_warrior6]
+			&& !this->duplication_flag[_e_bandits1] && !this->duplication_flag[_e_bandits2]
+			&& !this->duplication_flag[_e_bandits3] && !this->duplication_flag[_e_bandits4]
+			&& !this->duplication_flag[_e_wolf1] && !this->duplication_flag[_e_wolf2]
+			&& !this->duplication_flag[_e_wolf3] && !this->duplication_flag[_e_wolf4]) {
 			moving_flag *= -1; //フラグ状態反転
 			range_flag *= -1; //フラグ状態反転
 			//すでに移動している場合、行動済みとする
@@ -80,15 +83,8 @@ void ShadowWarrior_1::pickup_switching() {
 /// <summary>
 /// キャラクターの重複判定
 /// </summary>
-void ShadowWarrior_1::duplicate_decision(const int& p_x, const int& p_y, const int& sw2_x, const int& sw2_y,
-                                         const int& sw3_x, const int& sw3_y, const int& ew1_x, const int& ew1_y,
-                                         const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
-	this->duplication_flag[_princess] = (this->x == p_x && this->y == p_y) ? true : false;
-	this->duplication_flag[_s_warrior2] = (this->x == sw2_x && this->y == sw2_y) ? true : false;
-	this->duplication_flag[_s_warrior3] = (this->x == sw3_x && this->y == sw3_y) ? true : false;
-	this->duplication_flag[_e_warrior1] = (this->x == ew1_x && this->y == ew1_y) ? true : false;
-	this->duplication_flag[_e_warrior2] = (this->x == ew2_x && this->y == ew2_y) ? true : false;
-	this->duplication_flag[_e_bandits1] = (this->x == eb1_x && this->y == eb1_y) ? true : false;
+void ShadowWarrior_1::duplicate_decision(const int& other_x, const int& other_y, const int& name) {
+	this->duplication_flag[name] = (this->x == other_x && this->y == other_y) ? true : false;
 }
 
 /// <summary>

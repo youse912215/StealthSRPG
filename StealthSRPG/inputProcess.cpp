@@ -142,8 +142,7 @@ void Input::moving_cursor() {
 	}
 }
 
-void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
-                                  const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
+void Input::collision_flag_update(vector<vector<int>>& map) {
 	/* 左側が特定条件のとき */
 	if (map[(current_y / block_size)][(current_x / block_size) - 1] == SEA) {
 		//海のとき
@@ -158,18 +157,6 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 			|| map[(current_y / block_size)][(current_x / block_size) - 1] == ICE_SEA)
 		&& Map::scene == NOON_PLAY && range_flag == 1) {
 		//氷穴のとき
-		collision_flag[LEFT] = true;
-	}
-	else if (current_x - block_size == ew1_x && current_y == ew1_y && range_flag == 1) {
-		//エネミー1がいるとき
-		collision_flag[LEFT] = true;
-	}
-	else if (current_x - block_size == ew2_x && current_y == ew2_y && range_flag == 1) {
-		//エネミー2がいるとき
-		collision_flag[LEFT] = true;
-	}
-	else if (current_x - block_size == eb1_x && current_y == eb1_y && range_flag == 1) {
-		//山エネミー1がいるとき
 		collision_flag[LEFT] = true;
 	}
 	else {
@@ -192,18 +179,6 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 		//氷穴のとき
 		collision_flag[RIGHT] = true;
 	}
-	else if (current_x + block_size == ew1_x && current_y == ew1_y && range_flag == 1) {
-		//エネミー1がいるとき
-		collision_flag[RIGHT] = true;
-	}
-	else if (current_x + block_size == ew2_x && current_y == ew2_y && range_flag == 1) {
-		//エネミー2がいるとき
-		collision_flag[RIGHT] = true;
-	}
-	else if (current_x + block_size == eb1_x && current_y == eb1_y && range_flag == 1) {
-		//山エネミー1がいるとき
-		collision_flag[RIGHT] = true;
-	}
 	else {
 		collision_flag[RIGHT] = false;
 	}
@@ -222,18 +197,6 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 			|| map[(current_y / block_size) - 1][(current_x / block_size)] == ICE_SEA)
 		&& Map::scene == NOON_PLAY && range_flag == 1) {
 		//氷穴のとき
-		collision_flag[UP] = true;
-	}
-	else if (current_x == ew1_x && current_y - block_size == ew1_y && range_flag == 1) {
-		//エネミー1がいるとき
-		collision_flag[UP] = true;
-	}
-	else if (current_x == ew2_x && current_y - block_size == ew2_y && range_flag == 1) {
-		//エネミー2がいるとき
-		collision_flag[UP] = true;
-	}
-	else if (current_x == eb1_x && current_y - block_size == eb1_y && range_flag == 1) {
-		//山エネミー1がいるとき
 		collision_flag[UP] = true;
 	}
 	else {
@@ -256,28 +219,15 @@ void Input::collision_flag_update(vector<vector<int>>& map, const int& ew1_x, co
 		//氷穴のとき
 		collision_flag[DOWN] = true;
 	}
-	else if (current_x == ew1_x && current_y + block_size == ew1_y && range_flag == 1) {
-		//エネミー1がいるとき
-		collision_flag[DOWN] = true;
-	}
-	else if (current_x == ew2_x && current_y + block_size == ew2_y && range_flag == 1) {
-		//エネミー2がいるとき
-		collision_flag[DOWN] = true;
-	}
-	else if (current_x == eb1_x && current_y + block_size == eb1_y && range_flag == 1) {
-		//山エネミー1がいるとき
-		collision_flag[DOWN] = true;
-	}
 	else {
 		collision_flag[DOWN] = false;
 	}
 }
 
-void Input::map_scene_update(vector<vector<int>>& map, const int& ew1_x, const int& ew1_y,
-                             const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y) {
+void Input::map_scene_update(vector<vector<int>>& map) {
 	if (!MapUI::UI_flag && !confirmation_flag) {
 		moving_cursor();
-		if (range_flag == 1) collision_flag_update(map, ew1_x, ew1_y, ew2_x, ew2_y, eb1_x, eb1_y);
+		if (range_flag == 1) collision_flag_update(map);
 		else {
 			if (current_x == block_size) collision_flag[LEFT] = true;
 			else collision_flag[LEFT] = false;
@@ -294,7 +244,7 @@ void Input::map_scene_update(vector<vector<int>>& map, const int& ew1_x, const i
 		current_map_scene = SceneTransition::game_scene;
 		SceneTransition::game_scene = GAME_HELP;
 	}
-	time_change();
+	if (range_flag == -1) time_change();
 }
 
 void Input::game_help_update() {

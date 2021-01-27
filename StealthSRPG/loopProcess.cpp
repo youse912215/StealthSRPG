@@ -47,15 +47,34 @@ void loop_process() {
 
 	const int enemy_graph = LoadGraph("Source/Charactor/Enemy/enemies.png");
 	Enemy* enemies[] = {
+			/* ƒ`ƒ…[ƒgƒŠƒAƒ‹ */
 			new EnemyWarrior_1(block_size * 5, block_size * 12, enemy_graph,
 			                   block_size, 3, 3, 30, false, true),
 			new EnemyWarrior_1(block_size * 10, block_size * 13, enemy_graph,
 			                   block_size, 3, 3, 30, false, true),
 			new EnemyBandits(block_size * 14, block_size * 14, enemy_graph,
 			                 block_size, 4, 2, 20, false, true),
-			new EnemyWolf_1(block_size * 6, block_size * 6, enemy_graph,
-			                block_size, 2, 4, 20, false, true),
 		};
+	//Enemy* enemies2[] = {
+	//		/* ƒXƒe[ƒW1 */
+	//		new EnemyWolf_1(block_size * 15, block_size * 5, enemy_graph,
+	//		                block_size, 2, 4, 20, false, true),
+	//		new EnemyWolf_1(block_size * 15, block_size * 6, enemy_graph,
+	//		                block_size, 2, 4, 20, false, true),
+	//		new EnemyWolf_1(block_size * 16, block_size * 5, enemy_graph,
+	//		                block_size, 2, 4, 20, false, true),
+	//		new EnemyWolf_1(block_size * 16, block_size * 6, enemy_graph,
+	//		                block_size, 2, 4, 20, false, true),
+	//		new EnemyWarrior_1(block_size * 8, block_size * 12, enemy_graph,
+	//		                   block_size, 3, 3, 30, false, true),
+	//		new EnemyWarrior_1(block_size * 10, block_size * 12, enemy_graph,
+	//		                   block_size, 3, 3, 30, false, true),
+	//		new EnemyBandits(block_size * 14, block_size * 15, enemy_graph,
+	//		                 block_size, 4, 2, 20, false, true),
+	//		new EnemyBandits(block_size * 17, block_size * 14, enemy_graph,
+	//		                 block_size, 4, 2, 20, false, true),
+	//	};
+
 
 	// ƒQ[ƒ€ƒ‹[ƒv
 	while (true) {
@@ -64,59 +83,156 @@ void loop_process() {
 		input.input_info(); //“ü—Íî•ñ
 
 		MapDraw* _map = new MapDraw;
+		Cursor* cursor = new Cursor;
+		MapUI* UI = new MapUI;
 
-		if (SceneTransition::game_scene <= STAGE2) {
+		switch (SceneTransition::game_scene) {
+		case TUTORIAL:
 
-			_map->drawing_map(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
-			                  enemies[2]->x, enemies[2]->y, enemies[3]->x, enemies[3]->y); //ƒ}ƒbƒv•`‰æ
+			_map->drawing_map(); //ƒ}ƒbƒv•`‰æ
 
-			input.map_scene_update(_map->map_20x20, enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
-			                       enemies[2]->x, enemies[2]->y); //“ü—ÍXVˆ—
+			input.map_scene_update(_map->map_20x20); //“ü—ÍXVˆ—
 
-			Princess.Update(Warrior1.x, Warrior1.y, Warrior2.x, Warrior2.y,
-			                Warrior3.x, Warrior3.y, enemies[0]->x, enemies[0]->y,
-			                enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y); //•P‚ÌXVˆ—
+
+			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) _map->drawing_enemy_range(enemies[i]->x, enemies[i]->y);
+
+			Princess.Update(); //•P‚ÌXVˆ—
+			Princess.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+			Princess.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+			Princess.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
 			Princess.Dead(_map->map_20x20); //•P‚Ì€–Sˆ—
-			Warrior1.Update(Princess.x, Princess.y, Warrior2.x, Warrior2.y,
-			                Warrior3.x, Warrior3.y, enemies[0]->x, enemies[0]->y,
-			                enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y); //‰e•Ò1‚ÌXVˆ—
-			Warrior1.Dead(_map->map_20x20); //•P‚Ì€–Sˆ—
-			Warrior2.Update(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                Warrior3.x, Warrior3.y, enemies[0]->x, enemies[0]->y,
-			                enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y); //‰e•Ò2‚ÌXVˆ—
-			Warrior2.Dead(_map->map_20x20); //•P‚Ì€–Sˆ—
-			Warrior3.Update(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                Warrior2.x, Warrior2.y, enemies[0]->x, enemies[0]->y,
-			                enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y); //‰e•Ò3‚ÌXVˆ—
-			Warrior3.Dead(_map->map_20x20); //•P‚Ì€–Sˆ—
+			Warrior1.Update(); //‰e•Ò1‚ÌXVˆ—
+			Warrior1.duplicate_decision(Princess.x, Princess.y, _princess);
+			Warrior1.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+			Warrior1.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+			Warrior1.Dead(_map->map_20x20); //‰e•Ò1‚Ì€–Sˆ—
+			Warrior2.Update(); //‰e•Ò2‚ÌXVˆ—
+			Warrior2.duplicate_decision(Princess.x, Princess.y, _princess);
+			Warrior2.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+			Warrior2.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+			Warrior2.Dead(_map->map_20x20); //‰e•Ò2‚Ì€–Sˆ—
+			Warrior3.Update(); //‰e•Ò3‚ÌXVˆ—
+			Warrior3.duplicate_decision(Princess.x, Princess.y, _princess);
+			Warrior3.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+			Warrior3.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+			Warrior3.Dead(_map->map_20x20); //‰e•Ò3‚Ì€–Sˆ—
+
+			if (Enemy::act_order >= ARRAY_LENGTH(enemies)) Enemy::act_order = END;
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
-				enemies[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
-				                                  Warrior2.isAlive, Warrior3.isAlive);
-				enemies[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-				                                   Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-				enemies[i]->get_enemy_cost(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
-				                           enemies[2]->x, enemies[2]->y, enemies[3]->x, enemies[3]->y);
-				enemies[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
-				enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+				if (enemies[i]->isAlive) {
+					enemies[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+					                                  Warrior2.isAlive, Warrior3.isAlive);
+					enemies[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+					                                   Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+					enemies[i]->get_enemy_cost_0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
+					                             enemies[2]->x, enemies[2]->y);
+					enemies[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
+					enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+
+
+				}
 			}
 
-			Cursor* cursor = new Cursor;
-			cursor->update();
 			if (Map::scene % 2 != 0) {
-				cursor->move(Princess.x, Princess.y, enemies[0]->x, enemies[0]->y,
-				             enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y, enemies[3]->x, enemies[3]->y);
+				cursor->move_0(Princess.x, Princess.y, enemies[0]->x, enemies[0]->y,
+				               enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y);
 			}
-			delete cursor;
-
-			MapUI* UI = new MapUI;
+			cursor->update();
 			UI->yes_or_no(input.yes_or_no);
 			UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
 			                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 			UI->update();
-			delete UI;
+
+			break;
 		}
-		else if (SceneTransition::game_scene == GAME_RESULT) {
+		//case STAGE1:
+
+		//	_map->drawing_map(); //ƒ}ƒbƒv•`‰æ
+
+		//	input.map_scene_update(_map->map_20x20); //“ü—ÍXVˆ—
+
+
+		//	for (int i = 0; i < ARRAY_LENGTH(enemies); ++i)
+		//		_map->drawing_enemy_range(enemies2[i]->x, enemies2[i]->y);
+
+
+		//	Princess.Update(); //•P‚ÌXVˆ—
+		//	Princess.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
+		//	Princess.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
+		//	Princess.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
+		//	Princess.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
+		//	Princess.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
+		//	Princess.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
+		//	Princess.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
+		//	Princess.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+		//	Princess.Dead(_map->map_20x20); //•P‚Ì€–Sˆ—
+		//	Warrior1.Update(); //‰e•Ò1‚ÌXVˆ—
+		//	Warrior1.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
+		//	Warrior1.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
+		//	Warrior1.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
+		//	Warrior1.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
+		//	Warrior1.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
+		//	Warrior1.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
+		//	Warrior1.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
+		//	Warrior1.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+		//	Warrior1.Dead(_map->map_20x20); //‰e•Ò1‚Ì€–Sˆ—
+		//	Warrior2.Update(); //‰e•Ò2‚ÌXVˆ—
+		//	Warrior2.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
+		//	Warrior2.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
+		//	Warrior2.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
+		//	Warrior2.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
+		//	Warrior2.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
+		//	Warrior2.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
+		//	Warrior2.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
+		//	Warrior2.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+		//	Warrior2.Dead(_map->map_20x20); //‰e•Ò2‚Ì€–Sˆ—
+		//	Warrior3.Update(); //‰e•Ò3‚ÌXVˆ—
+		//	Warrior3.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
+		//	Warrior3.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
+		//	Warrior3.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
+		//	Warrior3.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
+		//	Warrior3.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
+		//	Warrior3.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
+		//	Warrior3.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
+		//	Warrior3.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+		//	Warrior3.Dead(_map->map_20x20); //‰e•Ò3‚Ì€–Sˆ—
+
+		//	if (Enemy::act_order > ARRAY_LENGTH(enemies2)) Enemy::act_order = END;
+
+		//	for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i) {
+		//		if (enemies2[i]->isAlive) {
+		//			enemies2[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+		//			                                   Warrior2.isAlive, Warrior3.isAlive);
+		//			enemies2[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+		//			                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+		//			enemies2[i]->get_enemy_cost_1(enemies2[0]->x, enemies2[0]->y, enemies2[1]->x, enemies2[1]->y,
+		//			                              enemies2[2]->x, enemies2[2]->y, enemies2[3]->x, enemies2[3]->y,
+		//			                              enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
+		//			                              enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
+		//			enemies2[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
+		//			enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+
+		//			if (Map::scene % 2 != 0) {
+		//				cursor->move_0(Princess.x, Princess.y, enemies2[i]->x, enemies2[i]->y, i);
+		//			}
+		//		}
+		//	}
+
+		//	cursor->update();
+		//	UI->yes_or_no(input.yes_or_no);
+		//	UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
+		//	                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+		//	UI->update();
+
+		//	break;
+		//}
+
+
+		delete cursor;
+		delete UI;
+
+		if (SceneTransition::game_scene == GAME_RESULT) {
 			Princess.set_next_map_node(input.current_map_scene);
 			Warrior1.set_next_map_node(input.current_map_scene);
 			Warrior2.set_next_map_node(input.current_map_scene);
@@ -140,8 +256,10 @@ void loop_process() {
 
 		delete _map;
 
+		/*DrawFormatString(700, 0, GetColor(255, 0, 255),
+		                 "Scene:%d, help:%d", SceneTransition::game_scene, GameHelp::help_num, false);*/
 		DrawFormatString(700, 0, GetColor(255, 0, 255),
-		                 "Scene:%d, help:%d", SceneTransition::game_scene, GameHelp::help_num, false);
+		                 "a_order:%d", Enemy::act_order, false);
 
 		window_in_roop(); //ƒ‹[ƒv“àƒEƒBƒ“ƒhƒEİ’è
 		if (ProcessMessage() == -1) break; //WindowsƒVƒXƒeƒ€‚©‚ç‚­‚éî•ñ‚ğˆ—

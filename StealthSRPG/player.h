@@ -1,5 +1,8 @@
 #pragma once
 #include "charactor.h"
+#include <vector>
+
+using namespace std;
 
 class Player : public Charactor {
 public:
@@ -7,7 +10,6 @@ public:
 	int range; //移動範囲
 	bool activity; //行動状態（trueなら行動済み）
 	bool isAlive; //生存状態
-	bool duplication_flag[8]; //他のキャラクターとの重複フラグ
 	int tracking_priority; //追跡優先度
 
 	Player(int x, int y, int graph, int moving_quantity, int hp, int range,

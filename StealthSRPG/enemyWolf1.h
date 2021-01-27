@@ -15,8 +15,12 @@ public:
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y) override;
 	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) override;
 	void Move() override;
-	void get_enemy_cost(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
-	                    const int& ey3, const int& ex4, const int& ey4) override;
+	void get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+	                      const int& ey3) override;
+	void get_enemy_cost_1(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+	                      const int& ey3, const int& ex4, const int& ey4, const int& ex5, const int& ey5,
+	                      const int& ex6, const int& ey6, const int& ex7, const int& ey7, const int& ex8,
+	                      const int& ey8) override;
 	void forward_act_order(const int& a_order) override;
 
 private:

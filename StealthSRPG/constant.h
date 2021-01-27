@@ -97,7 +97,20 @@ enum CHARACTOR {
 	_s_warrior3,
 	_e_warrior1,
 	_e_warrior2,
+	_e_warrior3,
+	_e_warrior4,
+	_e_warrior5,
+	_e_warrior6,
 	_e_bandits1,
+	_e_bandits2,
+	_e_bandits3,
+	_e_bandits4,
+	_e_bandits5,
+	_e_bandits6,
+	_e_wolf1,
+	_e_wolf2,
+	_e_wolf3,
+	_e_wolf4,
 };
 
 enum DIRECTION {
