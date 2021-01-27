@@ -45,15 +45,15 @@ void loop_process() {
 
 	EnemyWarrior_1 E_Warrior1(block_size * 5, block_size * 12,
 	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                          block_size, 3, 3, 50, false, true);
+	                          block_size, 3, 3, 30, false, true);
 
 	EnemyWarrior_2 E_Warrior2(block_size * 10, block_size * 13,
 	                          LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                          block_size, 3, 3, 80, false, true);
+	                          block_size, 3, 3, 30, false, true);
 
 	EnemyBandits Bandits(block_size * 14, block_size * 14,
 	                     LoadGraph("Source/Charactor/Enemy/enemies.png"),
-	                     block_size, 4, 2, 150, false, true);
+	                     block_size, 4, 2, 20, false, true);
 
 	// ÉQÅ[ÉÄÉãÅ[Év
 	while (true) {

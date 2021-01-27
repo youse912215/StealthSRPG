@@ -339,7 +339,8 @@ void EnemyWarrior_2::moving_decision() {
 void EnemyWarrior_2::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (activity && !attack_activity && Map::scene % 2 != 0 && act_order == WARRIOR2) {
+	if (activity && !attack_activity && Map::scene % 2 != 0
+		&& act_order == WARRIOR2 && Map::turn_timer > this->act_time) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0

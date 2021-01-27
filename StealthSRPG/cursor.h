@@ -21,6 +21,7 @@ public:
 private:
 	int disp_x;
 	int disp_y;
+
 	void pick();
 	void draw();
 	void Rangelimit();

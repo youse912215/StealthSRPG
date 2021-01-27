@@ -12,10 +12,10 @@ int Cursor::range_flag = -1;
 int Cursor::moving_range = -1;
 
 Cursor::Cursor() {
-	disp_x = block_size * 9;
-	disp_y = block_size * 5;
+	disp_x = block_size * 9 - 8;
+	disp_y = block_size * 5 - 8;
 	radius = block_size / 2;
-	graph = LoadGraph("Source/Charactor/Cursor.png");
+	graph = LoadGraph("Source/Charactor/Cursor2.png");
 	qx = current_x - block_size * 9;
 	qy = current_y - block_size * 9;
 }

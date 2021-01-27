@@ -339,7 +339,8 @@ void EnemyBandits::moving_decision() {
 void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (activity && !attack_activity && Map::scene % 2 != 0 && act_order == BANDITS1) {
+	if (activity && !attack_activity && Map::scene % 2 != 0
+		&& act_order == BANDITS1 && Map::turn_timer > this->act_time) {
 		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
 			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
