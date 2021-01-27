@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "constant.h"
 #include "enemy.h"
+#include "sceneTransition.h"
 
 int Cursor::current_x = block_size * 8;
 int Cursor::current_y = block_size * 8;
@@ -48,7 +49,6 @@ void Cursor::move(const int& p_x, const int& p_y, const int& ew1_x, const int& e
 		current_y = p_y;
 		break;
 	}
-
 }
 
 void Cursor::pick() {

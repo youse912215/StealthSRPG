@@ -5,6 +5,6 @@ private:
 
 public:
 	static int game_scene;
-	
+
 	void transition_to_result();
 };

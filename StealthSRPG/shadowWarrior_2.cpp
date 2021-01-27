@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include "cursor.h"
 #include "mapAll.h"
+#include "sceneTransition.h"
 
 ShadowWarrior_2::ShadowWarrior_2(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity,
                                  bool isAlive,
@@ -86,7 +87,7 @@ void ShadowWarrior_2::duplicate_decision(const int& p_x, const int& p_y, const i
 	this->duplication_flag[_s_warrior1] = (this->x == sw1_x && this->y == sw1_y) ? true : false;
 	this->duplication_flag[_s_warrior3] = (this->x == sw3_x && this->y == sw3_y) ? true : false;
 	this->duplication_flag[_e_warrior1] = (this->x == ew1_x && this->y == ew1_y) ? true : false;
-	this->duplication_flag[_e_warrior2] = (this->x == ew1_x && this->y == ew1_y) ? true : false;
+	this->duplication_flag[_e_warrior2] = (this->x == ew2_x && this->y == ew2_y) ? true : false;
 	this->duplication_flag[_e_bandits1] = (this->x == eb1_x && this->y == eb1_y) ? true : false;
 }
 
@@ -137,5 +138,14 @@ void ShadowWarrior_2::act_cancel() {
 		this->x = old_x;
 		this->y = old_y;
 		this->activity = false;
+	}
+}
+
+void ShadowWarrior_2::set_next_map_node(const int& c_scene) {
+	if (c_scene == TUTORIAL) {
+		this->x = block_size * 9;
+		this->y = block_size * 8;
+		this->hp = 6;
+		this->isAlive = true;
 	}
 }

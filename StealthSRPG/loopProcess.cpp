@@ -134,6 +134,10 @@ void loop_process() {
 			delete UI;
 		}
 		else if (SceneTransition::game_scene == GAME_RESULT) {
+			Princess.set_next_map_node(input.current_map_scene);
+			Warrior1.set_next_map_node(input.current_map_scene);
+			Warrior2.set_next_map_node(input.current_map_scene);
+			Warrior3.set_next_map_node(input.current_map_scene);
 			input.game_result_update();
 		}
 		else if (SceneTransition::game_scene == GAME_HELP) {
@@ -155,6 +159,7 @@ void loop_process() {
 
 		DrawFormatString(700, 0, GetColor(255, 0, 255),
 		                 "Scene:%d, help:%d", SceneTransition::game_scene, GameHelp::help_num, false);
+
 		/*DrawFormatString(700, 15, GetColor(255, 255, 255), " Z:プレイヤー選択", false);
 		DrawFormatString(700, 30, GetColor(255, 255, 255), " SPACE:次フェイスへ", false);
 		DrawFormatString(700, 45, GetColor(255, 255, 255), " ARROW:1マス移動", false);*/

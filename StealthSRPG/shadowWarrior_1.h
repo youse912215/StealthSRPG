@@ -16,6 +16,7 @@ public:
 	            const int& ew2_x, const int& ew2_y, const int& eb1_x, const int& eb1_y);
 	void Draw();
 	void Dead(vector<vector<int>>& map);
+	void set_next_map_node(const int& c_scene);
 
 private:
 	int old_x;

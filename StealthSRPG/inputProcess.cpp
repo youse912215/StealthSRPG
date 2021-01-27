@@ -316,7 +316,7 @@ void Input::game_help_update() {
 void Input::game_result_update() {
 	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]) {
 		SceneTransition::game_scene = current_map_scene + 1;
-
+		current_map_scene++;
 		Map::scene = NOON_PLAY;
 		MapUI::UI_flag = true;
 	}

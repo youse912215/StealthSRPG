@@ -6,7 +6,7 @@ using namespace std;
 
 class Input : public Cursor {
 private:
-	int current_map_scene;
+
 
 	void cursorLeft();
 	void cursorRight();
@@ -24,6 +24,7 @@ public:
 	char keys[256] = {0}; //最新のキーボード情報用
 	char oldkeys[256] = {0}; //1ループ(フレーム)前のキーボード情報
 	static bool confirmation_flag;
+	int current_map_scene;
 
 	Input();
 	void input_info();

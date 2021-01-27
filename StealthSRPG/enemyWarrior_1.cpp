@@ -61,7 +61,7 @@ void EnemyWarrior_1::Draw() {
 	              block_size, block_size,
 	              this->graph, true, false);
 
-	DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
+	/*DrawFormatString(0, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "“G•º1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(0, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
@@ -99,7 +99,7 @@ void EnemyWarrior_1::Draw() {
 	DrawFormatString(480, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
 	DrawFormatString(480, 520, GetColor(255, 0, 50), "score:L%d, R%d, U%d, D%d, %d",
-	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);
+	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);*/
 }
 
 void EnemyWarrior_1::drawing_effect1(const int& nx, const int& ny, const int& direction) {

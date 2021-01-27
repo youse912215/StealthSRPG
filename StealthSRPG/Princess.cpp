@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include "cursor.h"
 #include "mapAll.h"
+#include "sceneTransition.h"
 
 Princess::Princess(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity, bool isAlive,
                    Input& input):
@@ -85,7 +86,7 @@ void Princess::duplicate_decision(const int& sw1_x, const int& sw1_y, const int&
 	this->duplication_flag[_s_warrior2] = (this->x == sw2_x && this->y == sw2_y) ? true : false;
 	this->duplication_flag[_s_warrior3] = (this->x == sw3_x && this->y == sw3_y) ? true : false;
 	this->duplication_flag[_e_warrior1] = (this->x == ew1_x && this->y == ew1_y) ? true : false;
-	this->duplication_flag[_e_warrior2] = (this->x == ew1_x && this->y == ew1_y) ? true : false;
+	this->duplication_flag[_e_warrior2] = (this->x == ew2_x && this->y == ew2_y) ? true : false;
 	this->duplication_flag[_e_bandits1] = (this->x == eb1_x && this->y == eb1_y) ? true : false;
 }
 
@@ -136,5 +137,15 @@ void Princess::act_cancel() {
 		this->x = old_x;
 		this->y = old_y;
 		this->activity = false;
+	}
+}
+
+void Princess::set_next_map_node(const int& c_scene) {
+	if (c_scene == TUTORIAL) {
+		this->x = block_size * 8;
+		this->y = block_size * 8;
+		this->hp = 6;
+		current_x = this->x;
+		current_y = this->y;
 	}
 }
