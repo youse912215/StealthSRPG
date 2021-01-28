@@ -36,6 +36,7 @@ void EnemyWolf_1::Update(vector<vector<int>>& map) {
 	activate_reset();
 	score_decision();
 	moving_end();
+	reset_act_order();
 	get_impact_motion(this->attack_activity, &attack_motion);
 	Draw();
 	drawing_effect2();
@@ -59,7 +60,7 @@ void EnemyWolf_1::Draw() {
 	              block_size, block_size,
 	              this->graph, true, false);
 
-	DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
+	/*DrawFormatString(200, WIN_HEIGHT - block_size - 15, GetColor(0, 0, 0),
 	                 "“G•º1(%d, %d)", x / block_size, y / block_size, false);
 	DrawFormatString(200, WIN_HEIGHT - block_size, GetColor(0, 0, 0),
 	                 "md:%d, Ac:%d", moving_distance, this->activity, false);
@@ -97,7 +98,7 @@ void EnemyWolf_1::Draw() {
 	DrawFormatString(710, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
 	                 cost[LEFT], cost[RIGHT], cost[UP], cost[DOWN], false);
 	DrawFormatString(710, 520, GetColor(255, 0, 50), "score:L%d, R%d, U%d, D%d, %d",
-	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);
+	                 score[LEFT], score[RIGHT], score[UP], score[DOWN], minimum_score, false);*/
 }
 
 void EnemyWolf_1::drawing_effect1(const int& nx, const int& ny, const int& direction) {
@@ -342,44 +343,48 @@ void EnemyWolf_1::moving_decision() {
 void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (act_order == a_order && Map::scene == NIGHT_ENEMY) Move();
+	if (this->isAlive) {
+		if (act_order == a_order && Map::scene == NIGHT_ENEMY) Move();
 
-	if (activity && !attack_activity && Map::scene == NIGHT_ENEMY
-		&& act_order == a_order && Map::turn_timer > this->act_time) {
-		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
-			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
-			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
-			|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
-			*p_hp -= this->attack;
-			attack_activity = true;
-			this->activity = true;
+		if (activity && !attack_activity && Map::scene == NIGHT_ENEMY
+			&& act_order == a_order && Map::turn_timer > this->act_time) {
+			if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
+				|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
+				|| parent_husteric[ENEMY_PRINCESS][UP] == 0
+				|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
+				*p_hp -= this->attack;
+				attack_activity = true;
+				this->activity = true;
+			}
+			else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
+				|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
+				|| parent_husteric[ENEMY_WARRIOR1][UP] == 0
+				|| parent_husteric[ENEMY_WARRIOR1][DOWN] == 0) {
+				*sw1_hp -= this->attack;
+				attack_activity = true;
+				this->activity = true;
+			}
+			else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
+				|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
+				|| parent_husteric[ENEMY_WARRIOR2][UP] == 0
+				|| parent_husteric[ENEMY_WARRIOR2][DOWN] == 0) {
+				*sw2_hp -= this->attack;
+				attack_activity = true;
+				this->activity = true;
+			}
+			else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
+				|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
+				|| parent_husteric[ENEMY_WARRIOR3][UP] == 0
+				|| parent_husteric[ENEMY_WARRIOR3][DOWN] == 0) {
+				*sw3_hp -= this->attack;
+				attack_activity = true;
+				this->activity = true;
+			}
 		}
-		else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][DOWN] == 0) {
-			*sw1_hp -= this->attack;
-			attack_activity = true;
-			this->activity = true;
-		}
-		else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][DOWN] == 0) {
-			*sw2_hp -= this->attack;
-			attack_activity = true;
-			this->activity = true;
-		}
-		else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][DOWN] == 0) {
-			*sw3_hp -= this->attack;
-			attack_activity = true;
-			this->activity = true;
-		}
+		if (Map::turn_timer >= 70 && Map::scene == NIGHT_ENEMY) forward_act_order(a_order);
+		else if (Map::turn_timer >= 10 && Map::scene == NOON_ENEMY) forward_act_order(a_order);
 	}
-	if (Map::turn_timer >= 60) forward_act_order(a_order);
+	else forward_act_order(a_order);
 }
 
 void EnemyWolf_1::get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,

@@ -32,5 +32,5 @@ int Enemy::set_to_one(int x) {
 }
 
 void Enemy::reset_act_order() {
-	if (Map::scene % 2 == 0) act_order = WARRIOR1;
+	if (Map::scene % 2 == 0) act_order = 0;
 }

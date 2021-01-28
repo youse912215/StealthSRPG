@@ -17,6 +17,11 @@ public:
 	void update();
 	void move_0(const int& px, const int& py, const int& ex1, const int& ey1,
 	            const int& ex2, const int& ey2, const int& ex3, const int& ey3);
+	void move_1(const int& px, const int& py, const int& ex1, const int& ey1,
+	            const int& ex2, const int& ey2, const int& ex3, const int& ey3,
+	            const int& ex4, const int& ey4, const int& ex5, const int& ey5,
+	            const int& ex6, const int& ey6, const int& ex7, const int& ey7,
+	            const int& ex8, const int& ey8);
 
 private:
 	int disp_x;

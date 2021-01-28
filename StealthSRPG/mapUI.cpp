@@ -22,6 +22,7 @@ MapUI::MapUI() : UI_graph{
 	no = LoadGraph("Source/UI/No.png");
 	red = LoadGraph("Source/UI/red.png");
 	status = LoadGraph("Source/UI/Status.png");
+	status2 = LoadGraph("Source/UI/Status2.png");
 	life = LoadGraph("Source/UI/Life.png");
 	sun = LoadGraph("Source/UI/sun256.png");
 	moon = LoadGraph("Source/UI/moon256.png");
@@ -39,6 +40,9 @@ MapUI::~MapUI() {
 	DeleteGraph(yes);
 	DeleteGraph(no);
 	DeleteGraph(red);
+	DeleteGraph(status);
+	DeleteGraph(status2);
+	DeleteGraph(life);
 	DeleteGraph(sun);
 	DeleteGraph(moon);
 }
@@ -89,19 +93,6 @@ void MapUI::drawing_scene_symbol() {
 void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& sw2_hp, const int& sw3_hp,
                                 const bool& p_alive, const bool& sw1_alive, const bool& sw2_alive,
                                 const bool& sw3_alive) {
-	/*DrawRectGraph(0, WIN_HEIGHT - 128,
-	              0, 0, status_size_x, status_size_y,
-	              status, true, false);
-	DrawRectGraph(status_size_x, WIN_HEIGHT - 128,
-	              status_size_x, 0, status_size_x, status_size_y,
-	              status, true, false);
-	DrawRectGraph(status_size_x * 2, WIN_HEIGHT - 128,
-	              status_size_x, 0, status_size_x, status_size_y,
-	              status, true, false);
-	DrawRectGraph(status_size_x * 3, WIN_HEIGHT - 128,
-	              status_size_x, 0, status_size_x, status_size_y,
-	              status, true, false);
-
 	if (p_alive) {
 		DrawRectGraph(status_size_x * 0, WIN_HEIGHT - status_size_y,
 		              status_size_x * (6 - p_hp), 0,
@@ -125,7 +116,54 @@ void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& s
 		              status_size_x * (6 - sw3_hp), 0,
 		              status_size_x, status_size_y,
 		              life, true, false);
-	}*/
+	}
+}
+
+void MapUI::drawing_main_status(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y, const int& sw2_x,
+                                const int& sw2_y, const int& sw3_x, const int& sw3_y) {
+	if (p_x == current_x && p_y == current_y) {
+		DrawRectGraph(0, WIN_HEIGHT - 128,
+		              0, 0, status_size_x, status_size_y,
+		              status2, true, false);
+	}
+	else {
+		DrawRectGraph(0, WIN_HEIGHT - 128,
+		              0, 0, status_size_x, status_size_y,
+		              status, true, false);
+	}
+
+	if (sw1_x == current_x && sw1_y == current_y) {
+		DrawRectGraph(status_size_x, WIN_HEIGHT - 128,
+		              status_size_x, 0, status_size_x, status_size_y,
+		              status2, true, false);
+	}
+	else {
+		DrawRectGraph(status_size_x, WIN_HEIGHT - 128,
+		              status_size_x, 0, status_size_x, status_size_y,
+		              status, true, false);
+	}
+
+	if (sw2_x == current_x && sw2_y == current_y) {
+		DrawRectGraph(status_size_x * 2, WIN_HEIGHT - 128,
+		              status_size_x, 0, status_size_x, status_size_y,
+		              status2, true, false);
+	}
+	else {
+		DrawRectGraph(status_size_x * 2, WIN_HEIGHT - 128,
+		              status_size_x, 0, status_size_x, status_size_y,
+		              status, true, false);
+	}
+
+	if (sw3_x == current_x && sw3_y == current_y) {
+		DrawRectGraph(status_size_x * 3, WIN_HEIGHT - 128,
+		              status_size_x, 0, status_size_x, status_size_y,
+		              status2, true, false);
+	}
+	else {
+		DrawRectGraph(status_size_x * 3, WIN_HEIGHT - 128,
+		              status_size_x, 0, status_size_x, status_size_y,
+		              status, true, false);
+	}
 }
 
 void MapUI::yes_or_no(const bool& y_n) {

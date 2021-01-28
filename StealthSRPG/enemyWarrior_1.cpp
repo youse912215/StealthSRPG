@@ -343,45 +343,47 @@ void EnemyWarrior_1::moving_decision() {
 void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (act_order == a_order) Move();
+	if (this->isAlive) {
+		if (act_order == a_order) Move();
 
-	if (activity && !attack_activity && Map::scene % 2 != 0
-		&& act_order == a_order && Map::turn_timer > this->act_time) {
-		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
-			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
-			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
-			|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
-			*p_hp -= this->attack;
-			attack_activity = true;
-			this->activity = true;
+		if (activity && !attack_activity && Map::scene % 2 != 0
+			&& act_order == a_order && Map::turn_timer > this->act_time) {
+			if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
+				|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
+				|| parent_husteric[ENEMY_PRINCESS][UP] == 0
+				|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
+				*p_hp -= this->attack;
+				attack_activity = true;
+				this->activity = true;
+			}
+			else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
+				|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
+				|| parent_husteric[ENEMY_WARRIOR1][UP] == 0
+				|| parent_husteric[ENEMY_WARRIOR1][DOWN] == 0) {
+				*sw1_hp -= this->attack;
+				attack_activity = true;
+				this->activity = true;
+			}
+			else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
+				|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
+				|| parent_husteric[ENEMY_WARRIOR2][UP] == 0
+				|| parent_husteric[ENEMY_WARRIOR2][DOWN] == 0) {
+				*sw2_hp -= this->attack;
+				attack_activity = true;
+				this->activity = true;
+			}
+			else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
+				|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
+				|| parent_husteric[ENEMY_WARRIOR3][UP] == 0
+				|| parent_husteric[ENEMY_WARRIOR3][DOWN] == 0) {
+				*sw3_hp -= this->attack;
+				attack_activity = true;
+				this->activity = true;
+			}
 		}
-		else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][DOWN] == 0) {
-			*sw1_hp -= this->attack;
-			attack_activity = true;
-			this->activity = true;
-		}
-		else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][DOWN] == 0) {
-			*sw2_hp -= this->attack;
-			attack_activity = true;
-			this->activity = true;
-		}
-		else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][DOWN] == 0) {
-			*sw3_hp -= this->attack;
-			attack_activity = true;
-			this->activity = true;
-		}
+		if (Map::turn_timer >= 60) forward_act_order(a_order);
 	}
-
-	if (Map::turn_timer >= 60) forward_act_order(a_order);
+	else forward_act_order(a_order);
 }
 
 void EnemyWarrior_1::get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
