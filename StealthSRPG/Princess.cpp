@@ -137,11 +137,24 @@ void Princess::act_cancel() {
 }
 
 void Princess::set_next_map_node(const int& c_scene) {
-	if (c_scene == TUTORIAL) {
+	switch (c_scene) {
+	case TUTORIAL:
 		this->x = block_size * 8;
 		this->y = block_size * 8;
 		this->hp = 6;
+		this->activity = false;
 		current_x = this->x;
 		current_y = this->y;
+		break;
+
+	case STAGE1:
+		this->x = block_size * 12;
+		this->y = block_size * 12;
+		this->hp = 6;
+		this->activity = false;
+		current_x = this->x;
+		current_y = this->y;
+		break;
 	}
+
 }

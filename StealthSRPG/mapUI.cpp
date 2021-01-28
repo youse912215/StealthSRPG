@@ -50,16 +50,16 @@ MapUI::~MapUI() {
 void MapUI::update() {
 	drawing_scene_symbol();
 
+	if (blend_time > 300) UI_flag = false;
+
+	if (Enemy::act_order == END) UI_flag = true;
+
 	if (UI_flag) {
 		drawing_blend(scene);
 		blend_time += 10;
 	}
 	else
 		reset_blend();
-
-	if (blend_time > 300) UI_flag = false;
-
-	if (Enemy::act_order == END) UI_flag = true;
 
 	if (Input::confirmation_flag) drawing_comfirmation();
 }

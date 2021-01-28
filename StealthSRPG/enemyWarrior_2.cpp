@@ -462,6 +462,71 @@ void EnemyWarrior_2::get_enemy_cost_1(const int& ex1, const int& ey1, const int&
 	}
 }
 
+void EnemyWarrior_2::get_enemy_cost_2(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+                                      const int& ey3, const int& ex4, const int& ey4, const int& ex5, const int& ey5,
+                                      const int& ex6, const int& ey6, const int& ex7, const int& ey7, const int& ex8,
+                                      const int& ey8, const int& ex9, const int& ey9, const int& ex10, const int& ey10,
+                                      const int& ex11, const int& ey11) {
+	if (!this->activity) {
+		if ((node_x[LEFT_X] == ex1 / block_size && node_y[CENTER_Y] == ey1 / block_size)
+			|| (node_x[LEFT_X] == ex2 / block_size && node_y[CENTER_Y] == ey2 / block_size)
+			|| (node_x[LEFT_X] == ex3 / block_size && node_y[CENTER_Y] == ey3 / block_size)
+			|| (node_x[LEFT_X] == ex4 / block_size && node_y[CENTER_Y] == ey4 / block_size)
+			|| (node_x[LEFT_X] == ex5 / block_size && node_y[CENTER_Y] == ey5 / block_size)
+			|| (node_x[LEFT_X] == ex6 / block_size && node_y[CENTER_Y] == ey6 / block_size)
+			|| (node_x[LEFT_X] == ex7 / block_size && node_y[CENTER_Y] == ey7 / block_size)
+			|| (node_x[LEFT_X] == ex8 / block_size && node_y[CENTER_Y] == ey8 / block_size)
+			|| (node_x[LEFT_X] == ex9 / block_size && node_y[CENTER_Y] == ey9 / block_size)
+			|| (node_x[LEFT_X] == ex10 / block_size && node_y[CENTER_Y] == ey10 / block_size)
+			|| (node_x[LEFT_X] == ex11 / block_size && node_y[CENTER_Y] == ey11 / block_size))
+			enemy_cost[LEFT] = ENEMY_COST;
+		else enemy_cost[LEFT] = 0;
+
+		if ((node_x[RIGHT_X] == ex1 / block_size && node_y[CENTER_Y] == ey1 / block_size)
+			|| (node_x[RIGHT_X] == ex2 / block_size && node_y[CENTER_Y] == ey2 / block_size)
+			|| (node_x[RIGHT_X] == ex3 / block_size && node_y[CENTER_Y] == ey3 / block_size)
+			|| (node_x[RIGHT_X] == ex4 / block_size && node_y[CENTER_Y] == ey4 / block_size)
+			|| (node_x[RIGHT_X] == ex5 / block_size && node_y[CENTER_Y] == ey5 / block_size)
+			|| (node_x[RIGHT_X] == ex6 / block_size && node_y[CENTER_Y] == ey6 / block_size)
+			|| (node_x[RIGHT_X] == ex7 / block_size && node_y[CENTER_Y] == ey7 / block_size)
+			|| (node_x[RIGHT_X] == ex8 / block_size && node_y[CENTER_Y] == ey8 / block_size)
+			|| (node_x[RIGHT_X] == ex9 / block_size && node_y[CENTER_Y] == ey9 / block_size)
+			|| (node_x[RIGHT_X] == ex10 / block_size && node_y[CENTER_Y] == ey10 / block_size)
+			|| (node_x[RIGHT_X] == ex11 / block_size && node_y[CENTER_Y] == ey11 / block_size))
+			enemy_cost[RIGHT] = ENEMY_COST;
+		else enemy_cost[RIGHT] = 0;
+
+		if ((node_x[CENTER_X] == ex1 / block_size && node_y[UP_Y] == ey1 / block_size)
+			|| (node_x[CENTER_X] == ex2 / block_size && node_y[UP_Y] == ey2 / block_size)
+			|| (node_x[CENTER_X] == ex3 / block_size && node_y[UP_Y] == ey3 / block_size)
+			|| (node_x[CENTER_X] == ex4 / block_size && node_y[UP_Y] == ey4 / block_size)
+			|| (node_x[CENTER_X] == ex5 / block_size && node_y[UP_Y] == ey5 / block_size)
+			|| (node_x[CENTER_X] == ex6 / block_size && node_y[UP_Y] == ey6 / block_size)
+			|| (node_x[CENTER_X] == ex7 / block_size && node_y[UP_Y] == ey7 / block_size)
+			|| (node_x[CENTER_X] == ex8 / block_size && node_y[UP_Y] == ey8 / block_size)
+			|| (node_x[CENTER_X] == ex9 / block_size && node_y[UP_Y] == ey9 / block_size)
+			|| (node_x[CENTER_X] == ex10 / block_size && node_y[UP_Y] == ey10 / block_size)
+			|| (node_x[CENTER_X] == ex11 / block_size && node_y[UP_Y] == ey11 / block_size))
+			enemy_cost[UP] = ENEMY_COST;
+		else enemy_cost[UP] = 0;
+
+		if ((node_x[CENTER_X] == ex1 / block_size && node_y[DOWN_Y] == ey1 / block_size)
+			|| (node_x[CENTER_X] == ex2 / block_size && node_y[DOWN_Y] == ey2 / block_size)
+			|| (node_x[CENTER_X] == ex3 / block_size && node_y[DOWN_Y] == ey3 / block_size)
+			|| (node_x[CENTER_X] == ex4 / block_size && node_y[DOWN_Y] == ey4 / block_size)
+			|| (node_x[CENTER_X] == ex5 / block_size && node_y[DOWN_Y] == ey5 / block_size)
+			|| (node_x[CENTER_X] == ex6 / block_size && node_y[DOWN_Y] == ey6 / block_size)
+			|| (node_x[CENTER_X] == ex7 / block_size && node_y[DOWN_Y] == ey7 / block_size)
+			|| (node_x[CENTER_X] == ex8 / block_size && node_y[DOWN_Y] == ey8 / block_size)
+			|| (node_x[CENTER_X] == ex9 / block_size && node_y[DOWN_Y] == ey9 / block_size)
+			|| (node_x[CENTER_X] == ex10 / block_size && node_y[DOWN_Y] == ey10 / block_size)
+			|| (node_x[CENTER_X] == ex11 / block_size && node_y[DOWN_Y] == ey11 / block_size))
+			enemy_cost[DOWN] = ENEMY_COST;
+		else enemy_cost[DOWN] = 0;
+	}
+}
+
+
 void EnemyWarrior_2::Dead(vector<vector<int>>& map) {
 	if ((map[this->y / block_size][this->x / block_size] == TIDE && Map::scene == NIGHT_PLAY)
 		|| (map[this->y / block_size][this->x / block_size] == ICE_LAND && Map::scene == NOON_PLAY)

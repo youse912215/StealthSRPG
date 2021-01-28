@@ -94,6 +94,63 @@ void Cursor::move_1(const int& px, const int& py, const int& ex1, const int& ey1
 	}
 }
 
+void Cursor::move_2(const int& px, const int& py, const int& ex1, const int& ey1, const int& ex2, const int& ey2,
+                    const int& ex3, const int& ey3, const int& ex4, const int& ey4, const int& ex5, const int& ey5,
+                    const int& ex6, const int& ey6, const int& ex7, const int& ey7, const int& ex8, const int& ey8,
+                    const int& ex9, const int& ey9, const int& ex10, const int& ey10, const int& ex11,
+                    const int& ey11) {
+	switch (Enemy::act_order) {
+	case 0:
+		current_x = ex1;
+		current_y = ey1;
+		break;
+	case 1:
+		current_x = ex2;
+		current_y = ey2;
+		break;
+	case 2:
+		current_x = ex3;
+		current_y = ey3;
+		break;
+	case 3:
+		current_x = ex4;
+		current_y = ey4;
+		break;
+	case 4:
+		current_x = ex5;
+		current_y = ey5;
+		break;
+	case 5:
+		current_x = ex6;
+		current_y = ey6;
+		break;
+	case 6:
+		current_x = ex7;
+		current_y = ey7;
+		break;
+	case 7:
+		current_x = ex8;
+		current_y = ey8;
+		break;
+	case 8:
+		current_x = ex9;
+		current_y = ey9;
+		break;
+	case 9:
+		current_x = ex10;
+		current_y = ey10;
+		break;
+	case 10:
+		current_x = ex11;
+		current_y = ey11;
+		break;
+	default:
+		current_x = px;
+		current_y = py;
+		break;
+	}
+}
+
 void Cursor::pick() {
 }
 
