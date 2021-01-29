@@ -3,11 +3,11 @@
 class GameResult {
 private:
 	int rank; //0=Cランク, 1=Bランク, 2=Aランク, 3=Sランク
-	int char_rank; //ランクの文字
 	int char_next; //次のシーン文字
 	int background; //背景
 
 	enum RANK {
+		D,
 		C,
 		B,
 		A,

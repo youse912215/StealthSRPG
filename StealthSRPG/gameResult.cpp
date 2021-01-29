@@ -5,19 +5,18 @@
 
 GameResult::GameResult() {
 	rank = 0;
-	/*char_rank = LoadGraph("Source/UI/rank.png");
 	char_next = LoadGraph("Source/UI/next.png");
-	background = LoadGraph("Source/UI/result.png");*/
+	background = LoadGraph("Source/UI/result.png");
 }
 
 GameResult::~GameResult() {
-	/*DeleteGraph(char_rank);
 	DeleteGraph(char_next);
-	DeleteGraph(background);*/
+	DeleteGraph(background);
 }
 
 void GameResult::draw() {
-	DrawFormatString(900, 0, GetColor(255, 0, 0), "Rank:%d", rank, false);
+	DrawRectGraph(0, 0, WIN_WIDTH * (S - rank), 0,
+	              WIN_WIDTH, WIN_HEIGHT, background, true, false);
 }
 
 void GameResult::rank_check(const bool& p_ac, const bool& sw1_ac, const bool& sw2_ac, const bool& sw3_ac) {
@@ -31,6 +30,8 @@ void GameResult::rank_check(const bool& p_ac, const bool& sw1_ac, const bool& sw
 		|| (!sw1_ac && sw2_ac && sw3_ac))
 		rank = A;
 	else if (sw1_ac && sw2_ac && sw3_ac) rank = S;
+
+	if (!p_ac) rank = D;
 }
 
 void GameResult::update() {

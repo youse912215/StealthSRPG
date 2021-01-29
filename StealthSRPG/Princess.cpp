@@ -115,9 +115,8 @@ void Princess::Dead(vector<vector<int>>& map) {
 }
 
 void Princess::get_survival_activity() {
-	this->isAlive = false; //¶‘¶ó‘Ô‚ðfalse
-	this->x = -1;
-	this->y = -1;
+	this->isAlive = false;
+	SceneTransition::game_scene = GAME_RESULT;
 }
 
 void Princess::get_old_node() {
