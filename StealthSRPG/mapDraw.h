@@ -6,7 +6,7 @@ using namespace std;
 
 class MapDraw : public Infomation {
 private:
-	//int map_20x20[area_width][area_height]; //ƒ}ƒbƒv‚ðŠi”[
+	//int map_20x20[AREA_WIDTH][AREA_HEIGHT]; //ƒ}ƒbƒv‚ðŠi”[
 	//int range_11x11[11][11]; //ˆÚ“®”ÍˆÍ‚ðŠi”[
 
 	int base_graph;

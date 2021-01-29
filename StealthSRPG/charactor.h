@@ -8,14 +8,14 @@ public:
 	int y;
 	int graph;
 	int moving_quantity;
-	int latency; //‘Ò‹@ŠÔ
+	int latency;
 
-	Charactor(int x, int y, int graph, int moving_quantity = block_size);
+	Charactor(int x, int y, int graph, int moving_quantity);
 	~Charactor();
 
 protected:
-	int src_x; //‰æ‘œã‚Ì¶ãxÀ•W
-	int src_y; //‰æ‘œã‚Ì¶ãyÀ•W
+	int src_x;
+	int src_y;
 
 	void get_latency();
 	void wait_motion();

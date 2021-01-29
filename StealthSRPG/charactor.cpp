@@ -24,5 +24,5 @@ void Charactor::get_latency() {
 //void Charactor::draw() {
 //	DrawGraph(quantity_x, quantity_y, graph, true);
 //	DrawFormatString(quantity_x, quantity_y, GetColor(255, 255, 255),
-//	                 "(quantity_x:%d, quantity_y:%d)", quantity_x / block_size, quantity_y / block_size, false);
+//	                 "(quantity_x:%d, quantity_y:%d)", quantity_x / BLOCK_SIZE, quantity_y / BLOCK_SIZE, false);
 //}

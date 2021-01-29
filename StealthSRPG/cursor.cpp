@@ -4,24 +4,24 @@
 #include "enemy.h"
 #include "sceneTransition.h"
 
-int Cursor::current_x = block_size * 8;
-int Cursor::current_y = block_size * 8;
+int Cursor::current_x = BLOCK_SIZE * 8;
+int Cursor::current_y = BLOCK_SIZE * 8;
 int Cursor::range_x = 0;
 int Cursor::range_y = 0;
 int Cursor::range_flag = -1;
 int Cursor::moving_range = -1;
 
 Cursor::Cursor() {
-	disp_x = block_size * 9 - 8;
-	disp_y = block_size * 5 - 8;
-	radius = block_size / 2;
-	graph = LoadGraph("Source/Charactor/Cursor2.png");
-	qx = current_x - block_size * 9;
-	qy = current_y - block_size * 9;
+	disp_x = BLOCK_SIZE * 9 - 8;
+	disp_y = BLOCK_SIZE * 5 - 8;
+	radius = BLOCK_SIZE / 2;
+	_cursor = LoadGraph("Source/Charactor/Cursor2.png");
+	qx = current_x - BLOCK_SIZE * 9;
+	qy = current_y - BLOCK_SIZE * 9;
 }
 
 Cursor::~Cursor() {
-	DeleteGraph(this->graph);
+	DeleteGraph(this->_cursor);
 }
 
 void Cursor::update() {
@@ -155,12 +155,12 @@ void Cursor::pick() {
 }
 
 void Cursor::draw() {
-	DrawGraph(disp_x, disp_y, graph, true);
-	//DrawFormatString(400, 300, GetColor(255, 0, 0), "cq(%d, %d)", qx / block_size, qy / block_size, false);
+	DrawGraph(disp_x, disp_y, _cursor, true);
+	//DrawFormatString(400, 300, GetColor(255, 0, 0), "cq(%d, %d)", qx / BLOCK_SIZE, qy / BLOCK_SIZE, false);
 }
 
 /// <summary>
-/// �ړ��͈͂̌��E���擾
+/// 範囲が出てないとき、現在のカーソルの位置に範囲をセットする
 /// </summary>
 void Cursor::Rangelimit() {
 	if (range_flag == -1) {

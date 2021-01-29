@@ -33,14 +33,14 @@ void ShadowWarrior_2::Update() {
 /// </summary>
 void ShadowWarrior_2::Draw() {
 	if (this->isAlive) {
-		DrawRectGraph(this->x - current_x + block_size * 9,
-		              this->y - init_position - current_y + block_size * 9,
-		              src_x * block_size, block_size,
-		              block_size, block_size,
+		DrawRectGraph(this->x - current_x + BLOCK_SIZE * 9,
+		              this->y - INIT_POSITION - current_y + BLOCK_SIZE * 9,
+		              src_x * BLOCK_SIZE, BLOCK_SIZE,
+		              BLOCK_SIZE, BLOCK_SIZE,
 		              this->graph, true, false);
 	}
 	/*DrawFormatString(200, 45, GetColor(0, 0, 0), "ï∫2(%d, %d)",
-	                 this->x / block_size, this->y / block_size, false);
+	                 this->x / BLOCK_SIZE, this->y / BLOCK_SIZE, false);
 	DrawFormatString(200, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
 	                 moving_flag, this->activity, false);
 	DrawFormatString(200, 75, GetColor(255, 0, 0), "De%d,Hp%d",
@@ -107,7 +107,7 @@ void ShadowWarrior_2::Move() {
 /// éÄñSèàóù
 /// </summary>
 void ShadowWarrior_2::Dead(vector<vector<int>>& map) {
-	if (map[this->y / block_size][this->x / block_size] == TIDE
+	if (map[this->y / BLOCK_SIZE][this->x / BLOCK_SIZE] == TIDE
 		&& Map::scene == NIGHT_PLAY) {
 		get_survival_activity();
 	}
@@ -139,8 +139,8 @@ void ShadowWarrior_2::act_cancel() {
 
 void ShadowWarrior_2::set_next_map_node(const int& c_scene) {
 	if (c_scene == TUTORIAL) {
-		this->x = block_size * 9;
-		this->y = block_size * 8;
+		this->x = BLOCK_SIZE * 9;
+		this->y = BLOCK_SIZE * 8;
 		this->hp = 6;
 		this->isAlive = true;
 	}

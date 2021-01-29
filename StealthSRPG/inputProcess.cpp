@@ -18,20 +18,20 @@ Input::Input() : collision_flag{} {
 }
 
 /// <summary>
-/// ƒL[ƒ{[ƒhî•ñ
+///ã€€ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±
 /// </summary>
 void Input::input_info() {
-	// ÅV‚ÌƒL[ƒ{[ƒhî•ñ‚¾‚Á‚½‚à‚Ì‚Í1ƒtƒŒ[ƒ€‘O‚ÌƒL[ƒ{[ƒhî•ñ‚Æ‚µ‚Ä•Û‘¶
+	//æœ€æ–°ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã ã£ãŸã‚‚ã®ã¯1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã¨ã—ã¦ä¿å­˜
 	for (int i = 0; i < 256; ++i) {
 		oldkeys[i] = keys[i];
 	}
-	// ÅV‚ÌƒL[ƒ{[ƒhî•ñ‚ğæ“¾
+	//æœ€æ–°ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã‚’å–å¾—
 	GetHitKeyStateAll(keys);
 }
 
 /// <summary>
-/// ’‹–é•ÏX
-/// –é‚Ì“Gƒ^[ƒ“‚È‚çA’‹‚ÌƒvƒŒƒCƒ„[ƒ^[ƒ“‚ÉˆÚs
+/// æ˜¼å¤œå¤‰æ›´
+/// å¤œã®æ•µã‚¿ãƒ¼ãƒ³ãªã‚‰ã€æ˜¼ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¿ãƒ¼ãƒ³ã«ç§»è¡Œ
 /// </summary>
 void Input::time_change() {
 	if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE]
@@ -62,41 +62,41 @@ void Input::time_change() {
 
 void Input::cursorLeft() {
 	if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && !collision_flag[LEFT]) {
-		qx -= block_size;
-		current_x -= block_size;
+		qx -= BLOCK_SIZE;
+		current_x -= BLOCK_SIZE;
 	}
 }
 
 void Input::cursorRight() {
 	if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && !collision_flag[RIGHT]) {
-		qx += block_size;
-		current_x += block_size;
+		qx += BLOCK_SIZE;
+		current_x += BLOCK_SIZE;
 	}
 }
 
 void Input::cursorUp() {
 	if (keys[KEY_INPUT_UP] && !oldkeys[KEY_INPUT_UP] && !collision_flag[UP]) {
-		qy -= block_size;
-		current_y -= block_size;
+		qy -= BLOCK_SIZE;
+		current_y -= BLOCK_SIZE;
 	}
 
 }
 
 void Input::cursorDown() {
 	if (keys[KEY_INPUT_DOWN] && !oldkeys[KEY_INPUT_DOWN] && !collision_flag[DOWN]) {
-		qy += block_size;
-		current_y += block_size;
+		qy += BLOCK_SIZE;
+		current_y += BLOCK_SIZE;
 	}
 }
 
 /// <summary>
-/// x,y‚Ìâ‘Î’l‚Ì‡ŒviˆÚ“®ƒ}ƒXj‚ªƒJ[ƒ\ƒ‹‚ÌˆÚ“®”ÍˆÍ‚Æ
+/// x,yã®çµ¶å¯¾å€¤ã®åˆè¨ˆï¼ˆç§»å‹•ãƒã‚¹ï¼‰ãŒã‚«ãƒ¼ã‚½ãƒ«ã®ç§»å‹•ç¯„å›²ã¨
 /// </summary>
 void Input::cursorLimit() {
 
 	if (abs(range_x - current_x)
 		+ abs(range_y - current_y)
-		== moving_range * block_size) {
+		== moving_range * BLOCK_SIZE) {
 
 		if (range_x == current_x) {
 
@@ -127,7 +127,7 @@ void Input::cursorLimit() {
 }
 
 /// <summary>
-/// ƒJ[ƒ\ƒ‹‚Ì“®ìˆ—
+/// ã‚«ãƒ¼ã‚½ãƒ«ã®å‹•ä½œå‡¦ç†
 /// </summary>
 void Input::moving_cursor() {
 
@@ -143,80 +143,80 @@ void Input::moving_cursor() {
 }
 
 void Input::collision_flag_update(vector<vector<int>>& map) {
-	/* ¶‘¤‚ª“Á’èğŒ‚Ì‚Æ‚« */
-	if (map[(current_y / block_size)][(current_x / block_size) - 1] == SEA) {
-		//ŠC‚Ì‚Æ‚«
+	/* å·¦å´ãŒç‰¹å®šæ¡ä»¶ã®ã¨ã */
+	if (map[(current_y / BLOCK_SIZE)][(current_x / BLOCK_SIZE) - 1] == SEA) {
+		//æµ·ã®ã¨ã
 		collision_flag[LEFT] = true;
 	}
-	else if (map[(current_y / block_size)][(current_x / block_size) - 1] == TIDE
+	else if (map[(current_y / BLOCK_SIZE)][(current_x / BLOCK_SIZE) - 1] == TIDE
 		&& Map::scene == NIGHT_PLAY && range_flag == 1) {
-		//–’ª‚Ì‚Æ‚«
+		//æº€æ½®ã®ã¨ã
 		collision_flag[LEFT] = true;
 	}
-	else if ((map[(current_y / block_size)][(current_x / block_size) - 1] == ICE_LAND
-			|| map[(current_y / block_size)][(current_x / block_size) - 1] == ICE_SEA)
+	else if ((map[(current_y / BLOCK_SIZE)][(current_x / BLOCK_SIZE) - 1] == ICE_LAND
+			|| map[(current_y / BLOCK_SIZE)][(current_x / BLOCK_SIZE) - 1] == ICE_SEA)
 		&& Map::scene == NOON_PLAY && range_flag == 1) {
-		//•XŒŠ‚Ì‚Æ‚«
+		//æ°·ç©´ã®ã¨ã
 		collision_flag[LEFT] = true;
 	}
 	else {
 		collision_flag[LEFT] = false;
 	}
 
-	/* ‰E‘¤‚ª“Á’èğŒ‚Ì‚Æ‚« */
-	if (map[(current_y / block_size)][(current_x / block_size) + 1] == SEA) {
-		//ŠC‚Ì‚Æ‚«
+	/* å³å´ãŒç‰¹å®šæ¡ä»¶ã®ã¨ã */
+	if (map[(current_y / BLOCK_SIZE)][(current_x / BLOCK_SIZE) + 1] == SEA) {
+		//æµ·ã®ã¨ã
 		collision_flag[RIGHT] = true;
 	}
-	else if (map[(current_y / block_size)][(current_x / block_size) + 1] == TIDE
+	else if (map[(current_y / BLOCK_SIZE)][(current_x / BLOCK_SIZE) + 1] == TIDE
 		&& Map::scene == NIGHT_PLAY && range_flag == 1) {
-		//–’ª‚Ì‚Æ‚«
+		//æº€æ½®ã®ã¨ã
 		collision_flag[RIGHT] = true;
 	}
-	else if ((map[(current_y / block_size)][(current_x / block_size) + 1] == ICE_LAND
-			|| map[(current_y / block_size)][(current_x / block_size) + 1] == ICE_SEA)
+	else if ((map[(current_y / BLOCK_SIZE)][(current_x / BLOCK_SIZE) + 1] == ICE_LAND
+			|| map[(current_y / BLOCK_SIZE)][(current_x / BLOCK_SIZE) + 1] == ICE_SEA)
 		&& Map::scene == NOON_PLAY && range_flag == 1) {
-		//•XŒŠ‚Ì‚Æ‚«
+		//æ°·ç©´ã®ã¨ã
 		collision_flag[RIGHT] = true;
 	}
 	else {
 		collision_flag[RIGHT] = false;
 	}
 
-	/* ã‘¤‚ª“Á’èğŒ‚Ì‚Æ‚« */
-	if (map[(current_y / block_size) - 1][(current_x / block_size)] == SEA) {
-		//ŠC‚Ì‚Æ‚«
+	/* ä¸Šå´ãŒç‰¹å®šæ¡ä»¶ã®ã¨ã */
+	if (map[(current_y / BLOCK_SIZE) - 1][(current_x / BLOCK_SIZE)] == SEA) {
+		//æµ·ã®ã¨ã
 		collision_flag[UP] = true;
 	}
-	else if (map[(current_y / block_size) - 1][(current_x / block_size)] == TIDE
+	else if (map[(current_y / BLOCK_SIZE) - 1][(current_x / BLOCK_SIZE)] == TIDE
 		&& Map::scene == NIGHT_PLAY && range_flag == 1) {
-		//–’ª‚Ì‚Æ‚«
+		//æº€æ½®ã®ã¨ã
 		collision_flag[UP] = true;
 	}
-	else if ((map[(current_y / block_size) - 1][(current_x / block_size)] == ICE_LAND
-			|| map[(current_y / block_size) - 1][(current_x / block_size)] == ICE_SEA)
+	else if ((map[(current_y / BLOCK_SIZE) - 1][(current_x / BLOCK_SIZE)] == ICE_LAND
+			|| map[(current_y / BLOCK_SIZE) - 1][(current_x / BLOCK_SIZE)] == ICE_SEA)
 		&& Map::scene == NOON_PLAY && range_flag == 1) {
-		//•XŒŠ‚Ì‚Æ‚«
+		//æ°·ç©´ã®ã¨ã
 		collision_flag[UP] = true;
 	}
 	else {
 		collision_flag[UP] = false;
 	}
 
-	/* ‰º‘¤‚ª“Á’èğŒ‚Ì‚Æ‚« */
-	if (map[(current_y / block_size) + 1][(current_x / block_size)] == SEA) {
-		//ŠC‚Ì‚Æ‚«
+	/* ä¸‹å´ãŒç‰¹å®šæ¡ä»¶ã®ã¨ã */
+	if (map[(current_y / BLOCK_SIZE) + 1][(current_x / BLOCK_SIZE)] == SEA) {
+		//æµ·ã®ã¨ã
 		collision_flag[DOWN] = true;
 	}
-	else if (map[(current_y / block_size) + 1][(current_x / block_size)] == TIDE
+	else if (map[(current_y / BLOCK_SIZE) + 1][(current_x / BLOCK_SIZE)] == TIDE
 		&& Map::scene == NIGHT_PLAY && range_flag == 1) {
-		//–’ª‚Ì‚Æ‚«
+		//æº€æ½®ã®ã¨ã
 		collision_flag[DOWN] = true;
 	}
-	else if ((map[(current_y / block_size) + 1][(current_x / block_size)] == ICE_LAND
-			|| map[(current_y / block_size) + 1][(current_x / block_size)] == ICE_SEA)
+	else if ((map[(current_y / BLOCK_SIZE) + 1][(current_x / BLOCK_SIZE)] == ICE_LAND
+			|| map[(current_y / BLOCK_SIZE) + 1][(current_x / BLOCK_SIZE)] == ICE_SEA)
 		&& Map::scene == NOON_PLAY && range_flag == 1) {
-		//•XŒŠ‚Ì‚Æ‚«
+		//æ°·ç©´ã®ã¨ã
 		collision_flag[DOWN] = true;
 	}
 	else {
@@ -229,13 +229,13 @@ void Input::map_scene_update(vector<vector<int>>& map) {
 		moving_cursor();
 		if (range_flag == 1) collision_flag_update(map);
 		else {
-			if (current_x == block_size) collision_flag[LEFT] = true;
+			if (current_x == BLOCK_SIZE) collision_flag[LEFT] = true;
 			else collision_flag[LEFT] = false;
-			if (current_x == block_size * 18) collision_flag[RIGHT] = true;
+			if (current_x == BLOCK_SIZE * 18) collision_flag[RIGHT] = true;
 			else collision_flag[RIGHT] = false;
-			if (current_y == block_size) collision_flag[UP] = true;
+			if (current_y == BLOCK_SIZE) collision_flag[UP] = true;
 			else collision_flag[UP] = false;
-			if (current_y == block_size * 18) collision_flag[DOWN] = true;
+			if (current_y == BLOCK_SIZE * 18) collision_flag[DOWN] = true;
 			else collision_flag[DOWN] = false;
 		}
 	}

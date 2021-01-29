@@ -32,14 +32,14 @@ void Princess::Update() {
 /// </summary>
 void Princess::Draw() {
 	if (this->isAlive) {
-		DrawRectGraph(this->x - current_x + block_size * 9,
-		              this->y - init_position - current_y + block_size * 9,
-		              src_x * block_size, 0,
-		              block_size, block_size,
+		DrawRectGraph(this->x - current_x + BLOCK_SIZE * 9,
+		              this->y - INIT_POSITION - current_y + BLOCK_SIZE * 9,
+		              src_x * BLOCK_SIZE, 0,
+		              BLOCK_SIZE, BLOCK_SIZE,
 		              this->graph, true, false);
 	}
 	/*DrawFormatString(0, 145, GetColor(0, 0, 0), "•P(%d, %d)",
-	                 this->x / block_size, this->y / block_size, false);
+	                 this->x / BLOCK_SIZE, this->y / BLOCK_SIZE, false);
 	DrawFormatString(0, 160, GetColor(255, 0, 0), "Fl:%d,Ac:%d",
 	                 moving_flag, this->activity, false);
 	DrawFormatString(0, 175, GetColor(255, 0, 0), "ox:%d,oy:%d",
@@ -106,7 +106,7 @@ void Princess::Move() {
 /// €–Sˆ—
 /// </summary>
 void Princess::Dead(vector<vector<int>>& map) {
-	if (map[this->y / block_size][this->x / block_size] == TIDE
+	if (map[this->y / BLOCK_SIZE][this->x / BLOCK_SIZE] == TIDE
 		&& Map::scene == NIGHT_PLAY) {
 		get_survival_activity();
 	}
@@ -139,8 +139,8 @@ void Princess::act_cancel() {
 void Princess::set_next_map_node(const int& c_scene) {
 	switch (c_scene) {
 	case TUTORIAL:
-		this->x = block_size * 8;
-		this->y = block_size * 8;
+		this->x = BLOCK_SIZE * 8;
+		this->y = BLOCK_SIZE * 8;
 		this->hp = 6;
 		this->activity = false;
 		current_x = this->x;
@@ -148,8 +148,8 @@ void Princess::set_next_map_node(const int& c_scene) {
 		break;
 
 	case STAGE1:
-		this->x = block_size * 12;
-		this->y = block_size * 12;
+		this->x = BLOCK_SIZE * 12;
+		this->y = BLOCK_SIZE * 12;
 		this->hp = 6;
 		this->activity = false;
 		current_x = this->x;

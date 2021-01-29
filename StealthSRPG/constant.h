@@ -2,16 +2,16 @@
 
 const int WIN_WIDTH = 960; //ウィンドウ横幅
 const int WIN_HEIGHT = 540; //ウィンドウ縦幅
-const int block_size = 48; //ブロックサイズ
-const int moving_distance = block_size; //ブロックサイズと同じ分動く
-const int area_width = 20;
-const int area_height = 20;
-const int init_position = block_size * 4; //初期位置
+const int BLOCK_SIZE = 48; //ブロックサイズ
+const int MOVING_DISTANCE = BLOCK_SIZE; //ブロックサイズと同じ分動く
+const int AREA_WIDTH = 20;
+const int AREA_HEIGHT = 20;
+const int INIT_POSITION = BLOCK_SIZE * 4; //初期位置
 const int RANDOM_MIN = 0;
 const int RANDOM_MAX = 100;
 const int MOVING_INTERVAL = 15;
 const int CONFIRMATION_TIME = 100;
-const int ENEMY_COST = 3;
+const int ENEMY_COST = 15;
 
 enum MAP_SCENE {
 	NOON_PLAY,

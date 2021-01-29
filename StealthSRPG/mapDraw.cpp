@@ -10,7 +10,7 @@ MapDraw::MapDraw() : info{
 	                     LAND_LEFT_TOP, LAND_RIGHT_TOP, LAND_RIGHT_BOT2, LAND_LEFT_BOT2, LAND_RIGHT_TOP2,
 	                     LAND_LEFT_TOP2, LAND_OBLIQUE1, LAND_OBLIQUE2, CENTER, RANGE
                      },
-                     map_20x20(area_height, vector<int>(area_width)),
+                     map_20x20(AREA_HEIGHT, vector<int>(AREA_WIDTH)),
                      range_11x11(11, vector<int>(11)) {
 	map_graph = LoadGraph("Source/Map/mapchips.png"); //マップチップ画像
 	map_graph2 = LoadGraph("Source/Map/mapchips2.png"); //マップチップ画像
@@ -20,8 +20,8 @@ MapDraw::MapDraw() : info{
 	map_height = map_20x20.size();
 	range_width = range_11x11.at(0).size();
 	range_height = range_11x11.size();
-	draw_range_x = range_x - 5 * block_size;
-	draw_range_y = range_y - 9 * block_size;
+	draw_range_x = range_x - 5 * BLOCK_SIZE;
+	draw_range_y = range_y - 9 * BLOCK_SIZE;
 	base_graph = 0;
 }
 
@@ -39,10 +39,10 @@ void MapDraw::map_import(const int& map_info, vector<vector<int>>& map) {
 			if (map[y][x] == map_info) {
 
 				DrawRectGraph(
-					x * block_size - qx,
-					y * block_size - qy - init_position,
-					column * block_size, row * block_size,
-					block_size, block_size,
+					x * BLOCK_SIZE - qx,
+					y * BLOCK_SIZE - qy - INIT_POSITION,
+					column * BLOCK_SIZE, row * BLOCK_SIZE,
+					BLOCK_SIZE, BLOCK_SIZE,
 					base_graph, true, false);
 			}
 		}
@@ -59,10 +59,10 @@ void MapDraw::range_import(const int& map_info, vector<vector<int>>& range) {
 			if (range[y][x] == map_info) {
 
 				DrawRectGraph(
-					x * block_size - qx + draw_range_x,
-					y * block_size - qy + draw_range_y,
-					column * block_size, row * block_size,
-					block_size, block_size,
+					x * BLOCK_SIZE - qx + draw_range_x,
+					y * BLOCK_SIZE - qy + draw_range_y,
+					column * BLOCK_SIZE, row * BLOCK_SIZE,
+					BLOCK_SIZE, BLOCK_SIZE,
 					map_graph, true, false);
 			}
 		}
@@ -110,8 +110,8 @@ void MapDraw::drawing_enemy_range(const int& ex, const int& ey) {
 
 void MapDraw::drawing_format() {
 	for (int i = 0; i < 21; i++) {
-		DrawLine(0, i * block_size, 20 * block_size, i * block_size, GetColor(55, 55, 55), true);
-		DrawLine(i * block_size, 0, i * block_size, 20 * block_size, GetColor(55, 55, 55), true);
+		DrawLine(0, i * BLOCK_SIZE, 20 * BLOCK_SIZE, i * BLOCK_SIZE, GetColor(55, 55, 55), true);
+		DrawLine(i * BLOCK_SIZE, 0, i * BLOCK_SIZE, 20 * BLOCK_SIZE, GetColor(55, 55, 55), true);
 	}
 
 
@@ -120,7 +120,7 @@ void MapDraw::drawing_format() {
 	                 phenomenonFlag[rain2], phenomenonFlag[tide],
 	                 phenomenonFlag[ice], phenomenonFlag[fog1], phenomenonFlag[fog2], phenomenonFlag[rainbow], false);
 	DrawFormatString(150, 0, GetColor(255, 255, 255), "CurMapInfo:%d",
-	                 map_20x20[current_y / block_size][current_x / block_size], false);*/
+	                 map_20x20[current_y / BLOCK_SIZE][current_x / BLOCK_SIZE], false);*/
 	DrawFormatString(300, 0, GetColor(255, 255, 255), "TIME:%d", turn_timer, false);
 	/*if (scene == NOON_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼プレイヤー", false);
 	else if (scene == NOON_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼エネミー", false);

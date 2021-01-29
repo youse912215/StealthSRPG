@@ -30,74 +30,74 @@ void loop_process() {
 
 	const int player_graph = LoadGraph("Source/Charactor/Player/princess.png");
 	Princess Princess(
-		block_size * 8, block_size * 8, player_graph,
-		block_size, 6, 4, false, true, input);
+		BLOCK_SIZE * 8, BLOCK_SIZE * 8, player_graph,
+		BLOCK_SIZE, 6, 4, false, true, input);
 
 	ShadowWarrior_1 Warrior1(
-		block_size * 8, block_size * 9, player_graph,
-		block_size, 6, 3, false, true, input);
+		BLOCK_SIZE * 8, BLOCK_SIZE * 9, player_graph,
+		BLOCK_SIZE, 6, 3, false, true, input);
 
 	ShadowWarrior_2 Warrior2(
-		block_size * 9, block_size * 8, player_graph,
-		block_size, 6, 3, false, true, input);
+		BLOCK_SIZE * 9, BLOCK_SIZE * 8, player_graph,
+		BLOCK_SIZE, 6, 3, false, true, input);
 
 	ShadowWarrior_3 Warrior3(
-		block_size * 7, block_size * 8, player_graph,
-		block_size, 6, 3, false, true, input);
+		BLOCK_SIZE * 7, BLOCK_SIZE * 8, player_graph,
+		BLOCK_SIZE, 6, 3, false, true, input);
 
 	const int enemy_graph = LoadGraph("Source/Charactor/Enemy/enemies.png");
 	Enemy* enemies[] = {
 			/* チュートリアル */
-			new EnemyWarrior_1(block_size * 5, block_size * 12, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyWarrior_1(block_size * 10, block_size * 13, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyBandits(block_size * 14, block_size * 14, enemy_graph,
-			                 block_size, 4, 2, 20, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 12, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 10, BLOCK_SIZE * 13, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyBandits(BLOCK_SIZE * 14, BLOCK_SIZE * 14, enemy_graph,
+			                 BLOCK_SIZE, 4, 2, 20, false, true),
 		};
 	Enemy* enemies2[] = {
 			/* ステージ1 */
-			new EnemyWolf_1(block_size * 11, block_size * 8, enemy_graph,
-			                block_size, 1, 4, 20, false, true),
-			new EnemyWolf_1(block_size * 18, block_size * 6, enemy_graph,
-			                block_size, 1, 4, 20, false, true),
-			new EnemyWolf_1(block_size * 18, block_size * 1, enemy_graph,
-			                block_size, 1, 4, 20, false, true),
-			new EnemyWolf_1(block_size * 18, block_size * 2, enemy_graph,
-			                block_size, 1, 4, 20, false, true),
-			new EnemyWarrior_1(block_size * 3, block_size * 9, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyWarrior_1(block_size * 5, block_size * 13, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyBandits(block_size * 18, block_size * 12, enemy_graph,
-			                 block_size, 3, 2, 20, false, true),
-			new EnemyBandits(block_size * 18, block_size * 16, enemy_graph,
-			                 block_size, 3, 2, 20, false, true),
+			new EnemyWolf_1(BLOCK_SIZE * 11, BLOCK_SIZE * 8, enemy_graph,
+			                BLOCK_SIZE, 1, 4, 20, false, true),
+			new EnemyWolf_1(BLOCK_SIZE * 18, BLOCK_SIZE * 6, enemy_graph,
+			                BLOCK_SIZE, 1, 4, 20, false, true),
+			new EnemyWolf_1(BLOCK_SIZE * 9, BLOCK_SIZE * 1, enemy_graph,
+			                BLOCK_SIZE, 1, 0, 20, false, true),
+			new EnemyWolf_1(BLOCK_SIZE * 9, BLOCK_SIZE * 3, enemy_graph,
+			                BLOCK_SIZE, 1, 0, 20, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 3, BLOCK_SIZE * 9, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 13, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyBandits(BLOCK_SIZE * 18, BLOCK_SIZE * 12, enemy_graph,
+			                 BLOCK_SIZE, 3, 2, 20, false, true),
+			new EnemyBandits(BLOCK_SIZE * 18, BLOCK_SIZE * 15, enemy_graph,
+			                 BLOCK_SIZE, 3, 2, 20, false, true),
 		};
 
 	Enemy* enemies3[] = {
-			new EnemyWolf_1(block_size * 11, block_size * 3, enemy_graph,
-			                block_size, 1, 4, 20, false, true),
-			new EnemyWolf_1(block_size * 11, block_size * 4, enemy_graph,
-			                block_size, 1, 4, 20, false, true),
-			new EnemyWarrior_1(block_size * 5, block_size * 7, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyWarrior_1(block_size * 5, block_size * 8, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyWarrior_1(block_size * 5, block_size * 6, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyWarrior_1(block_size * 5, block_size * 5, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyWarrior_1(block_size * 6, block_size * 6, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyWarrior_1(block_size * 6, block_size * 5, enemy_graph,
-			                   block_size, 2, 3, 30, false, true),
-			new EnemyBandits(block_size * 10, block_size * 11, enemy_graph,
-			                 block_size, 3, 2, 20, false, true),
-			new EnemyBandits(block_size * 10, block_size * 12, enemy_graph,
-			                 block_size, 3, 2, 20, false, true),
-			new EnemyBandits(block_size * 9, block_size * 13, enemy_graph,
-			                 block_size, 3, 2, 20, false, true),
+			new EnemyWolf_1(BLOCK_SIZE * 11, BLOCK_SIZE * 3, enemy_graph,
+			                BLOCK_SIZE, 1, 4, 20, false, true),
+			new EnemyWolf_1(BLOCK_SIZE * 11, BLOCK_SIZE * 4, enemy_graph,
+			                BLOCK_SIZE, 1, 4, 20, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 7, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 8, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 6, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 5, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 6, BLOCK_SIZE * 6, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 6, BLOCK_SIZE * 5, enemy_graph,
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyBandits(BLOCK_SIZE * 10, BLOCK_SIZE * 11, enemy_graph,
+			                 BLOCK_SIZE, 3, 2, 20, false, true),
+			new EnemyBandits(BLOCK_SIZE * 10, BLOCK_SIZE * 12, enemy_graph,
+			                 BLOCK_SIZE, 3, 2, 20, false, true),
+			new EnemyBandits(BLOCK_SIZE * 9, BLOCK_SIZE * 13, enemy_graph,
+			                 BLOCK_SIZE, 3, 2, 20, false, true),
 		};
 
 	// ゲームループ
@@ -113,12 +113,30 @@ void loop_process() {
 		switch (SceneTransition::game_scene) {
 		case TUTORIAL:
 
+			if (!enemies[0]->isAlive && !enemies[1]->isAlive && !enemies[2]->isAlive) {
+				Enemy::act_order = Map::scene % 2 == 0 ? 0 : END;
+			}
 			_map->drawing_map(); //マップ描画
 
 			input.map_scene_update(_map->map_20x20); //入力更新処理
 
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) _map->drawing_enemy_range(enemies[i]->x, enemies[i]->y);
+
+			if (Enemy::act_order >= ARRAY_LENGTH(enemies)) Enemy::act_order = END;
+
+			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
+				if (enemies[i]->isAlive) {
+					enemies[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+					                                  Warrior2.isAlive, Warrior3.isAlive);
+					enemies[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+					                                   Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+					enemies[i]->get_enemy_cost_0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
+					                             enemies[2]->x, enemies[2]->y);
+					enemies[i]->Update(_map->map_20x20); //敵兵1の更新処理
+				}
+				enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+			}
 
 			Princess.Update(); //姫の更新処理
 			/* 各敵との重複判定 */
@@ -145,21 +163,6 @@ void loop_process() {
 			Warrior3.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
 			Warrior3.Dead(_map->map_20x20); //影武者3の死亡処理
 
-			if (Enemy::act_order >= ARRAY_LENGTH(enemies)) Enemy::act_order = END;
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
-				if (enemies[i]->isAlive) {
-					enemies[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
-					                                  Warrior2.isAlive, Warrior3.isAlive);
-					enemies[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-					                                   Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-					enemies[i]->get_enemy_cost_0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
-					                             enemies[2]->x, enemies[2]->y);
-					enemies[i]->Update(_map->map_20x20); //敵兵1の更新処理
-					enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
-				}
-			}
-
 			if (Map::scene % 2 != 0) {
 				cursor->move_0(Princess.x, Princess.y, enemies[0]->x, enemies[0]->y,
 				               enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y);
@@ -184,6 +187,22 @@ void loop_process() {
 			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i)
 				_map->drawing_enemy_range(enemies2[i]->x, enemies2[i]->y);
 
+			if (Enemy::act_order >= ARRAY_LENGTH(enemies2)) Enemy::act_order = END;
+
+			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i) {
+				if (enemies2[i]->isAlive) {
+					enemies2[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+					                                   Warrior2.isAlive, Warrior3.isAlive);
+					enemies2[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+					                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+					enemies2[i]->get_enemy_cost_1(enemies2[0]->x, enemies2[0]->y, enemies2[1]->x, enemies2[1]->y,
+					                              enemies2[2]->x, enemies2[2]->y, enemies2[3]->x, enemies2[3]->y,
+					                              enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
+					                              enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
+					enemies2[i]->Update(_map->map_20x20); //敵兵1の更新処理
+				}
+				enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+			}
 
 			Princess.Update(); //姫の更新処理
 			/* 各敵との重複判定 */
@@ -230,23 +249,6 @@ void loop_process() {
 			Warrior3.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
 			Warrior3.Dead(_map->map_20x20); //影武者3の死亡処理
 
-			if (Enemy::act_order >= ARRAY_LENGTH(enemies2)) Enemy::act_order = END;
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i) {
-				if (enemies2[i]->isAlive) {
-					enemies2[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
-					                                   Warrior2.isAlive, Warrior3.isAlive);
-					enemies2[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-					                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-					enemies2[i]->get_enemy_cost_1(enemies2[0]->x, enemies2[0]->y, enemies2[1]->x, enemies2[1]->y,
-					                              enemies2[2]->x, enemies2[2]->y, enemies2[3]->x, enemies2[3]->y,
-					                              enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
-					                              enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
-					enemies2[i]->Update(_map->map_20x20); //敵兵1の更新処理
-				}
-				enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
-			}
-
 			if (Map::scene % 2 != 0) {
 				cursor->move_1(Princess.x, Princess.y, enemies2[0]->x, enemies2[0]->y,
 				               enemies2[1]->x, enemies2[1]->y, enemies2[2]->x, enemies2[2]->y,
@@ -272,6 +274,25 @@ void loop_process() {
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i)
 				_map->drawing_enemy_range(enemies3[i]->x, enemies3[i]->y);
+
+			if (Enemy::act_order >= ARRAY_LENGTH(enemies3)) Enemy::act_order = END;
+
+			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i) {
+				if (enemies3[i]->isAlive) {
+					enemies3[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+					                                   Warrior2.isAlive, Warrior3.isAlive);
+					enemies3[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+					                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+					enemies3[i]->get_enemy_cost_2(enemies3[0]->x, enemies3[0]->y, enemies3[1]->x, enemies3[1]->y,
+					                              enemies3[2]->x, enemies3[2]->y, enemies3[3]->x, enemies3[3]->y,
+					                              enemies3[4]->x, enemies3[4]->y, enemies3[5]->x, enemies3[5]->y,
+					                              enemies3[6]->x, enemies3[6]->y, enemies3[7]->x, enemies3[7]->y,
+					                              enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
+					                              enemies3[10]->x, enemies3[10]->y);
+					enemies3[i]->Update(_map->map_20x20); //敵兵1の更新処理
+				}
+				enemies3[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+			}
 
 			Princess.Update(); //姫の更新処理
 			/* 各敵との重複判定 */
@@ -330,25 +351,6 @@ void loop_process() {
 			Warrior3.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
 			Warrior3.Dead(_map->map_20x20); //影武者3の死亡処理
 
-			if (Enemy::act_order >= ARRAY_LENGTH(enemies3)) Enemy::act_order = END;
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i) {
-				if (enemies3[i]->isAlive) {
-					enemies3[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
-					                                   Warrior2.isAlive, Warrior3.isAlive);
-					enemies3[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-					                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-					enemies3[i]->get_enemy_cost_2(enemies3[0]->x, enemies3[0]->y, enemies3[1]->x, enemies3[1]->y,
-					                              enemies3[2]->x, enemies3[2]->y, enemies3[3]->x, enemies3[3]->y,
-					                              enemies3[4]->x, enemies3[4]->y, enemies3[5]->x, enemies3[5]->y,
-					                              enemies3[6]->x, enemies3[6]->y, enemies3[7]->x, enemies3[7]->y,
-					                              enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
-					                              enemies3[10]->x, enemies3[10]->y);
-					enemies3[i]->Update(_map->map_20x20); //敵兵1の更新処理
-				}
-				enemies3[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
-			}
-
 			if (Map::scene % 2 != 0) {
 				cursor->move_2(Princess.x, Princess.y, enemies3[0]->x, enemies3[0]->y, enemies3[1]->x, enemies3[1]->y,
 				               enemies3[2]->x, enemies3[2]->y, enemies3[3]->x, enemies3[3]->y,
@@ -383,7 +385,7 @@ void loop_process() {
 		}
 
 		SceneTransition* scene = new SceneTransition;
-		if (_map->map_20x20[(Princess.y / block_size)][(Princess.x / block_size)] == GOAL
+		if (_map->map_20x20[(Princess.y / BLOCK_SIZE)][(Princess.x / BLOCK_SIZE)] == GOAL
 			&& Princess.moving_flag == -1)
 			scene->transition_to_result();
 		delete scene;
