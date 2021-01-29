@@ -107,11 +107,11 @@ void Princess::Move() {
 /// </summary>
 void Princess::Dead(vector<vector<int>>& map) {
 	if (map[this->y / BLOCK_SIZE][this->x / BLOCK_SIZE] == TIDE
-		&& Map::scene == NIGHT_PLAY) {
+		&& Map::scene == NIGHT_PLAY && Map::turn_timer > DEAD_TIME) {
 		get_survival_activity();
 	}
 
-	if (this->hp <= 0) get_survival_activity();
+	if (this->hp <= 0 && Map::turn_timer > DEAD_TIME) get_survival_activity();
 }
 
 void Princess::get_survival_activity() {

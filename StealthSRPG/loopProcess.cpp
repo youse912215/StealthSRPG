@@ -108,7 +108,6 @@ void loop_process() {
 
 		MapDraw* _map = new MapDraw;
 		Cursor* cursor = new Cursor;
-		MapUI* UI = new MapUI;
 
 		switch (SceneTransition::game_scene) {
 		case TUTORIAL:
@@ -122,21 +121,6 @@ void loop_process() {
 
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) _map->drawing_enemy_range(enemies[i]->x, enemies[i]->y);
-
-			if (Enemy::act_order >= ARRAY_LENGTH(enemies)) Enemy::act_order = END;
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
-				if (enemies[i]->isAlive) {
-					enemies[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
-					                                  Warrior2.isAlive, Warrior3.isAlive);
-					enemies[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-					                                   Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-					enemies[i]->get_enemy_cost_0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
-					                             enemies[2]->x, enemies[2]->y);
-					enemies[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
-				}
-				enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
-			}
 
 			Princess.Update(); //•P‚ÌXVˆ—
 			/* Še“G‚Æ‚Ìd•¡”»’è */
@@ -163,18 +147,25 @@ void loop_process() {
 			Warrior3.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
 			Warrior3.Dead(_map->map_20x20); //‰e•ŽÒ3‚ÌŽ€–Sˆ—
 
+			if (Enemy::act_order >= ARRAY_LENGTH(enemies)) Enemy::act_order = END;
+
+			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
+				if (enemies[i]->isAlive) {
+					enemies[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+					                                  Warrior2.isAlive, Warrior3.isAlive);
+					enemies[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+					                                   Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+					enemies[i]->get_enemy_cost_0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
+					                             enemies[2]->x, enemies[2]->y);
+					enemies[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
+				}
+				enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+			}
+
 			if (Map::scene % 2 != 0) {
 				cursor->move_0(Princess.x, Princess.y, enemies[0]->x, enemies[0]->y,
 				               enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y);
 			}
-			cursor->update();
-			UI->yes_or_no(input.yes_or_no);
-			UI->drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                        Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
-			                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-			UI->update();
-
 			break;
 
 		case STAGE1:
@@ -186,23 +177,6 @@ void loop_process() {
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i)
 				_map->drawing_enemy_range(enemies2[i]->x, enemies2[i]->y);
-
-			if (Enemy::act_order >= ARRAY_LENGTH(enemies2)) Enemy::act_order = END;
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i) {
-				if (enemies2[i]->isAlive) {
-					enemies2[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
-					                                   Warrior2.isAlive, Warrior3.isAlive);
-					enemies2[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-					                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-					enemies2[i]->get_enemy_cost_1(enemies2[0]->x, enemies2[0]->y, enemies2[1]->x, enemies2[1]->y,
-					                              enemies2[2]->x, enemies2[2]->y, enemies2[3]->x, enemies2[3]->y,
-					                              enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
-					                              enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
-					enemies2[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
-				}
-				enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
-			}
 
 			Princess.Update(); //•P‚ÌXVˆ—
 			/* Še“G‚Æ‚Ìd•¡”»’è */
@@ -249,6 +223,23 @@ void loop_process() {
 			Warrior3.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
 			Warrior3.Dead(_map->map_20x20); //‰e•ŽÒ3‚ÌŽ€–Sˆ—
 
+			if (Enemy::act_order >= ARRAY_LENGTH(enemies2)) Enemy::act_order = END;
+
+			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i) {
+				if (enemies2[i]->isAlive) {
+					enemies2[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+					                                   Warrior2.isAlive, Warrior3.isAlive);
+					enemies2[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+					                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+					enemies2[i]->get_enemy_cost_1(enemies2[0]->x, enemies2[0]->y, enemies2[1]->x, enemies2[1]->y,
+					                              enemies2[2]->x, enemies2[2]->y, enemies2[3]->x, enemies2[3]->y,
+					                              enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
+					                              enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
+					enemies2[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
+				}
+				enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+			}
+
 			if (Map::scene % 2 != 0) {
 				cursor->move_1(Princess.x, Princess.y, enemies2[0]->x, enemies2[0]->y,
 				               enemies2[1]->x, enemies2[1]->y, enemies2[2]->x, enemies2[2]->y,
@@ -256,14 +247,6 @@ void loop_process() {
 				               enemies2[5]->x, enemies2[5]->y, enemies2[6]->x, enemies2[6]->y,
 				               enemies2[7]->x, enemies2[7]->y);
 			}
-			cursor->update();
-			UI->yes_or_no(input.yes_or_no);
-			UI->drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                        Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
-			                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-			UI->update();
-
 			break;
 
 		case STAGE2:
@@ -274,25 +257,6 @@ void loop_process() {
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i)
 				_map->drawing_enemy_range(enemies3[i]->x, enemies3[i]->y);
-
-			if (Enemy::act_order >= ARRAY_LENGTH(enemies3)) Enemy::act_order = END;
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i) {
-				if (enemies3[i]->isAlive) {
-					enemies3[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
-					                                   Warrior2.isAlive, Warrior3.isAlive);
-					enemies3[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-					                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-					enemies3[i]->get_enemy_cost_2(enemies3[0]->x, enemies3[0]->y, enemies3[1]->x, enemies3[1]->y,
-					                              enemies3[2]->x, enemies3[2]->y, enemies3[3]->x, enemies3[3]->y,
-					                              enemies3[4]->x, enemies3[4]->y, enemies3[5]->x, enemies3[5]->y,
-					                              enemies3[6]->x, enemies3[6]->y, enemies3[7]->x, enemies3[7]->y,
-					                              enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
-					                              enemies3[10]->x, enemies3[10]->y);
-					enemies3[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
-				}
-				enemies3[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
-			}
 
 			Princess.Update(); //•P‚ÌXVˆ—
 			/* Še“G‚Æ‚Ìd•¡”»’è */
@@ -351,6 +315,25 @@ void loop_process() {
 			Warrior3.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
 			Warrior3.Dead(_map->map_20x20); //‰e•ŽÒ3‚ÌŽ€–Sˆ—
 
+			if (Enemy::act_order >= ARRAY_LENGTH(enemies3)) Enemy::act_order = END;
+
+			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i) {
+				if (enemies3[i]->isAlive) {
+					enemies3[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+					                                   Warrior2.isAlive, Warrior3.isAlive);
+					enemies3[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+					                                    Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+					enemies3[i]->get_enemy_cost_2(enemies3[0]->x, enemies3[0]->y, enemies3[1]->x, enemies3[1]->y,
+					                              enemies3[2]->x, enemies3[2]->y, enemies3[3]->x, enemies3[3]->y,
+					                              enemies3[4]->x, enemies3[4]->y, enemies3[5]->x, enemies3[5]->y,
+					                              enemies3[6]->x, enemies3[6]->y, enemies3[7]->x, enemies3[7]->y,
+					                              enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
+					                              enemies3[10]->x, enemies3[10]->y);
+					enemies3[i]->Update(_map->map_20x20); //“G•º1‚ÌXVˆ—
+				}
+				enemies3[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+			}
+
 			if (Map::scene % 2 != 0) {
 				cursor->move_2(Princess.x, Princess.y, enemies3[0]->x, enemies3[0]->y, enemies3[1]->x, enemies3[1]->y,
 				               enemies3[2]->x, enemies3[2]->y, enemies3[3]->x, enemies3[3]->y,
@@ -359,35 +342,43 @@ void loop_process() {
 				               enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
 				               enemies3[10]->x, enemies3[10]->y);
 			}
+			break;
+
+		case GAME_RESULT:
+			Princess.set_next_map_node(input.current_map_scene);
+			Warrior1.set_next_map_node(input.current_map_scene);
+			Warrior2.set_next_map_node(input.current_map_scene);
+			Warrior3.set_next_map_node(input.current_map_scene);
+			input.game_result_update();
+			break;
+
+		case GAME_HELP:
+			input.game_help_update();
+
+			GameHelp* help = new GameHelp;
+			help->draw();
+			delete help;
+
+			break;
+		}
+
+		if (SceneTransition::game_scene <= STAGE2) {
 
 			cursor->update();
+			delete cursor;
+
+			MapUI* UI = new MapUI;
 			UI->yes_or_no(input.yes_or_no);
 			UI->drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
 			                        Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
 			UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
 			                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 			UI->update();
-		}
-
-
-		delete cursor;
-		delete UI;
-
-		if (SceneTransition::game_scene == GAME_RESULT) {
-			Princess.set_next_map_node(input.current_map_scene);
-			Warrior1.set_next_map_node(input.current_map_scene);
-			Warrior2.set_next_map_node(input.current_map_scene);
-			Warrior3.set_next_map_node(input.current_map_scene);
-			input.game_result_update();
-		}
-		else if (SceneTransition::game_scene == GAME_HELP) {
-			input.game_help_update();
+			delete UI;
 		}
 
 		SceneTransition* scene = new SceneTransition;
-		if (_map->map_20x20[(Princess.y / BLOCK_SIZE)][(Princess.x / BLOCK_SIZE)] == GOAL
-			&& Princess.moving_flag == -1)
-			scene->transition_to_result();
+		if (Princess.moving_flag == -1) scene->transition_to_result(_map->map_20x20, Princess.x, Princess.y);
 		delete scene;
 
 		GameResult* result = new GameResult;

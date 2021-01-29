@@ -113,7 +113,7 @@ void ShadowWarrior_3::Dead(vector<vector<int>>& map) {
 		get_survival_activity();
 	}
 
-	if (this->hp <= 0) get_survival_activity();
+	if (this->hp <= 0 && Map::turn_timer > DEAD_TIME) get_survival_activity();
 }
 
 void ShadowWarrior_3::get_survival_activity() {

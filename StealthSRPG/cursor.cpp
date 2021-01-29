@@ -156,7 +156,6 @@ void Cursor::pick() {
 
 void Cursor::draw() {
 	DrawGraph(disp_x, disp_y, _cursor, true);
-	//DrawFormatString(400, 300, GetColor(255, 0, 0), "cq(%d, %d)", qx / BLOCK_SIZE, qy / BLOCK_SIZE, false);
 }
 
 /// <summary>
