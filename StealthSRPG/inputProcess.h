@@ -29,5 +29,8 @@ public:
 	void input_info();
 	void map_scene_update(vector<vector<int>>& map);
 	void game_help_update();
+	void return_game();
+	void start_game();
 	void game_result_update();
+	void game_title_update();
 };

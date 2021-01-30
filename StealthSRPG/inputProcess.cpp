@@ -6,6 +6,7 @@
 #include "cursor.h"
 #include "sceneTransition.h"
 #include "gameHelp.h"
+#include "gameResult.h"
 #include <cstdlib>
 
 using namespace std;
@@ -248,26 +249,53 @@ void Input::map_scene_update(vector<vector<int>>& map) {
 }
 
 void Input::game_help_update() {
-	if (SceneTransition::game_scene == GAME_HELP) {
-		if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && GameHelp::help_num > 0) {
-			GameHelp::help_num--;
-		}
-		else if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && GameHelp::help_num < 2) {
-			GameHelp::help_num++;
-		}
+	if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && GameHelp::help_num > 0) {
+		GameHelp::help_num--;
+	}
+	else if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && GameHelp::help_num < 2) {
+		GameHelp::help_num++;
+	}
+}
 
-		if (keys[KEY_INPUT_ESCAPE] && !oldkeys[KEY_INPUT_ESCAPE]) {
-			SceneTransition::game_scene = current_map_scene;
-			GameHelp::help_num = 0;
-		}
+void Input::return_game() {
+	if (keys[KEY_INPUT_ESCAPE] && !oldkeys[KEY_INPUT_ESCAPE]) {
+		SceneTransition::game_scene = current_map_scene;
+		GameHelp::help_num = 0;
+	}
+}
+
+void Input::start_game() {
+	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z] && GameHelp::help_num == 2) {
+		SceneTransition::game_scene = TUTORIAL;
+		GameHelp::help_num = 0;
 	}
 }
 
 void Input::game_result_update() {
+	if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && GameResult::result_num > 0) {
+		GameResult::result_num--;
+	}
+	else if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && GameResult::result_num < 1) {
+		GameResult::result_num++;
+	}
+
 	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]) {
-		SceneTransition::game_scene = current_map_scene + 1;
-		current_map_scene++;
-		Map::scene = NOON_PLAY;
-		MapUI::UI_flag = true;
+		if (GameResult::result_num == 1) {
+			SceneTransition::game_scene = current_map_scene + 1;
+			current_map_scene++;
+			Map::scene = NOON_PLAY;
+			MapUI::UI_flag = true;
+		}
+		else {
+			Map::scene = GAME_TITLE;
+		}
+	}
+
+
+}
+
+void Input::game_title_update() {
+	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]) {
+		SceneTransition::game_scene = GAME_INFORMATION;
 	}
 }

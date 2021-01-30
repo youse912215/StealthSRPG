@@ -17,6 +17,8 @@ private:
 	void draw();
 
 public:
+	static int result_num;
+
 	GameResult();
 	~GameResult();
 	void rank_check(const bool& p_ac, const bool& sw1_ac, const bool& sw2_ac, const bool& sw3_ac);

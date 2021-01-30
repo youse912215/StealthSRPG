@@ -11,14 +11,13 @@
 #include "shadowWarrior_3.h"
 #include "enemy.h"
 #include "enemyWarrior_1.h"
-#include "enemyWarrior_2.h"
 #include "enemyBandits.h"
 #include "enemyWolf1.h"
 #include "sceneTransition.h"
+#include "gameTitle.h"
 #include "gameResult.h"
 #include "gameHelp.h"
 #include <cstdlib>
-#include <vector>
 
 #define ARRAY_LENGTH(array) (sizeof(array)) / sizeof(array[0])
 
@@ -108,6 +107,9 @@ void loop_process() {
 
 		MapDraw* _map = new MapDraw;
 		Cursor* cursor = new Cursor;
+		GameTitle* title = new GameTitle;
+		GameHelp* help = new GameHelp;
+		MapUI* UI = new MapUI;
 
 		switch (SceneTransition::game_scene) {
 		case TUTORIAL:
@@ -344,37 +346,34 @@ void loop_process() {
 			}
 			break;
 
+		case GAME_TITLE:
+			input.game_title_update();
+			title->update();
+			break;
+
+		case GAME_INFORMATION:
+			input.game_help_update();
+			input.start_game();
+			help->draw();
+			break;
+
 		case GAME_RESULT:
+
 			Princess.set_next_map_node(input.current_map_scene);
 			Warrior1.set_next_map_node(input.current_map_scene);
 			Warrior2.set_next_map_node(input.current_map_scene);
 			Warrior3.set_next_map_node(input.current_map_scene);
+
 			input.game_result_update();
+
 			break;
 
 		case GAME_HELP:
 			input.game_help_update();
-
-			GameHelp* help = new GameHelp;
+			input.return_game();
 			help->draw();
-			delete help;
 
 			break;
-		}
-
-		if (SceneTransition::game_scene <= STAGE2) {
-
-			cursor->update();
-			delete cursor;
-
-			MapUI* UI = new MapUI;
-			UI->yes_or_no(input.yes_or_no);
-			UI->drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                        Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
-			                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-			UI->update();
-			delete UI;
 		}
 
 		SceneTransition* scene = new SceneTransition;
@@ -386,12 +385,25 @@ void loop_process() {
 		result->update();
 		delete result;
 
+		if (SceneTransition::game_scene <= STAGE2) {
+			cursor->update();
+
+
+			UI->yes_or_no(input.yes_or_no);
+			UI->drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+			                        Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+			UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
+			                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+			UI->update();
+		}
+		delete UI;
+		delete title;
+		delete help;
+		delete cursor;
 		delete _map;
 
 		/*DrawFormatString(700, 0, GetColor(255, 0, 255),
-		                 "Scene:%d, help:%d", SceneTransition::game_scene, GameHelp::help_num, false);*/
-		DrawFormatString(700, 0, GetColor(255, 0, 255),
-		                 "a_order:%d", Enemy::act_order, false);
+		                 "Scene:%d", SceneTransition::game_scene, false);*/
 
 		window_in_roop(); //ループ内ウィンドウ設定
 		if (ProcessMessage() == -1) break; //Windowsシステムからくる情報を処理

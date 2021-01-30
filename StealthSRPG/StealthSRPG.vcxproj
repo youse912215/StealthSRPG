@@ -137,6 +137,7 @@
     <ClCompile Include="enemyWolf1.cpp" />
     <ClCompile Include="gameHelp.cpp" />
     <ClCompile Include="gameResult.cpp" />
+    <ClCompile Include="gameTitle.cpp" />
     <ClCompile Include="inputProcess.cpp" />
     <ClCompile Include="loopProcess.cpp" />
     <ClCompile Include="main.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="enemyWarrior_2.h" />
     <ClInclude Include="enemyWolf1.h" />
     <ClInclude Include="gameHelp.h" />
+    <ClInclude Include="gameTitle.h" />
     <ClInclude Include="inputProcess.h" />
     <ClInclude Include="loopProcess.h" />
     <ClInclude Include="mapAll.h" />
