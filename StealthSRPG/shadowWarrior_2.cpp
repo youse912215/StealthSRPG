@@ -10,7 +10,7 @@ ShadowWarrior_2::ShadowWarrior_2(int x, int y, int graph, int moving_quantity, i
                                  Input& input):
 	Player(x, y, graph, moving_quantity, hp, range, activity, isAlive), input(input),
 	duplication_flag(30) {
-	this->moving_flag = -1;
+	this->moving_flag = false;
 	this->tracking_priority = 2;
 	old_x = 0;
 	old_y = 0;
@@ -72,7 +72,7 @@ void ShadowWarrior_2::pickup_switching() {
 			&& !this->duplication_flag[_e_bandits3] && !this->duplication_flag[_e_bandits4]
 			&& !this->duplication_flag[_e_wolf1] && !this->duplication_flag[_e_wolf2]
 			&& !this->duplication_flag[_e_wolf3] && !this->duplication_flag[_e_wolf4]) {
-			moving_flag *= -1; //フラグ状態反転
+			moving_flag = !moving_flag ? true : false; //フラグ状態反転
 			range_flag *= -1; //フラグ状態反転
 			//すでに移動している場合、行動済みとする
 			this->activity = (range_x != this->x || range_y != this->y) ? true : false;
@@ -93,12 +93,12 @@ void ShadowWarrior_2::duplicate_decision(const int& other_x, const int& other_y,
 /// 現在のカーソル座標の位置とプレイヤー座標を同じにする
 /// </summary>
 void ShadowWarrior_2::Move() {
-	if (moving_flag == 1) {
+	if (moving_flag == true) {
 		x = current_x;
 		y = current_y;
 		moving_range = this->range;
 	}
-	else if (moving_flag == -1 && Map::scene % 2 != 0) {
+	else if (moving_flag == false && Map::scene % 2 != 0) {
 		this->activity = false;
 	}
 }
@@ -122,7 +122,7 @@ void ShadowWarrior_2::get_survival_activity() {
 }
 
 void ShadowWarrior_2::get_old_node() {
-	if (moving_flag == -1 && !this->activity) {
+	if (moving_flag == false && !this->activity) {
 		old_x = this->x;
 		old_y = this->y;
 	}

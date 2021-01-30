@@ -8,8 +8,10 @@ using namespace std;
 class ShadowWarrior_2 : public Player {
 private:
 	Input& input;
-	int moving_flag;
+
 public:
+	bool moving_flag;
+
 	ShadowWarrior_2(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity, bool isAlive,
 	                Input& input);
 

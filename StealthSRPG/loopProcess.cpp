@@ -168,14 +168,6 @@ void loop_process() {
 				cursor->move_0(Princess.x, Princess.y, enemies[0]->x, enemies[0]->y,
 				               enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y);
 			}
-			cursor->update();
-
-			UI.yes_or_no(input.yes_or_no);
-			UI.drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                       Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			UI.drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
-			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-			UI.update();
 
 			break;
 
@@ -258,14 +250,6 @@ void loop_process() {
 				               enemies2[5]->x, enemies2[5]->y, enemies2[6]->x, enemies2[6]->y,
 				               enemies2[7]->x, enemies2[7]->y);
 			}
-
-			cursor->update();
-			UI.yes_or_no(input.yes_or_no);
-			UI.drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                       Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			UI.drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
-			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-			UI.update();
 
 			break;
 
@@ -363,15 +347,6 @@ void loop_process() {
 				               enemies3[10]->x, enemies3[10]->y);
 			}
 
-			cursor->update();
-			UI.yes_or_no(input.yes_or_no);
-			UI.drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                       Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			UI.drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
-			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-			UI.update();
-
-
 			break;
 
 		case GAME_TITLE:
@@ -404,10 +379,22 @@ void loop_process() {
 
 			break;
 		}
+
+		if (SceneTransition::game_scene <= STAGE2) {
+			cursor->update();
+
+			UI.yes_or_no(input.yes_or_no);
+			UI.drawing_main_status(Princess.moving_flag, Warrior1.moving_flag, Warrior2.moving_flag,
+			                       Warrior3.moving_flag);
+			UI.drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
+			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+			UI.update();
+		}
+
 		delete cursor;
 
 		SceneTransition* scene = new SceneTransition;
-		if (Princess.moving_flag == -1) scene->transition_to_result(_map->map_20x20, Princess.x, Princess.y);
+		if (!Princess.moving_flag) scene->transition_to_result(_map->map_20x20, Princess.x, Princess.y);
 		delete scene;
 		delete _map;
 

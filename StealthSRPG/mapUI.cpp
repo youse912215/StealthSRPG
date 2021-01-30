@@ -119,9 +119,8 @@ void MapUI::drawing_life_status(const int& p_hp, const int& sw1_hp, const int& s
 	}
 }
 
-void MapUI::drawing_main_status(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y, const int& sw2_x,
-                                const int& sw2_y, const int& sw3_x, const int& sw3_y) {
-	if (p_x == current_x && p_y == current_y) {
+void MapUI::drawing_main_status(const bool& flag1, const bool& flag2, const bool& flag3, const bool& flag4) {
+	if (flag1) {
 		DrawRectGraph(0, WIN_HEIGHT - 128,
 		              0, 0, status_size_x, status_size_y,
 		              status2, true, false);
@@ -132,7 +131,7 @@ void MapUI::drawing_main_status(const int& p_x, const int& p_y, const int& sw1_x
 		              status, true, false);
 	}
 
-	if (sw1_x == current_x && sw1_y == current_y) {
+	if (flag2) {
 		DrawRectGraph(status_size_x, WIN_HEIGHT - 128,
 		              status_size_x, 0, status_size_x, status_size_y,
 		              status2, true, false);
@@ -143,7 +142,7 @@ void MapUI::drawing_main_status(const int& p_x, const int& p_y, const int& sw1_x
 		              status, true, false);
 	}
 
-	if (sw2_x == current_x && sw2_y == current_y) {
+	if (flag3) {
 		DrawRectGraph(status_size_x * 2, WIN_HEIGHT - 128,
 		              status_size_x, 0, status_size_x, status_size_y,
 		              status2, true, false);
@@ -154,7 +153,7 @@ void MapUI::drawing_main_status(const int& p_x, const int& p_y, const int& sw1_x
 		              status, true, false);
 	}
 
-	if (sw3_x == current_x && sw3_y == current_y) {
+	if (flag4) {
 		DrawRectGraph(status_size_x * 3, WIN_HEIGHT - 128,
 		              status_size_x, 0, status_size_x, status_size_y,
 		              status2, true, false);

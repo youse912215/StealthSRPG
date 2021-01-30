@@ -10,7 +10,7 @@ private:
 	Input& input;
 
 public:
-	int moving_flag;
+	bool moving_flag;
 	Princess(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity, bool isAlive,
 	         Input& input);
 	void Update();
