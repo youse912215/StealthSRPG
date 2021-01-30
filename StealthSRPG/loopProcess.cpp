@@ -99,68 +99,68 @@ void loop_process() {
 			                 BLOCK_SIZE, 3, 2, 20, false, true),
 		};
 
+	GameTitle title;
+	GameHelp help;
+	GameResult result;
+	MapUI UI;
+
 	// ゲームループ
 	while (true) {
 		ClearDrawScreen(); //画面クリア
 
 		input.input_info(); //入力情報
-
 		MapDraw* _map = new MapDraw;
-		Cursor* cursor = new Cursor;
-		GameTitle* title = new GameTitle;
-		GameHelp* help = new GameHelp;
-		MapUI* UI = new MapUI;
 
+		Cursor* cursor = new Cursor;
 		switch (SceneTransition::game_scene) {
 		case TUTORIAL:
 
 			if (!enemies[0]->isAlive && !enemies[1]->isAlive && !enemies[2]->isAlive) {
 				Enemy::act_order = Map::scene % 2 == 0 ? 0 : END;
 			}
+
 			_map->drawing_map(); //マップ描画
 
-			input.map_scene_update(_map->map_20x20); //入力更新処理
-
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) _map->drawing_enemy_range(enemies[i]->x, enemies[i]->y);
-
 			Princess.Update(); //姫の更新処理
-			/* 各敵との重複判定 */
-			Princess.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
-			Princess.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
-			Princess.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
 			Princess.Dead(_map->map_20x20); //姫の死亡処理
 			Warrior1.Update(); //影武者1の更新処理
-			/* 各敵との重複判定 */
-			Warrior1.duplicate_decision(Princess.x, Princess.y, _princess);
-			Warrior1.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
-			Warrior1.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
 			Warrior1.Dead(_map->map_20x20); //影武者1の死亡処理
 			Warrior2.Update(); //影武者2の更新処理
-			/* 各敵との重複判定 */
-			Warrior2.duplicate_decision(Princess.x, Princess.y, _princess);
-			Warrior2.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
-			Warrior2.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
 			Warrior2.Dead(_map->map_20x20); //影武者2の死亡処理
 			Warrior3.Update(); //影武者3の更新処理
-			/* 各敵との重複判定 */
-			Warrior3.duplicate_decision(Princess.x, Princess.y, _princess);
-			Warrior3.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
-			Warrior3.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
 			Warrior3.Dead(_map->map_20x20); //影武者3の死亡処理
+
+			/* 各敵との重複判定 */
+			if (Map::scene % 2 == 0) {
+				input.map_scene_update(_map->map_20x20); //入力更新処理
+				Princess.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Princess.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+				Princess.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior1.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior1.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+				Warrior1.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior2.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior2.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Warrior2.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior3.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior3.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Warrior3.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+			}
 
 			if (Enemy::act_order >= ARRAY_LENGTH(enemies)) Enemy::act_order = END;
 
+
 			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
-				if (enemies[i]->isAlive) {
-					enemies[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
-					                                  Warrior2.isAlive, Warrior3.isAlive);
-					enemies[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-					                                   Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-					enemies[i]->get_enemy_cost_0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
-					                             enemies[2]->x, enemies[2]->y);
-					enemies[i]->Update(_map->map_20x20); //敵兵1の更新処理
-				}
+				if (!enemies[i]->isAlive) continue;
+				_map->drawing_enemy_range(enemies[i]->x, enemies[i]->y);
+				enemies[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
+				                                  Warrior2.isAlive, Warrior3.isAlive);
+				enemies[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+				                                   Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+				enemies[i]->get_enemy_cost_0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
+				                             enemies[2]->x, enemies[2]->y);
+
+				enemies[i]->Update(_map->map_20x20); //敵兵1の更新処理
 				enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
 			}
 
@@ -168,6 +168,15 @@ void loop_process() {
 				cursor->move_0(Princess.x, Princess.y, enemies[0]->x, enemies[0]->y,
 				               enemies[1]->x, enemies[1]->y, enemies[2]->x, enemies[2]->y);
 			}
+			cursor->update();
+
+			UI.yes_or_no(input.yes_or_no);
+			UI.drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+			                       Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+			UI.drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
+			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+			UI.update();
+
 			break;
 
 		case STAGE1:
@@ -249,6 +258,15 @@ void loop_process() {
 				               enemies2[5]->x, enemies2[5]->y, enemies2[6]->x, enemies2[6]->y,
 				               enemies2[7]->x, enemies2[7]->y);
 			}
+
+			cursor->update();
+			UI.yes_or_no(input.yes_or_no);
+			UI.drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+			                       Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+			UI.drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
+			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+			UI.update();
+
 			break;
 
 		case STAGE2:
@@ -344,17 +362,28 @@ void loop_process() {
 				               enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
 				               enemies3[10]->x, enemies3[10]->y);
 			}
+
+			cursor->update();
+			UI.yes_or_no(input.yes_or_no);
+			UI.drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
+			                       Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
+			UI.drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
+			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+			UI.update();
+
+
 			break;
 
 		case GAME_TITLE:
 			input.game_title_update();
-			title->update();
+			title.update();
+
 			break;
 
 		case GAME_INFORMATION:
 			input.game_help_update();
 			input.start_game();
-			help->draw();
+			help.draw();
 			break;
 
 		case GAME_RESULT:
@@ -371,39 +400,19 @@ void loop_process() {
 		case GAME_HELP:
 			input.game_help_update();
 			input.return_game();
-			help->draw();
+			help.draw();
 
 			break;
 		}
+		delete cursor;
 
 		SceneTransition* scene = new SceneTransition;
 		if (Princess.moving_flag == -1) scene->transition_to_result(_map->map_20x20, Princess.x, Princess.y);
 		delete scene;
-
-		GameResult* result = new GameResult;
-		result->rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-		result->update();
-		delete result;
-
-		if (SceneTransition::game_scene <= STAGE2) {
-			cursor->update();
-
-
-			UI->yes_or_no(input.yes_or_no);
-			UI->drawing_main_status(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
-			                        Warrior2.x, Warrior2.y, Warrior3.x, Warrior3.y);
-			UI->drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
-			                        Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-			UI->update();
-		}
-		delete UI;
-		delete title;
-		delete help;
-		delete cursor;
 		delete _map;
 
-		/*DrawFormatString(700, 0, GetColor(255, 0, 255),
-		                 "Scene:%d", SceneTransition::game_scene, false);*/
+		result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+		result.update();
 
 		window_in_roop(); //ループ内ウィンドウ設定
 		if (ProcessMessage() == -1) break; //Windowsシステムからくる情報を処理
@@ -411,5 +420,11 @@ void loop_process() {
 
 	for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
 		delete enemies[i];
+	}
+	for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i) {
+		delete enemies2[i];
+	}
+	for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i) {
+		delete enemies3[i];
 	}
 }

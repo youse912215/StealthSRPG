@@ -379,7 +379,7 @@ void EnemyWarrior_2::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, co
 			this->activity = true;
 		}
 	}
-	if (Map::turn_timer >= 60) forward_act_order(a_order);
+	if (Map::turn_timer >= ENEMY_TURN_TIME) forward_act_order(a_order);
 }
 
 void EnemyWarrior_2::get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,

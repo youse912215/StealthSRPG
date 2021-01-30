@@ -26,7 +26,7 @@ Cursor::~Cursor() {
 
 void Cursor::update() {
 	draw();
-	Rangelimit();
+	if (range_flag == -1) Rangelimit();
 }
 
 void Cursor::move_0(const int& px, const int& py, const int& ex1, const int& ey1,
@@ -162,8 +162,6 @@ void Cursor::draw() {
 /// 範囲が出てないとき、現在のカーソルの位置に範囲をセットする
 /// </summary>
 void Cursor::Rangelimit() {
-	if (range_flag == -1) {
-		range_x = current_x;
-		range_y = current_y;
-	}
+	range_x = current_x;
+	range_y = current_y;
 }

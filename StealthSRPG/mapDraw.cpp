@@ -33,18 +33,16 @@ MapDraw::~MapDraw() {
 void MapDraw::map_import(const int& map_info, vector<vector<int>>& map) {
 	get_map_info(&column, &row, map_info); //マップ情報から列と行を取り出す
 	//マップの描画
-	for (int y = 0; y < map_height; y++) {
-		for (int x = 0; x < map_width; x++) {
+	for (int y = 0; y < map_height; ++y) {
+		for (int x = 0; x < map_width; ++x) {
 			//map_infoのチップをdestの位置に描画
-			if (map[y][x] == map_info) {
-
-				DrawRectGraph(
-					x * BLOCK_SIZE - qx,
-					y * BLOCK_SIZE - qy - INIT_POSITION,
-					column * BLOCK_SIZE, row * BLOCK_SIZE,
-					BLOCK_SIZE, BLOCK_SIZE,
-					base_graph, true, false);
-			}
+			if (map[y][x] != map_info) continue;
+			DrawRectGraph(
+				x * BLOCK_SIZE - qx,
+				y * BLOCK_SIZE - qy - INIT_POSITION,
+				column * BLOCK_SIZE, row * BLOCK_SIZE,
+				BLOCK_SIZE, BLOCK_SIZE,
+				base_graph, true, false);
 		}
 	}
 }
@@ -53,18 +51,16 @@ void MapDraw::range_import(const int& map_info, vector<vector<int>>& range) {
 
 	get_map_info(&column, &row, map_info); //マップ情報から列と行を取り出す
 	//移動範囲の描画
-	for (int y = 0; y < range_height; y++) {
-		for (int x = 0; x < range_width; x++) {
+	for (int y = 0; y < range_height; ++y) {
+		for (int x = 0; x < range_width; ++x) {
 			//map_infoのチップをdestの位置に描画
-			if (range[y][x] == map_info) {
-
-				DrawRectGraph(
-					x * BLOCK_SIZE - qx + draw_range_x,
-					y * BLOCK_SIZE - qy + draw_range_y,
-					column * BLOCK_SIZE, row * BLOCK_SIZE,
-					BLOCK_SIZE, BLOCK_SIZE,
-					map_graph, true, false);
-			}
+			if (range[y][x] != map_info) continue;
+			DrawRectGraph(
+				x * BLOCK_SIZE - qx + draw_range_x,
+				y * BLOCK_SIZE - qy + draw_range_y,
+				column * BLOCK_SIZE, row * BLOCK_SIZE,
+				BLOCK_SIZE, BLOCK_SIZE,
+				map_graph, true, false);
 		}
 	}
 }
@@ -79,10 +75,10 @@ void MapDraw::switching_map_scene() {
 /// </summary>
 void MapDraw::drawing_map() {
 
-	map_file_import(map_20x20, mapcsv_file, SceneTransition::game_scene, MAP);
+	if (SceneTransition::game_scene <= 2) map_file_import(map_20x20, mapcsv_file, SceneTransition::game_scene, MAP);
 	switching_map_scene();
 
-	for (int i = 0; i != info.size(); i++) {
+	for (int i = 0; i != info.size(); ++i) {
 		map_import(info[i], map_20x20);
 	}
 
@@ -109,10 +105,10 @@ void MapDraw::drawing_enemy_range(const int& ex, const int& ey) {
 }
 
 void MapDraw::drawing_format() {
-	for (int i = 0; i < 21; i++) {
+	/*for (int i = 0; i < 21; i++) {
 		DrawLine(0, i * BLOCK_SIZE, 20 * BLOCK_SIZE, i * BLOCK_SIZE, GetColor(55, 55, 55), true);
 		DrawLine(i * BLOCK_SIZE, 0, i * BLOCK_SIZE, 20 * BLOCK_SIZE, GetColor(55, 55, 55), true);
-	}
+	}*/
 
 
 	/*DrawFormatString(0, 15, GetColor(255, 255, 255),

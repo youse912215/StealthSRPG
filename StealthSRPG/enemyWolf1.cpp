@@ -381,8 +381,8 @@ void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const
 				this->activity = true;
 			}
 		}
-		if (Map::turn_timer >= 70 && Map::scene == NIGHT_ENEMY) forward_act_order(a_order);
-		else if (Map::turn_timer >= 10 && Map::scene == NOON_ENEMY) forward_act_order(a_order);
+		if (Map::turn_timer >= ENEMY_TURN_TIME + 10 && Map::scene == NIGHT_ENEMY) forward_act_order(a_order);
+		else if (Map::turn_timer >= 5 && Map::scene == NOON_ENEMY) forward_act_order(a_order);
 	}
 	else forward_act_order(a_order);
 }

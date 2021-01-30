@@ -6,17 +6,18 @@
 int GameHelp::help_num = 0;
 
 GameHelp::GameHelp() {
-	manual = LoadGraph("Source/UI/basic_manual2.png");
-	map_information = LoadGraph("Source/UI/map_info2.png");
-	enemy_information = LoadGraph("Source/UI/enemy_info2.png");
-	enemy_information_2 = LoadGraph("Source/UI/enemy_info2b.png");
+	manual = LoadGraph("Source/Screen/basic_manual2.png");
+	map_information = LoadGraph("Source/Screen/map_info2.png");
+	enemy_information = LoadGraph("Source/Screen/enemy_info2.png");
+	enemy_information_2 = LoadGraph("Source/Screen/enemy_info2b.png");
 	return_game = LoadGraph("Source/UI/return_game.png");
 }
 
 GameHelp::~GameHelp() {
 	DeleteGraph(manual);
-	DeleteGraph(enemy_information);
 	DeleteGraph(map_information);
+	DeleteGraph(enemy_information);
+	DeleteGraph(enemy_information_2);
 	DeleteGraph(return_game);
 }
 
@@ -32,8 +33,9 @@ void GameHelp::draw() {
 		if (SceneTransition::game_scene == GAME_INFORMATION)
 			DrawGraph(0, 0, enemy_information_2, true);
 		else DrawGraph(0, 0, enemy_information, true);
+		DrawGraph(700, 30, return_game, true);
 		break;
 	}
 
-	DrawGraph(700, 30, return_game, true);
+
 }

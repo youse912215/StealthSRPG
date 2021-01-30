@@ -381,7 +381,7 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, co
 				this->activity = true;
 			}
 		}
-		if (Map::turn_timer >= 60) forward_act_order(a_order);
+		if (Map::turn_timer >= ENEMY_TURN_TIME) forward_act_order(a_order);
 	}
 	else forward_act_order(a_order);
 }

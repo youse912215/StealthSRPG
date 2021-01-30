@@ -56,10 +56,10 @@ void MapUI::update() {
 
 	if (UI_flag) {
 		drawing_blend(scene);
-		blend_time += 10;
+		blend_time += 15;
 	}
 	else
-		reset_blend();
+		blend_time = 0;
 
 	if (Input::confirmation_flag) drawing_comfirmation();
 }
