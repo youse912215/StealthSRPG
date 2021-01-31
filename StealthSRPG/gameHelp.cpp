@@ -25,15 +25,21 @@ void GameHelp::draw() {
 	switch (help_num) {
 	case 0:
 		DrawGraph(0, 0, manual, true);
+		if (SceneTransition::game_scene == GAME_HELP)
+			DrawGraph(700, 30, return_game, true);
 		break;
 	case 1:
 		DrawGraph(0, 0, map_information, true);
+		if (SceneTransition::game_scene == GAME_HELP)
+			DrawGraph(700, 30, return_game, true);
 		break;
 	case 2:
 		if (SceneTransition::game_scene == GAME_INFORMATION)
 			DrawGraph(0, 0, enemy_information_2, true);
 		else DrawGraph(0, 0, enemy_information, true);
-		DrawGraph(700, 30, return_game, true);
+
+		if (SceneTransition::game_scene == GAME_HELP)
+			DrawGraph(700, 30, return_game, true);
 		break;
 	}
 

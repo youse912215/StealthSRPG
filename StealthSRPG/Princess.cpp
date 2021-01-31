@@ -38,12 +38,14 @@ void Princess::Draw() {
 		              BLOCK_SIZE, BLOCK_SIZE,
 		              this->graph, true, false);
 	}
-	/*DrawFormatString(0, 145, GetColor(0, 0, 0), "•P(%d, %d)",
+	DrawFormatString(0, 45, GetColor(0, 0, 0), "•º1(%d, %d)",
 	                 this->x / BLOCK_SIZE, this->y / BLOCK_SIZE, false);
-	DrawFormatString(0, 160, GetColor(255, 0, 0), "Fl:%d,Ac:%d",
+	DrawFormatString(0, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
 	                 moving_flag, this->activity, false);
+	DrawFormatString(0, 75, GetColor(255, 0, 0), "De%d,Hp%d",
+	                 this->isAlive, this->hp, false);
 	DrawFormatString(0, 175, GetColor(255, 0, 0), "ox:%d,oy:%d",
-	                 old_x, old_y, false);*/
+	                 old_x, old_y, false);
 }
 
 /// <summary>
@@ -107,7 +109,7 @@ void Princess::Move() {
 /// </summary>
 void Princess::Dead(vector<vector<int>>& map) {
 	if (map[this->y / BLOCK_SIZE][this->x / BLOCK_SIZE] == TIDE
-		&& Map::scene == NIGHT_PLAY && Map::turn_timer > DEAD_TIME) {
+		&& Map::scene == NIGHT_PLAY) {
 		get_survival_activity();
 	}
 
@@ -141,6 +143,7 @@ void Princess::set_next_map_node(const int& c_scene) {
 		this->x = BLOCK_SIZE * 8;
 		this->y = BLOCK_SIZE * 8;
 		this->hp = 6;
+		this->isAlive = true;
 		this->activity = false;
 		current_x = this->x;
 		current_y = this->y;
@@ -150,6 +153,7 @@ void Princess::set_next_map_node(const int& c_scene) {
 		this->x = BLOCK_SIZE * 12;
 		this->y = BLOCK_SIZE * 12;
 		this->hp = 6;
+		this->isAlive = true;
 		this->activity = false;
 		current_x = this->x;
 		current_y = this->y;

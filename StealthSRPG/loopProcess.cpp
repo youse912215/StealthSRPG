@@ -48,11 +48,11 @@ void loop_process() {
 	Enemy* enemies[] = {
 			/* チュートリアル */
 			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 12, enemy_graph,
-			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			                   BLOCK_SIZE, 2, 3, 25, false, true),
 			new EnemyWarrior_1(BLOCK_SIZE * 10, BLOCK_SIZE * 13, enemy_graph,
-			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			                   BLOCK_SIZE, 2, 3, 25, false, true),
 			new EnemyBandits(BLOCK_SIZE * 14, BLOCK_SIZE * 14, enemy_graph,
-			                 BLOCK_SIZE, 4, 2, 20, false, true),
+			                 BLOCK_SIZE, 4, 2, 25, false, true),
 		};
 	Enemy* enemies2[] = {
 			/* ステージ1 */
@@ -130,9 +130,20 @@ void loop_process() {
 			Warrior3.Update(); //影武者3の更新処理
 			Warrior3.Dead(_map->map_20x20); //影武者3の死亡処理
 
+			result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+
 			/* 各敵との重複判定 */
 			if (Map::scene % 2 == 0) {
-				input.map_scene_update(_map->map_20x20); //入力更新処理
+				input.map_scene_update(); //入力更新処理
+
+				/* 衝突判定 */
+				if (Map::range_flag == 1) {
+					input.map_collision_decision(_map->map_20x20);
+					input.enemy_colliision_decesion0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
+					                                 enemies[2]->x, enemies[2]->y);
+				}
+				else input.collision_update();
+
 				Princess.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
 				Princess.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
 				Princess.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
@@ -175,7 +186,7 @@ void loop_process() {
 
 			_map->drawing_map(); //マップ描画
 
-			input.map_scene_update(_map->map_20x20); //入力更新処理
+			input.map_scene_update(); //入力更新処理
 
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i)
@@ -256,7 +267,7 @@ void loop_process() {
 		case STAGE2:
 			_map->drawing_map(); //マップ描画
 
-			input.map_scene_update(_map->map_20x20); //入力更新処理
+			input.map_scene_update(); //入力更新処理
 
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i)
@@ -362,13 +373,22 @@ void loop_process() {
 			break;
 
 		case GAME_RESULT:
+			Map::turn_count = 0;
+			Map::scene = NOON_PLAY;
+			MapUI::UI_flag = true;
 
-			Princess.set_next_map_node(input.current_map_scene);
-			Warrior1.set_next_map_node(input.current_map_scene);
-			Warrior2.set_next_map_node(input.current_map_scene);
-			Warrior3.set_next_map_node(input.current_map_scene);
+			Princess.set_next_map_node(Input::current_map_scene);
+			Warrior1.set_next_map_node(Input::current_map_scene);
+			Warrior2.set_next_map_node(Input::current_map_scene);
+			Warrior3.set_next_map_node(Input::current_map_scene);
 
-			input.game_result_update();
+			input.game_result_update(result.rank);
+
+			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
+				enemies[i]->reset();
+			}
+
+			result.update();
 
 			break;
 
@@ -383,12 +403,13 @@ void loop_process() {
 		if (SceneTransition::game_scene <= STAGE2) {
 			cursor->update();
 
-			UI.yes_or_no(input.yes_or_no);
+
 			UI.drawing_main_status(Princess.moving_flag, Warrior1.moving_flag, Warrior2.moving_flag,
 			                       Warrior3.moving_flag);
 			UI.drawing_life_status(Princess.hp, Warrior1.hp, Warrior2.hp, Warrior3.hp,
 			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 			UI.update();
+			if (Input::confirmation_flag) UI.yes_or_no(input.yes_or_no);
 		}
 
 		delete cursor;
@@ -398,8 +419,12 @@ void loop_process() {
 		delete scene;
 		delete _map;
 
-		result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
-		result.update();
+		DrawFormatString(400, 0, GetColor(255, 255, 255),
+		                 "cur_map%d", Input::current_map_scene, false);
+		DrawFormatString(400, 15, GetColor(255, 255, 255),
+		                 "count%d, UI%d, act%d", Map::turn_count, MapUI::UI_flag, Enemy::act_order, false);
+		DrawFormatString(400, 30, GetColor(255, 255, 255),
+		                 "rank%d", result.rank, false);
 
 		window_in_roop(); //ループ内ウィンドウ設定
 		if (ProcessMessage() == -1) break; //Windowsシステムからくる情報を処理

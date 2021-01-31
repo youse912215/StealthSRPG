@@ -1,6 +1,5 @@
 #pragma once
 #include "mapAll.h"
-#include "inputProcess.h"
 #include <vector>
 
 using namespace std;
@@ -24,9 +23,7 @@ private:
 	int background_black;
 	vector<int> UI_graph;
 	int end;
-	int yes;
-	int no;
-	int red;
+	int yes_no;
 	int status;
 	int status2;
 	int life;

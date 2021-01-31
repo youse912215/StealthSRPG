@@ -27,6 +27,8 @@ public:
 	                      const int& ey8, const int& ex9, const int& ey9, const int& ex10, const int& ey10,
 	                      const int& ex11, const int& ey11) override;
 	void forward_act_order(const int& a_order) override;
+	void reset() override;
+	void drawing_effect2();
 
 private:
 	vector<int> node_x; //x方向のノード
@@ -49,10 +51,12 @@ private:
 	vector<bool> duplication_activity; //重複状態（true:重複、false:それ以外）
 	int attack_motion;
 	vector<int> enemy_cost;
+	int init_x;
+	int init_y;
 
 	void Draw();
 	void drawing_effect1(const int& nx, const int& ny, const int& direction);
-	void drawing_effect2();
+
 	void get_each_node();
 	void get_minimum_husteric();
 	void get_node_husteric();
@@ -68,4 +72,5 @@ private:
 	void duplicate_process(const int& dir_num);
 	void get_attack_direction(const int& player_num);
 	void get_slash_motion(const int& a_activity, int* motion);
+	void get_init_node();
 };

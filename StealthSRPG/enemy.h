@@ -37,6 +37,7 @@ public:
 	                              const int& ey8, const int& ex9, const int& ey9, const int& ex10, const int& ey10,
 	                              const int& ex11, const int& ey11) = 0;
 	virtual void forward_act_order(const int& a_order) = 0;
+	virtual void reset() = 0;
 
 protected:
 	int slash;

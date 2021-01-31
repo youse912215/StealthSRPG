@@ -10,6 +10,7 @@ using namespace std;
 
 int Map::scene = NOON_PLAY;
 int Map::turn_timer = 0;
+int Map::turn_count = 0;
 
 Map::Map() {
 	mapcsv_file = "Source/Map/map_00.csv";

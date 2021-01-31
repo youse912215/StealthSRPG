@@ -39,12 +39,12 @@ void ShadowWarrior_1::Draw() {
 		              BLOCK_SIZE, BLOCK_SIZE,
 		              this->graph, true, false);
 	}
-	/*DrawFormatString(100, 45, GetColor(0, 0, 0), "•º1(%d, %d)",
+	DrawFormatString(100, 45, GetColor(0, 0, 0), "•º1(%d, %d)",
 	                 this->x / BLOCK_SIZE, this->y / BLOCK_SIZE, false);
 	DrawFormatString(100, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
 	                 moving_flag, this->activity, false);
 	DrawFormatString(100, 75, GetColor(255, 0, 0), "De%d,Hp%d",
-	                 this->isAlive, this->hp, false);*/
+	                 this->isAlive, this->hp, false);
 }
 
 /// <summary>
@@ -108,7 +108,7 @@ void ShadowWarrior_1::Move() {
 /// </summary>
 void ShadowWarrior_1::Dead(vector<vector<int>>& map) {
 	if (map[this->y / BLOCK_SIZE][this->x / BLOCK_SIZE] == TIDE
-		&& Map::scene == NIGHT_PLAY && Map::turn_timer > DEAD_TIME) {
+		&& Map::scene == NIGHT_PLAY) {
 		get_survival_activity();
 	}
 
@@ -138,10 +138,25 @@ void ShadowWarrior_1::act_cancel() {
 }
 
 void ShadowWarrior_1::set_next_map_node(const int& c_scene) {
-	if (c_scene == TUTORIAL) {
+	switch (c_scene) {
+	case TUTORIAL:
 		this->x = BLOCK_SIZE * 8;
 		this->y = BLOCK_SIZE * 9;
 		this->hp = 6;
 		this->isAlive = true;
+		this->activity = false;
+		current_x = this->x;
+		current_y = this->y;
+		break;
+
+	case STAGE1:
+		this->x = BLOCK_SIZE * 10;
+		this->y = BLOCK_SIZE * 12;
+		this->hp = 6;
+		this->isAlive = true;
+		this->activity = false;
+		current_x = this->x;
+		current_y = this->y;
+		break;
 	}
 }

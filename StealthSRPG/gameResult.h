@@ -2,7 +2,7 @@
 
 class GameResult {
 private:
-	int rank; //0=Cランク, 1=Bランク, 2=Aランク, 3=Sランク
+
 	int char_next; //次のシーン文字
 	int background; //背景
 
@@ -17,6 +17,7 @@ private:
 	void draw();
 
 public:
+	int rank; //0=Cランク, 1=Bランク, 2=Aランク, 3=Sランク
 	static int result_num;
 
 	GameResult();

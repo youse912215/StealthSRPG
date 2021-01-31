@@ -18,9 +18,7 @@ MapUI::MapUI() : UI_graph{
 	y = 220;
 	background_black = LoadGraph("Source/UI/background.png");
 	end = LoadGraph("Source/UI/end_the_turn.png");
-	yes = LoadGraph("Source/UI/Yes.png");
-	no = LoadGraph("Source/UI/No.png");
-	red = LoadGraph("Source/UI/red.png");
+	yes_no = LoadGraph("Source/UI/YesNo.png");
 	status = LoadGraph("Source/UI/Status.png");
 	status2 = LoadGraph("Source/UI/Status2.png");
 	life = LoadGraph("Source/UI/Life.png");
@@ -37,9 +35,7 @@ MapUI::~MapUI() {
 	DeleteGraph(UI_graph[3]);
 	DeleteGraph(background_black);
 	DeleteGraph(end);
-	DeleteGraph(yes);
-	DeleteGraph(no);
-	DeleteGraph(red);
+	DeleteGraph(yes_no);
 	DeleteGraph(status);
 	DeleteGraph(status2);
 	DeleteGraph(life);
@@ -78,8 +74,6 @@ void MapUI::drawing_blend(const int& graph_num) {
 void MapUI::drawing_comfirmation() {
 	DrawGraph(0, 0, background_black, true);
 	DrawGraph(x, y, end, true);
-	DrawGraph((WIN_WIDTH / 2) - 160, y + 64, yes, true);
-	DrawGraph((WIN_WIDTH / 2) + 40, y + 64, no, true);
 }
 
 void MapUI::drawing_scene_symbol() {
@@ -166,8 +160,20 @@ void MapUI::drawing_main_status(const bool& flag1, const bool& flag2, const bool
 }
 
 void MapUI::yes_or_no(const bool& y_n) {
-	if (y_n)
-		GraphBlend(yes, red, 255, DX_GRAPH_BLEND_NORMAL);
-	else
-		GraphBlend(no, red, 255, DX_GRAPH_BLEND_NORMAL);
+	if (y_n) {
+		DrawRectGraph((WIN_WIDTH / 2) - 138, y + 64,
+		              0, 64, 128, 64,
+		              yes_no, true, false);
+		DrawRectGraph((WIN_WIDTH / 2) - 10, y + 64,
+		              128, 0, 128, 64,
+		              yes_no, true, false);
+	}
+	else {
+		DrawRectGraph((WIN_WIDTH / 2) - 138, y + 64,
+		              0, 0, 128, 64,
+		              yes_no, true, false);
+		DrawRectGraph((WIN_WIDTH / 2) - 10, y + 64,
+		              128, 64, 128, 64,
+		              yes_no, true, false);
+	}
 }

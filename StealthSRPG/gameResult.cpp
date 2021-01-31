@@ -1,7 +1,6 @@
 #include "gameResult.h"
 #include "constant.h"
 #include "DxLib.h"
-#include "sceneTransition.h"
 
 int GameResult::result_num = 0;
 
@@ -48,5 +47,5 @@ void GameResult::rank_check(const bool& p_ac, const bool& sw1_ac, const bool& sw
 }
 
 void GameResult::update() {
-	if (SceneTransition::game_scene == GAME_RESULT) draw();
+	draw();
 }

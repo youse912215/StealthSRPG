@@ -27,6 +27,8 @@ public:
 	                      const int& ey8, const int& ex9, const int& ey9, const int& ex10, const int& ey10,
 	                      const int& ex11, const int& ey11) override;
 	void forward_act_order(const int& a_order) override;
+	void reset() override = 0;
+	void drawing_effect2();
 
 private:
 	vector<int> node_x; //x•ûŒü‚Ìƒm[ƒh
@@ -52,7 +54,6 @@ private:
 
 	void Draw();
 	void drawing_effect1(const int& nx, const int& ny, const int& direction);
-	void drawing_effect2();
 	void get_each_node();
 	void get_minimum_husteric();
 	void get_node_husteric();

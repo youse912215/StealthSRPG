@@ -12,7 +12,7 @@ const int RANDOM_MAX = 100;
 const int MOVING_INTERVAL = 15;
 const int CONFIRMATION_TIME = 100;
 const int ENEMY_COST = 15;
-const int ENEMY_TURN_TIME = 60;
+const int ENEMY_TURN_TIME = 70;
 const int DEAD_TIME = 45;
 
 enum MAP_SCENE {

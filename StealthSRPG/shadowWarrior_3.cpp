@@ -40,12 +40,12 @@ void ShadowWarrior_3::Draw() {
 		              BLOCK_SIZE, BLOCK_SIZE,
 		              this->graph, true, false);
 	}
-	/*DrawFormatString(300, 45, GetColor(0, 0, 0), "•º3(%d, %d)",
+	DrawFormatString(300, 45, GetColor(0, 0, 0), "•º3(%d, %d)",
 	                 this->x / BLOCK_SIZE, this->y / BLOCK_SIZE, false);
 	DrawFormatString(300, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
 	                 moving_flag, this->activity, false);
 	DrawFormatString(300, 75, GetColor(255, 0, 0), "De%d,Hp%d",
-	                 this->isAlive, this->hp, false);*/
+	                 this->isAlive, this->hp, false);
 }
 
 /// <summary>
@@ -139,10 +139,25 @@ void ShadowWarrior_3::act_cancel() {
 }
 
 void ShadowWarrior_3::set_next_map_node(const int& c_scene) {
-	if (c_scene == TUTORIAL) {
+	switch (c_scene) {
+	case TUTORIAL:
 		this->x = BLOCK_SIZE * 7;
 		this->y = BLOCK_SIZE * 8;
 		this->hp = 6;
 		this->isAlive = true;
+		this->activity = false;
+		current_x = this->x;
+		current_y = this->y;
+		break;
+
+	case STAGE1:
+		this->x = BLOCK_SIZE * 11;
+		this->y = BLOCK_SIZE * 9;
+		this->hp = 6;
+		this->isAlive = true;
+		this->activity = false;
+		current_x = this->x;
+		current_y = this->y;
+		break;
 	}
 }
