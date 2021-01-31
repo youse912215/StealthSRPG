@@ -29,7 +29,7 @@ void loop_process() {
 
 	const int player_graph = LoadGraph("Source/Charactor/Player/princess.png");
 	Princess Princess(
-		BLOCK_SIZE * 8, BLOCK_SIZE * 8, player_graph,
+		BLOCK_SIZE * 14, BLOCK_SIZE * 5, player_graph,
 		BLOCK_SIZE, 4, 4, false, true, input);
 
 	ShadowWarrior_1 Warrior1(
@@ -69,34 +69,34 @@ void loop_process() {
 			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 13, enemy_graph,
 			                   BLOCK_SIZE, 2, 3, 30, false, true),
 			new EnemyBandits(BLOCK_SIZE * 18, BLOCK_SIZE * 12, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 25, false, true),
+			                 BLOCK_SIZE, 4, 2, 25, false, true),
 			new EnemyBandits(BLOCK_SIZE * 18, BLOCK_SIZE * 15, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 25, false, true),
+			                 BLOCK_SIZE, 4, 2, 25, false, true),
 		};
 
 	Enemy* enemies3[] = {
-			new EnemyWolf_1(BLOCK_SIZE * 11, BLOCK_SIZE * 3, enemy_graph,
+			new EnemyWolf_1(BLOCK_SIZE * 3, BLOCK_SIZE * 11, enemy_graph,
 			                BLOCK_SIZE, 1, 4, 40, false, true),
-			new EnemyWolf_1(BLOCK_SIZE * 11, BLOCK_SIZE * 4, enemy_graph,
+			new EnemyWolf_1(BLOCK_SIZE * 13, BLOCK_SIZE * 8, enemy_graph,
 			                BLOCK_SIZE, 1, 4, 40, false, true),
-			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 7, enemy_graph,
+			new EnemyWarrior_1(BLOCK_SIZE * 3, BLOCK_SIZE * 3, enemy_graph,
 			                   BLOCK_SIZE, 2, 3, 30, false, true),
-			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 8, enemy_graph,
+			new EnemyWarrior_1(BLOCK_SIZE * 2, BLOCK_SIZE * 4, enemy_graph,
 			                   BLOCK_SIZE, 2, 3, 30, false, true),
-			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 6, enemy_graph,
-			                   BLOCK_SIZE, 2, 3, 30, false, true),
-			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 5, enemy_graph,
-			                   BLOCK_SIZE, 2, 3, 30, false, true),
-			new EnemyWarrior_1(BLOCK_SIZE * 6, BLOCK_SIZE * 6, enemy_graph,
-			                   BLOCK_SIZE, 2, 3, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 12, BLOCK_SIZE * 5, enemy_graph,
+			                   BLOCK_SIZE, 2, 0, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 8, BLOCK_SIZE * 11, enemy_graph,
+			                   BLOCK_SIZE, 2, 0, 30, false, true),
+			new EnemyWarrior_1(BLOCK_SIZE * 10, BLOCK_SIZE * 11, enemy_graph,
+			                   BLOCK_SIZE, 2, 0, 30, false, true),
 			new EnemyWarrior_1(BLOCK_SIZE * 6, BLOCK_SIZE * 5, enemy_graph,
-			                   BLOCK_SIZE, 2, 3, 30, false, true),
-			new EnemyBandits(BLOCK_SIZE * 10, BLOCK_SIZE * 11, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 25, false, true),
-			new EnemyBandits(BLOCK_SIZE * 10, BLOCK_SIZE * 12, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 25, false, true),
-			new EnemyBandits(BLOCK_SIZE * 9, BLOCK_SIZE * 13, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 25, false, true),
+			                   BLOCK_SIZE, 2, 0, 30, false, true),
+			new EnemyBandits(BLOCK_SIZE * 10, BLOCK_SIZE * 14, enemy_graph,
+			                 BLOCK_SIZE, 4, 0, 25, false, true),
+			new EnemyBandits(BLOCK_SIZE * 8, BLOCK_SIZE * 16, enemy_graph,
+			                 BLOCK_SIZE, 4, 0, 25, false, true),
+			new EnemyBandits(BLOCK_SIZE * 9, BLOCK_SIZE * 18, enemy_graph,
+			                 BLOCK_SIZE, 4, 0, 25, false, true),
 		};
 
 	GameTitle title;
@@ -449,6 +449,8 @@ void loop_process() {
 		                 "count%d, UI%d, act%d", Map::turn_count, MapUI::UI_flag, Enemy::act_order, false);
 		DrawFormatString(400, 30, GetColor(255, 255, 255),
 		                 "rank%d", result.rank, false);
+		DrawFormatString(400, 45, GetColor(255, 255, 255),
+		                 "x:%d, y:%d", Map::current_x / BLOCK_SIZE, Map::current_y / BLOCK_SIZE, false);
 
 		window_in_roop(); //ループ内ウィンドウ設定
 		if (ProcessMessage() == -1) break; //Windowsシステムからくる情報を処理

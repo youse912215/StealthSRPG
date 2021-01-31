@@ -387,6 +387,7 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, cons
 		}
 	}
 	if (Map::turn_timer >= ENEMY_TURN_TIME) forward_act_order(a_order);
+	else if (Map::turn_timer >= 10 && this->range == 0) forward_act_order(a_order);
 }
 
 void EnemyBandits::get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,

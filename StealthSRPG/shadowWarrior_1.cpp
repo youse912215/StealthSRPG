@@ -158,8 +158,8 @@ void ShadowWarrior_1::set_next_map_node(const int& c_scene) {
 		break;
 
 	case STAGE2:
-		this->x = BLOCK_SIZE * 10;
-		this->y = BLOCK_SIZE * 13;
+		this->x = BLOCK_SIZE * 16;
+		this->y = BLOCK_SIZE * 5;
 		this->hp = 6;
 		this->isAlive = true;
 		this->activity = false;

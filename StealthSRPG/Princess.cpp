@@ -151,8 +151,8 @@ void Princess::act_cancel() {
 void Princess::set_next_map_node(const int& c_scene) {
 	switch (c_scene) {
 	case STAGE1:
-		this->x = BLOCK_SIZE * 8;
-		this->y = BLOCK_SIZE * 8;
+		this->x = BLOCK_SIZE * 3;
+		this->y = BLOCK_SIZE * 3;
 		this->hp = 4;
 		this->isAlive = true;
 		this->activity = false;
@@ -161,8 +161,8 @@ void Princess::set_next_map_node(const int& c_scene) {
 		break;
 
 	case STAGE2:
-		this->x = BLOCK_SIZE * 9;
-		this->y = BLOCK_SIZE * 6;
+		this->x = BLOCK_SIZE * 16;
+		this->y = BLOCK_SIZE * 11;
 		this->hp = 4;
 		this->isAlive = true;
 		this->activity = false;
