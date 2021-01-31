@@ -231,8 +231,8 @@ void Input::map_collision_decision(vector<vector<int>>& map) {
 	}
 }
 
-void Input::enemy_colliision_decesion0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
-                                       const int& ey3) {
+void Input::enemy_collision_decision0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+                                      const int& ey3) {
 	if ((current_x - BLOCK_SIZE == ex1 && current_y == ey1)
 		|| (current_x - BLOCK_SIZE == ex2 && current_y == ey2)
 		|| (current_x - BLOCK_SIZE == ex3 && current_y == ey3)) {
@@ -257,6 +257,125 @@ void Input::enemy_colliision_decesion0(const int& ex1, const int& ey1, const int
 	if ((current_x == ex1 && current_y + BLOCK_SIZE == ey1)
 		|| (current_x == ex2 && current_y + BLOCK_SIZE == ey2)
 		|| (current_x == ex3 && current_y + BLOCK_SIZE == ey3)) {
+		enemy_collision_flag[DOWN] = true;
+	}
+	else enemy_collision_flag[DOWN] = false;
+}
+
+void Input::enemy_collision_decision1(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+                                      const int& ey3, const int& ex4, const int& ey4, const int& ex5, const int& ey5,
+                                      const int& ex6, const int& ey6, const int& ex7, const int& ey7, const int& ex8,
+                                      const int& ey8) {
+	if ((current_x - BLOCK_SIZE == ex1 && current_y == ey1)
+		|| (current_x - BLOCK_SIZE == ex2 && current_y == ey2)
+		|| (current_x - BLOCK_SIZE == ex3 && current_y == ey3)
+		|| (current_x - BLOCK_SIZE == ex4 && current_y == ey4)
+		|| (current_x - BLOCK_SIZE == ex5 && current_y == ey5)
+		|| (current_x - BLOCK_SIZE == ex6 && current_y == ey6)
+		|| (current_x - BLOCK_SIZE == ex7 && current_y == ey7)
+		|| (current_x - BLOCK_SIZE == ex8 && current_y == ey8)) {
+		enemy_collision_flag[LEFT] = true;
+	}
+	else enemy_collision_flag[LEFT] = false;
+
+	if ((current_x + BLOCK_SIZE == ex1 && current_y == ey1)
+		|| (current_x + BLOCK_SIZE == ex2 && current_y == ey2)
+		|| (current_x + BLOCK_SIZE == ex3 && current_y == ey3)
+		|| (current_x + BLOCK_SIZE == ex4 && current_y == ey4)
+		|| (current_x + BLOCK_SIZE == ex5 && current_y == ey5)
+		|| (current_x + BLOCK_SIZE == ex6 && current_y == ey6)
+		|| (current_x + BLOCK_SIZE == ex7 && current_y == ey7)
+		|| (current_x + BLOCK_SIZE == ex8 && current_y == ey8)) {
+		enemy_collision_flag[RIGHT] = true;
+	}
+	else enemy_collision_flag[RIGHT] = false;
+
+	if ((current_x == ex1 && current_y - BLOCK_SIZE == ey1)
+		|| (current_x == ex2 && current_y - BLOCK_SIZE == ey2)
+		|| (current_x == ex3 && current_y - BLOCK_SIZE == ey3)
+		|| (current_x == ex4 && current_y - BLOCK_SIZE == ey4)
+		|| (current_x == ex5 && current_y - BLOCK_SIZE == ey5)
+		|| (current_x == ex6 && current_y - BLOCK_SIZE == ey6)
+		|| (current_x == ex7 && current_y - BLOCK_SIZE == ey7)
+		|| (current_x == ex8 && current_y - BLOCK_SIZE == ey8)) {
+		enemy_collision_flag[UP] = true;
+	}
+	else enemy_collision_flag[UP] = false;
+
+	if ((current_x == ex1 && current_y + BLOCK_SIZE == ey1)
+		|| (current_x == ex2 && current_y + BLOCK_SIZE == ey2)
+		|| (current_x == ex3 && current_y + BLOCK_SIZE == ey3)
+		|| (current_x == ex4 && current_y + BLOCK_SIZE == ey4)
+		|| (current_x == ex5 && current_y + BLOCK_SIZE == ey5)
+		|| (current_x == ex6 && current_y + BLOCK_SIZE == ey6)
+		|| (current_x == ex7 && current_y + BLOCK_SIZE == ey7)
+		|| (current_x == ex8 && current_y + BLOCK_SIZE == ey8)) {
+		enemy_collision_flag[DOWN] = true;
+	}
+	else enemy_collision_flag[DOWN] = false;
+}
+
+void Input::enemy_collision_decision2(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
+                                      const int& ey3, const int& ex4, const int& ey4, const int& ex5, const int& ey5,
+                                      const int& ex6, const int& ey6, const int& ex7, const int& ey7, const int& ex8,
+                                      const int& ey8, const int& ex9, const int& ey9, const int& ex10, const int& ey10,
+                                      const int& ex11, const int& ey11) {
+	if ((current_x - BLOCK_SIZE == ex1 && current_y == ey1)
+		|| (current_x - BLOCK_SIZE == ex2 && current_y == ey2)
+		|| (current_x - BLOCK_SIZE == ex3 && current_y == ey3)
+		|| (current_x - BLOCK_SIZE == ex4 && current_y == ey4)
+		|| (current_x - BLOCK_SIZE == ex5 && current_y == ey5)
+		|| (current_x - BLOCK_SIZE == ex6 && current_y == ey6)
+		|| (current_x - BLOCK_SIZE == ex7 && current_y == ey7)
+		|| (current_x - BLOCK_SIZE == ex8 && current_y == ey8)
+		|| (current_x - BLOCK_SIZE == ex9 && current_y == ey9)
+		|| (current_x - BLOCK_SIZE == ex10 && current_y == ey10)
+		|| (current_x - BLOCK_SIZE == ex11 && current_y == ey11)) {
+		enemy_collision_flag[LEFT] = true;
+	}
+	else enemy_collision_flag[LEFT] = false;
+
+	if ((current_x + BLOCK_SIZE == ex1 && current_y == ey1)
+		|| (current_x + BLOCK_SIZE == ex2 && current_y == ey2)
+		|| (current_x + BLOCK_SIZE == ex3 && current_y == ey3)
+		|| (current_x + BLOCK_SIZE == ex4 && current_y == ey4)
+		|| (current_x + BLOCK_SIZE == ex5 && current_y == ey5)
+		|| (current_x + BLOCK_SIZE == ex6 && current_y == ey6)
+		|| (current_x + BLOCK_SIZE == ex7 && current_y == ey7)
+		|| (current_x + BLOCK_SIZE == ex8 && current_y == ey8)
+		|| (current_x + BLOCK_SIZE == ex9 && current_y == ey9)
+		|| (current_x + BLOCK_SIZE == ex10 && current_y == ey10)
+		|| (current_x + BLOCK_SIZE == ex11 && current_y == ey11)) {
+		enemy_collision_flag[RIGHT] = true;
+	}
+	else enemy_collision_flag[RIGHT] = false;
+
+	if ((current_x == ex1 && current_y - BLOCK_SIZE == ey1)
+		|| (current_x == ex2 && current_y - BLOCK_SIZE == ey2)
+		|| (current_x == ex3 && current_y - BLOCK_SIZE == ey3)
+		|| (current_x == ex4 && current_y - BLOCK_SIZE == ey4)
+		|| (current_x == ex5 && current_y - BLOCK_SIZE == ey5)
+		|| (current_x == ex6 && current_y - BLOCK_SIZE == ey6)
+		|| (current_x == ex7 && current_y - BLOCK_SIZE == ey7)
+		|| (current_x == ex8 && current_y - BLOCK_SIZE == ey8)
+		|| (current_x == ex9 && current_y - BLOCK_SIZE == ey9)
+		|| (current_x == ex10 && current_y - BLOCK_SIZE == ey10)
+		|| (current_x == ex11 && current_y - BLOCK_SIZE == ey11)) {
+		enemy_collision_flag[UP] = true;
+	}
+	else enemy_collision_flag[UP] = false;
+
+	if ((current_x == ex1 && current_y + BLOCK_SIZE == ey1)
+		|| (current_x == ex2 && current_y + BLOCK_SIZE == ey2)
+		|| (current_x == ex3 && current_y + BLOCK_SIZE == ey3)
+		|| (current_x == ex4 && current_y + BLOCK_SIZE == ey4)
+		|| (current_x == ex5 && current_y + BLOCK_SIZE == ey5)
+		|| (current_x == ex6 && current_y + BLOCK_SIZE == ey6)
+		|| (current_x == ex7 && current_y + BLOCK_SIZE == ey7)
+		|| (current_x == ex8 && current_y + BLOCK_SIZE == ey8)
+		|| (current_x == ex9 && current_y + BLOCK_SIZE == ey9)
+		|| (current_x == ex10 && current_y + BLOCK_SIZE == ey10)
+		|| (current_x == ex11 && current_y + BLOCK_SIZE == ey11)) {
 		enemy_collision_flag[DOWN] = true;
 	}
 	else enemy_collision_flag[DOWN] = false;
@@ -308,11 +427,11 @@ void Input::game_result_update(const int& rank) {
 
 	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]) {
 		if (GameResult::result_num == 1 && rank != 0) {
-			SceneTransition::game_scene = current_map_scene + 1;
-			current_map_scene++;
+			SceneTransition::game_scene = current_map_scene;
+
 		}
 		else if (GameResult::result_num == 1 && rank == 0) {
-			SceneTransition::game_scene = current_map_scene;
+			SceneTransition::game_scene = current_map_scene - 1;
 		}
 		else {
 			SceneTransition::game_scene = GAME_TITLE;

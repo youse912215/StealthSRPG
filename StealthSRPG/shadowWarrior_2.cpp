@@ -87,6 +87,14 @@ void ShadowWarrior_2::duplicate_decision(const int& other_x, const int& other_y,
 	this->duplication_flag[name] = (this->x == other_x && this->y == other_y) ? true : false;
 }
 
+void ShadowWarrior_2::reset() {
+	this->x = BLOCK_SIZE * 9;
+	this->y = BLOCK_SIZE * 8;
+	this->hp = 6;
+	this->isAlive = true;
+	this->activity = false;
+}
+
 /// <summary>
 /// 移動処理
 /// Pickupしているプレイヤーの移動フラグがtrueなら、
@@ -139,24 +147,20 @@ void ShadowWarrior_2::act_cancel() {
 
 void ShadowWarrior_2::set_next_map_node(const int& c_scene) {
 	switch (c_scene) {
-	case TUTORIAL:
+	case STAGE1:
 		this->x = BLOCK_SIZE * 9;
 		this->y = BLOCK_SIZE * 8;
 		this->hp = 6;
 		this->isAlive = true;
 		this->activity = false;
-		current_x = this->x;
-		current_y = this->y;
 		break;
 
-	case STAGE1:
-		this->x = BLOCK_SIZE * 12;
-		this->y = BLOCK_SIZE * 10;
+	case STAGE2:
+		this->x = BLOCK_SIZE * 15;
+		this->y = BLOCK_SIZE * 8;
 		this->hp = 6;
 		this->isAlive = true;
 		this->activity = false;
-		current_x = this->x;
-		current_y = this->y;
 		break;
 	}
 }

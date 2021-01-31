@@ -19,6 +19,7 @@ public:
 	void Dead(vector<vector<int>>& map);
 	void set_next_map_node(const int& c_scene);
 	void duplicate_decision(const int& other_x, const int& other_y, const int& name);
+	void reset();
 
 private:
 	int old_x;

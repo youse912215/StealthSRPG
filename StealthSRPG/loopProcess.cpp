@@ -30,7 +30,7 @@ void loop_process() {
 	const int player_graph = LoadGraph("Source/Charactor/Player/princess.png");
 	Princess Princess(
 		BLOCK_SIZE * 8, BLOCK_SIZE * 8, player_graph,
-		BLOCK_SIZE, 6, 4, false, true, input);
+		BLOCK_SIZE, 4, 4, false, true, input);
 
 	ShadowWarrior_1 Warrior1(
 		BLOCK_SIZE * 8, BLOCK_SIZE * 9, player_graph,
@@ -48,37 +48,37 @@ void loop_process() {
 	Enemy* enemies[] = {
 			/* チュートリアル */
 			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 12, enemy_graph,
-			                   BLOCK_SIZE, 2, 3, 25, false, true),
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
 			new EnemyWarrior_1(BLOCK_SIZE * 10, BLOCK_SIZE * 13, enemy_graph,
-			                   BLOCK_SIZE, 2, 3, 25, false, true),
+			                   BLOCK_SIZE, 2, 3, 30, false, true),
 			new EnemyBandits(BLOCK_SIZE * 14, BLOCK_SIZE * 14, enemy_graph,
 			                 BLOCK_SIZE, 4, 2, 25, false, true),
 		};
 	Enemy* enemies2[] = {
 			/* ステージ1 */
 			new EnemyWolf_1(BLOCK_SIZE * 11, BLOCK_SIZE * 8, enemy_graph,
-			                BLOCK_SIZE, 1, 4, 20, false, true),
+			                BLOCK_SIZE, 1, 4, 40, false, true),
 			new EnemyWolf_1(BLOCK_SIZE * 18, BLOCK_SIZE * 6, enemy_graph,
-			                BLOCK_SIZE, 1, 4, 20, false, true),
+			                BLOCK_SIZE, 1, 4, 40, false, true),
 			new EnemyWolf_1(BLOCK_SIZE * 9, BLOCK_SIZE * 1, enemy_graph,
-			                BLOCK_SIZE, 1, 0, 20, false, true),
+			                BLOCK_SIZE, 1, 0, 40, false, true),
 			new EnemyWolf_1(BLOCK_SIZE * 9, BLOCK_SIZE * 3, enemy_graph,
-			                BLOCK_SIZE, 1, 0, 20, false, true),
+			                BLOCK_SIZE, 1, 0, 40, false, true),
 			new EnemyWarrior_1(BLOCK_SIZE * 3, BLOCK_SIZE * 9, enemy_graph,
 			                   BLOCK_SIZE, 2, 3, 30, false, true),
 			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 13, enemy_graph,
 			                   BLOCK_SIZE, 2, 3, 30, false, true),
 			new EnemyBandits(BLOCK_SIZE * 18, BLOCK_SIZE * 12, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 20, false, true),
+			                 BLOCK_SIZE, 3, 2, 25, false, true),
 			new EnemyBandits(BLOCK_SIZE * 18, BLOCK_SIZE * 15, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 20, false, true),
+			                 BLOCK_SIZE, 3, 2, 25, false, true),
 		};
 
 	Enemy* enemies3[] = {
 			new EnemyWolf_1(BLOCK_SIZE * 11, BLOCK_SIZE * 3, enemy_graph,
-			                BLOCK_SIZE, 1, 4, 20, false, true),
+			                BLOCK_SIZE, 1, 4, 40, false, true),
 			new EnemyWolf_1(BLOCK_SIZE * 11, BLOCK_SIZE * 4, enemy_graph,
-			                BLOCK_SIZE, 1, 4, 20, false, true),
+			                BLOCK_SIZE, 1, 4, 40, false, true),
 			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 7, enemy_graph,
 			                   BLOCK_SIZE, 2, 3, 30, false, true),
 			new EnemyWarrior_1(BLOCK_SIZE * 5, BLOCK_SIZE * 8, enemy_graph,
@@ -92,11 +92,11 @@ void loop_process() {
 			new EnemyWarrior_1(BLOCK_SIZE * 6, BLOCK_SIZE * 5, enemy_graph,
 			                   BLOCK_SIZE, 2, 3, 30, false, true),
 			new EnemyBandits(BLOCK_SIZE * 10, BLOCK_SIZE * 11, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 20, false, true),
+			                 BLOCK_SIZE, 3, 2, 25, false, true),
 			new EnemyBandits(BLOCK_SIZE * 10, BLOCK_SIZE * 12, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 20, false, true),
+			                 BLOCK_SIZE, 3, 2, 25, false, true),
 			new EnemyBandits(BLOCK_SIZE * 9, BLOCK_SIZE * 13, enemy_graph,
-			                 BLOCK_SIZE, 3, 2, 20, false, true),
+			                 BLOCK_SIZE, 3, 2, 25, false, true),
 		};
 
 	GameTitle title;
@@ -132,18 +132,18 @@ void loop_process() {
 
 			result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 
-			/* 各敵との重複判定 */
+
 			if (Map::scene % 2 == 0) {
 				input.map_scene_update(); //入力更新処理
 
 				/* 衝突判定 */
 				if (Map::range_flag == 1) {
 					input.map_collision_decision(_map->map_20x20);
-					input.enemy_colliision_decesion0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
-					                                 enemies[2]->x, enemies[2]->y);
+					input.enemy_collision_decision0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
+					                                enemies[2]->x, enemies[2]->y);
 				}
 				else input.collision_update();
-
+				/* 各味方との重複判定 */
 				Princess.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
 				Princess.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
 				Princess.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
@@ -186,61 +186,69 @@ void loop_process() {
 
 			_map->drawing_map(); //マップ描画
 
-			input.map_scene_update(); //入力更新処理
-
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i)
-				_map->drawing_enemy_range(enemies2[i]->x, enemies2[i]->y);
-
 			Princess.Update(); //姫の更新処理
-			/* 各敵との重複判定 */
-			Princess.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
-			Princess.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
-			Princess.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
-			Princess.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
-			Princess.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
-			Princess.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
-			Princess.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
-			Princess.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
 			Princess.Dead(_map->map_20x20); //姫の死亡処理
 			Warrior1.Update(); //影武者1の更新処理
-			/* 各敵との重複判定 */
-			Warrior1.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
-			Warrior1.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
-			Warrior1.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
-			Warrior1.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
-			Warrior1.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
-			Warrior1.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
-			Warrior1.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
-			Warrior1.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
 			Warrior1.Dead(_map->map_20x20); //影武者1の死亡処理
 			Warrior2.Update(); //影武者2の更新処理
-			/* 各敵との重複判定 */
-			Warrior2.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
-			Warrior2.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
-			Warrior2.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
-			Warrior2.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
-			Warrior2.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
-			Warrior2.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
-			Warrior2.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
-			Warrior2.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
 			Warrior2.Dead(_map->map_20x20); //影武者2の死亡処理
 			Warrior3.Update(); //影武者3の更新処理
-			/* 各敵との重複判定 */
-			Warrior3.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
-			Warrior3.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
-			Warrior3.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
-			Warrior3.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
-			Warrior3.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
-			Warrior3.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
-			Warrior3.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
-			Warrior3.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
 			Warrior3.Dead(_map->map_20x20); //影武者3の死亡処理
+
+			result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+
+			if (Map::scene % 2 == 0) {
+				input.map_scene_update(); //入力更新処理
+
+				/* 衝突判定 */
+				if (Map::range_flag == 1) {
+					input.map_collision_decision(_map->map_20x20);
+					input.enemy_collision_decision1(enemies2[0]->x, enemies2[0]->y, enemies2[1]->x, enemies2[1]->y,
+					                                enemies2[2]->x, enemies2[2]->y, enemies2[3]->x, enemies2[3]->y,
+					                                enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
+					                                enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
+				}
+				else input.collision_update();
+				/* 各味方との重複判定 */
+				Princess.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
+				Princess.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
+				Princess.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
+				Princess.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
+				Princess.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
+				Princess.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
+				Princess.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
+				Princess.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+				Warrior1.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
+				Warrior1.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
+				Warrior1.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
+				Warrior1.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
+				Warrior1.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
+				Warrior1.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
+				Warrior1.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
+				Warrior1.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+				Warrior2.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
+				Warrior2.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
+				Warrior2.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
+				Warrior2.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
+				Warrior2.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
+				Warrior2.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
+				Warrior2.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
+				Warrior2.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+				Warrior3.duplicate_decision(enemies2[0]->x, enemies2[0]->y, _e_wolf1);
+				Warrior3.duplicate_decision(enemies2[1]->x, enemies2[1]->y, _e_wolf2);
+				Warrior3.duplicate_decision(enemies2[2]->x, enemies2[2]->y, _e_wolf3);
+				Warrior3.duplicate_decision(enemies2[3]->x, enemies2[3]->y, _e_wolf4);
+				Warrior3.duplicate_decision(enemies2[4]->x, enemies2[4]->y, _e_warrior1);
+				Warrior3.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
+				Warrior3.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
+				Warrior3.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+			}
 
 			if (Enemy::act_order >= ARRAY_LENGTH(enemies2)) Enemy::act_order = END;
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies2); ++i) {
 				if (enemies2[i]->isAlive) {
+					_map->drawing_enemy_range(enemies2[i]->x, enemies2[i]->y);
 					enemies2[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
 					                                   Warrior2.isAlive, Warrior3.isAlive);
 					enemies2[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
@@ -250,8 +258,9 @@ void loop_process() {
 					                              enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
 					                              enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
 					enemies2[i]->Update(_map->map_20x20); //敵兵1の更新処理
+					enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
 				}
-				enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+				else enemies2[i]->forward_act_order(i);
 			}
 
 			if (Map::scene % 2 != 0) {
@@ -267,73 +276,83 @@ void loop_process() {
 		case STAGE2:
 			_map->drawing_map(); //マップ描画
 
-			input.map_scene_update(); //入力更新処理
-
-
-			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i)
-				_map->drawing_enemy_range(enemies3[i]->x, enemies3[i]->y);
-
 			Princess.Update(); //姫の更新処理
-			/* 各敵との重複判定 */
-			Princess.duplicate_decision(enemies3[0]->x, enemies3[0]->y, _e_wolf1);
-			Princess.duplicate_decision(enemies3[1]->x, enemies3[1]->y, _e_wolf2);
-			Princess.duplicate_decision(enemies3[2]->x, enemies3[2]->y, _e_wolf3);
-			Princess.duplicate_decision(enemies3[3]->x, enemies3[3]->y, _e_wolf4);
-			Princess.duplicate_decision(enemies3[4]->x, enemies3[4]->y, _e_warrior1);
-			Princess.duplicate_decision(enemies3[5]->x, enemies3[5]->y, _e_warrior2);
-			Princess.duplicate_decision(enemies3[6]->x, enemies3[6]->y, _e_warrior3);
-			Princess.duplicate_decision(enemies3[7]->x, enemies3[7]->y, _e_warrior4);
-			Princess.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
-			Princess.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
-			Princess.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
 			Princess.Dead(_map->map_20x20); //姫の死亡処理
 			Warrior1.Update(); //影武者1の更新処理
-			/* 各敵との重複判定 */
-			Warrior1.duplicate_decision(enemies3[0]->x, enemies3[0]->y, _e_wolf1);
-			Warrior1.duplicate_decision(enemies3[1]->x, enemies3[1]->y, _e_wolf2);
-			Warrior1.duplicate_decision(enemies3[2]->x, enemies3[2]->y, _e_wolf3);
-			Warrior1.duplicate_decision(enemies3[3]->x, enemies3[3]->y, _e_wolf4);
-			Warrior1.duplicate_decision(enemies3[4]->x, enemies3[4]->y, _e_warrior1);
-			Warrior1.duplicate_decision(enemies3[5]->x, enemies3[5]->y, _e_warrior2);
-			Warrior1.duplicate_decision(enemies3[6]->x, enemies3[6]->y, _e_warrior3);
-			Warrior1.duplicate_decision(enemies3[7]->x, enemies3[7]->y, _e_warrior4);
-			Warrior1.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
-			Warrior1.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
-			Warrior1.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
 			Warrior1.Dead(_map->map_20x20); //影武者1の死亡処理
 			Warrior2.Update(); //影武者2の更新処理
-			/* 各敵との重複判定 */
-			Warrior2.duplicate_decision(enemies3[0]->x, enemies3[0]->y, _e_wolf1);
-			Warrior2.duplicate_decision(enemies3[1]->x, enemies3[1]->y, _e_wolf2);
-			Warrior2.duplicate_decision(enemies3[2]->x, enemies3[2]->y, _e_wolf3);
-			Warrior2.duplicate_decision(enemies3[3]->x, enemies3[3]->y, _e_wolf4);
-			Warrior2.duplicate_decision(enemies3[4]->x, enemies3[4]->y, _e_warrior1);
-			Warrior2.duplicate_decision(enemies3[5]->x, enemies3[5]->y, _e_warrior2);
-			Warrior2.duplicate_decision(enemies3[6]->x, enemies3[6]->y, _e_warrior3);
-			Warrior2.duplicate_decision(enemies3[7]->x, enemies3[7]->y, _e_warrior4);
-			Warrior2.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
-			Warrior2.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
-			Warrior2.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
 			Warrior2.Dead(_map->map_20x20); //影武者2の死亡処理
 			Warrior3.Update(); //影武者3の更新処理
-			/* 各敵との重複判定 */
-			Warrior3.duplicate_decision(enemies3[0]->x, enemies3[0]->y, _e_wolf1);
-			Warrior3.duplicate_decision(enemies3[1]->x, enemies3[1]->y, _e_wolf2);
-			Warrior3.duplicate_decision(enemies3[2]->x, enemies3[2]->y, _e_wolf3);
-			Warrior3.duplicate_decision(enemies3[3]->x, enemies3[3]->y, _e_wolf4);
-			Warrior3.duplicate_decision(enemies3[4]->x, enemies3[4]->y, _e_warrior1);
-			Warrior3.duplicate_decision(enemies3[5]->x, enemies3[5]->y, _e_warrior2);
-			Warrior3.duplicate_decision(enemies3[6]->x, enemies3[6]->y, _e_warrior3);
-			Warrior3.duplicate_decision(enemies3[7]->x, enemies3[7]->y, _e_warrior4);
-			Warrior3.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
-			Warrior3.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
-			Warrior3.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
 			Warrior3.Dead(_map->map_20x20); //影武者3の死亡処理
+
+			result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
+
+			if (Map::scene % 2 == 0) {
+				input.map_scene_update(); //入力更新処理
+
+				/* 衝突判定 */
+				if (Map::range_flag == 1) {
+					input.map_collision_decision(_map->map_20x20);
+					input.enemy_collision_decision2(enemies3[0]->x, enemies3[0]->y, enemies3[1]->x, enemies3[1]->y,
+					                                enemies3[2]->x, enemies3[2]->y, enemies3[3]->x, enemies3[3]->y,
+					                                enemies3[4]->x, enemies3[4]->y, enemies3[5]->x, enemies3[5]->y,
+					                                enemies3[6]->x, enemies3[6]->y, enemies3[7]->x, enemies3[7]->y,
+					                                enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
+					                                enemies3[10]->x, enemies3[10]->y);
+				}
+				else input.collision_update();
+				/* 各味方との重複判定 */
+				Princess.duplicate_decision(enemies3[0]->x, enemies3[0]->y, _e_wolf1);
+				Princess.duplicate_decision(enemies3[1]->x, enemies3[1]->y, _e_wolf2);
+				Princess.duplicate_decision(enemies3[2]->x, enemies3[2]->y, _e_wolf3);
+				Princess.duplicate_decision(enemies3[3]->x, enemies3[3]->y, _e_wolf4);
+				Princess.duplicate_decision(enemies3[4]->x, enemies3[4]->y, _e_warrior1);
+				Princess.duplicate_decision(enemies3[5]->x, enemies3[5]->y, _e_warrior2);
+				Princess.duplicate_decision(enemies3[6]->x, enemies3[6]->y, _e_warrior3);
+				Princess.duplicate_decision(enemies3[7]->x, enemies3[7]->y, _e_warrior4);
+				Princess.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
+				Princess.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
+				Princess.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
+				Warrior1.duplicate_decision(enemies3[0]->x, enemies3[0]->y, _e_wolf1);
+				Warrior1.duplicate_decision(enemies3[1]->x, enemies3[1]->y, _e_wolf2);
+				Warrior1.duplicate_decision(enemies3[2]->x, enemies3[2]->y, _e_wolf3);
+				Warrior1.duplicate_decision(enemies3[3]->x, enemies3[3]->y, _e_wolf4);
+				Warrior1.duplicate_decision(enemies3[4]->x, enemies3[4]->y, _e_warrior1);
+				Warrior1.duplicate_decision(enemies3[5]->x, enemies3[5]->y, _e_warrior2);
+				Warrior1.duplicate_decision(enemies3[6]->x, enemies3[6]->y, _e_warrior3);
+				Warrior1.duplicate_decision(enemies3[7]->x, enemies3[7]->y, _e_warrior4);
+				Warrior1.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
+				Warrior1.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
+				Warrior1.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
+				Warrior2.duplicate_decision(enemies3[0]->x, enemies3[0]->y, _e_wolf1);
+				Warrior2.duplicate_decision(enemies3[1]->x, enemies3[1]->y, _e_wolf2);
+				Warrior2.duplicate_decision(enemies3[2]->x, enemies3[2]->y, _e_wolf3);
+				Warrior2.duplicate_decision(enemies3[3]->x, enemies3[3]->y, _e_wolf4);
+				Warrior2.duplicate_decision(enemies3[4]->x, enemies3[4]->y, _e_warrior1);
+				Warrior2.duplicate_decision(enemies3[5]->x, enemies3[5]->y, _e_warrior2);
+				Warrior2.duplicate_decision(enemies3[6]->x, enemies3[6]->y, _e_warrior3);
+				Warrior2.duplicate_decision(enemies3[7]->x, enemies3[7]->y, _e_warrior4);
+				Warrior2.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
+				Warrior2.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
+				Warrior2.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
+				Warrior3.duplicate_decision(enemies3[0]->x, enemies3[0]->y, _e_wolf1);
+				Warrior3.duplicate_decision(enemies3[1]->x, enemies3[1]->y, _e_wolf2);
+				Warrior3.duplicate_decision(enemies3[2]->x, enemies3[2]->y, _e_wolf3);
+				Warrior3.duplicate_decision(enemies3[3]->x, enemies3[3]->y, _e_wolf4);
+				Warrior3.duplicate_decision(enemies3[4]->x, enemies3[4]->y, _e_warrior1);
+				Warrior3.duplicate_decision(enemies3[5]->x, enemies3[5]->y, _e_warrior2);
+				Warrior3.duplicate_decision(enemies3[6]->x, enemies3[6]->y, _e_warrior3);
+				Warrior3.duplicate_decision(enemies3[7]->x, enemies3[7]->y, _e_warrior4);
+				Warrior3.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
+				Warrior3.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
+				Warrior3.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
+			}
 
 			if (Enemy::act_order >= ARRAY_LENGTH(enemies3)) Enemy::act_order = END;
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies3); ++i) {
 				if (enemies3[i]->isAlive) {
+					_map->drawing_enemy_range(enemies3[i]->x, enemies3[i]->y);
 					enemies3[i]->get_survival_activity(Princess.isAlive, Warrior1.isAlive,
 					                                   Warrior2.isAlive, Warrior3.isAlive);
 					enemies3[i]->get_two_point_distance(Princess.x, Princess.y, Warrior1.x, Warrior1.y,
@@ -345,8 +364,9 @@ void loop_process() {
 					                              enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
 					                              enemies3[10]->x, enemies3[10]->y);
 					enemies3[i]->Update(_map->map_20x20); //敵兵1の更新処理
+					enemies3[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
 				}
-				enemies3[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+				else enemies3[i]->forward_act_order(i);
 			}
 
 			if (Map::scene % 2 != 0) {
@@ -363,7 +383,11 @@ void loop_process() {
 		case GAME_TITLE:
 			input.game_title_update();
 			title.update();
-
+			Input::current_map_scene = 0;
+			Princess.reset();
+			Warrior1.reset();
+			Warrior2.reset();
+			Warrior3.reset();
 			break;
 
 		case GAME_INFORMATION:
