@@ -23,6 +23,7 @@ public:
 	static int scene; //シーン（昼夜）
 	static int turn_timer; //敵ターン時のタイマー
 	static int turn_count; //総ターンをカウント
+	static int random_mist;
 
 	Map();
 	~Map();

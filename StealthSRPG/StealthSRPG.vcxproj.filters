@@ -159,6 +159,9 @@
     <ClCompile Include="gameTitle.cpp">
       <Filter>ソース ファイル\Charactor\Draw\Each Scene</Filter>
     </ClCompile>
+    <ClCompile Include="mapMist.cpp">
+      <Filter>ソース ファイル\Charactor\Draw\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constant.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="gameTitle.h">
       <Filter>ヘッダー ファイル\Charactor\Draw\Each Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="mapMist.h">
+      <Filter>ヘッダー ファイル\Charactor\Draw\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

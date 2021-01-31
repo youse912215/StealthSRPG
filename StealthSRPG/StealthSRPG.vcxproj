@@ -144,6 +144,7 @@
     <ClCompile Include="mapAll.cpp" />
     <ClCompile Include="mapDraw.cpp" />
     <ClCompile Include="mapInfomation.cpp" />
+    <ClCompile Include="mapMist.cpp" />
     <ClCompile Include="mapPhenomenon.cpp" />
     <ClCompile Include="mapUI.cpp" />
     <ClCompile Include="player.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="mapAll.h" />
     <ClInclude Include="mapDraw.h" />
     <ClInclude Include="mapInfomation.h" />
+    <ClInclude Include="mapMist.h" />
     <ClInclude Include="mapPhenomenon.h" />
     <ClInclude Include="mapUI.h" />
     <ClInclude Include="player.h" />

@@ -3,6 +3,7 @@
 #include "inputProcess.h"
 #include "mapDraw.h"
 #include "mapUI.h"
+#include "mapMist.h"
 #include "cursor.h"
 #include "charactor.h"
 #include "Princess.h"
@@ -98,6 +99,8 @@ void loop_process() {
 			new EnemyBandits(BLOCK_SIZE * 9, BLOCK_SIZE * 18, enemy_graph,
 			                 BLOCK_SIZE, 4, 0, 25, false, true),
 		};
+
+	const int mist = LoadGraph("Source/Map/mist.png");
 
 	GameTitle title;
 	GameHelp help;
@@ -369,6 +372,40 @@ void loop_process() {
 				else enemies3[i]->forward_act_order(i);
 			}
 
+
+			if (Map::random_mist == 0) {
+				draw_mist(mist, 10, 7);
+				draw_mist(mist, 12, 8);
+				draw_mist(mist, 9, 9);
+				draw_mist(mist, 16, 15);
+				draw_mist(mist, 14, 17);
+				draw_mist(mist, 18, 17);
+				draw_mist(mist, 12, 20);
+				draw_mist(mist, 15, 19);
+				draw_mist(mist, 17, 20);
+				draw_mist(mist, 20, 8);
+				draw_mist(mist, 21, 10);
+				draw_mist(mist, 23, 11);
+			}
+			else if (Map::random_mist == 1) {
+				draw_mist(mist, 10, 7);
+				draw_mist(mist, 12, 8);
+				draw_mist(mist, 9, 9);
+			}
+			else if (Map::random_mist == 2) {
+				draw_mist(mist, 16, 15);
+				draw_mist(mist, 14, 17);
+				draw_mist(mist, 18, 17);
+				draw_mist(mist, 12, 20);
+				draw_mist(mist, 15, 19);
+				draw_mist(mist, 17, 20);
+			}
+			else if (Map::random_mist == 3) {
+				draw_mist(mist, 20, 8);
+				draw_mist(mist, 21, 10);
+				draw_mist(mist, 23, 11);
+			}
+
 			if (Map::scene % 2 != 0) {
 				cursor->move_2(Princess.x, Princess.y, enemies3[0]->x, enemies3[0]->y, enemies3[1]->x, enemies3[1]->y,
 				               enemies3[2]->x, enemies3[2]->y, enemies3[3]->x, enemies3[3]->y,
@@ -448,7 +485,7 @@ void loop_process() {
 		DrawFormatString(400, 15, GetColor(255, 255, 255),
 		                 "count%d, UI%d, act%d", Map::turn_count, MapUI::UI_flag, Enemy::act_order, false);
 		DrawFormatString(400, 30, GetColor(255, 255, 255),
-		                 "rank%d", result.rank, false);
+		                 "rank%d, mist%d", result.rank, Map::random_mist, false);
 		DrawFormatString(400, 45, GetColor(255, 255, 255),
 		                 "x:%d, y:%d", Map::current_x / BLOCK_SIZE, Map::current_y / BLOCK_SIZE, false);
 
