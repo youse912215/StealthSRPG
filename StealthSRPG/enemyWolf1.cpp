@@ -4,6 +4,7 @@
 #include "constant.h"
 #include "mapAll.h"
 #include "sceneTransition.h"
+#include "music.h"
 #include <algorithm>
 
 EnemyWolf_1::EnemyWolf_1(int x, int y, int graph, int moving_quantity, int attack, int range, int act_time,
@@ -345,7 +346,8 @@ void EnemyWolf_1::moving_decision() {
 	}
 }
 
-void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) {
+void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order, const int& se1,
+                         const int& se2) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
 	if (act_order == a_order && Map::scene == NIGHT_ENEMY) Move();
@@ -359,6 +361,7 @@ void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const
 			*p_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
+			get_sound_se(se2);
 		}
 		else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
@@ -367,6 +370,7 @@ void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const
 			*sw1_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
+			get_sound_se(se2);
 		}
 		else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
@@ -375,6 +379,7 @@ void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const
 			*sw2_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
+			get_sound_se(se2);
 		}
 		else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
@@ -383,7 +388,9 @@ void EnemyWolf_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const
 			*sw3_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
+			get_sound_se(se2);
 		}
+
 	}
 	if (Map::turn_timer >= ENEMY_TURN_TIME + 10 && Map::scene == NIGHT_ENEMY) forward_act_order(a_order);
 	else if (Map::turn_timer >= 10 && Map::scene == NOON_ENEMY) forward_act_order(a_order);

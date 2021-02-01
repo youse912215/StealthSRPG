@@ -8,13 +8,13 @@ class Input : public Cursor {
 private:
 
 
-	void cursorLeft();
-	void cursorRight();
-	void cursorUp();
-	void cursorDown();
-	void cursorLimit();
-	void moving_cursor();
-	void time_change();
+	void cursorLeft(const int& cursor);
+	void cursorRight(const int& cursor);
+	void cursorUp(const int& cursor);
+	void cursorDown(const int& cursor);
+	void cursorLimit(const int& cursor);
+	void moving_cursor(const int& cursor);
+	void time_change(const int& pickup);
 
 public:
 	vector<bool> map_collision_flag;
@@ -27,12 +27,12 @@ public:
 
 	Input();
 	void input_info();
-	void map_scene_update();
-	void game_help_update();
-	void return_game();
-	void start_game();
-	void game_result_update(const int& rank);
-	void game_title_update();
+	void map_scene_update(const int& cursor, const int& pickup);
+	void game_help_update(const int& pickup);
+	void return_game(const int& pickup);
+	void start_game(const int& stop, const int& start, const int& pickup);
+	void game_result_update(const int& rank, const int& pickup, const int& gameover, const int& menu);
+	void game_title_update(const int& pickup);
 	void map_collision_decision(vector<vector<int>>& map);
 	void enemy_collision_decision0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
 	                               const int& ey3);

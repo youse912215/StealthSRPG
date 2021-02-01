@@ -5,6 +5,7 @@
 #include "inputProcess.h"
 #include "sceneTransition.h"
 #include "mapAll.h"
+#include "music.h"
 #include <algorithm>
 
 EnemyBandits::EnemyBandits(int x, int y, int graph, int moving_quantity, int attack, int range, int act_time,
@@ -346,7 +347,8 @@ void EnemyBandits::moving_decision() {
 	}
 }
 
-void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) {
+void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order, const int& se1,
+                          const int& se2) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
 	if (act_order == a_order) Move();
@@ -360,6 +362,7 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, cons
 			*p_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
+			get_sound_se(se1);
 		}
 		else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
@@ -368,6 +371,7 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, cons
 			*sw1_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
+			get_sound_se(se1);
 		}
 		else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
@@ -376,6 +380,7 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, cons
 			*sw2_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
+			get_sound_se(se1);
 		}
 		else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
 			|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
@@ -384,7 +389,9 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, cons
 			*sw3_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
+			get_sound_se(se1);
 		}
+
 	}
 	if (Map::turn_timer >= ENEMY_TURN_TIME) forward_act_order(a_order);
 	else if (Map::turn_timer >= 10 && this->range == 0) forward_act_order(a_order);

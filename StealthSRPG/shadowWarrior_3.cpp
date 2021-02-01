@@ -4,6 +4,7 @@
 #include "cursor.h"
 #include "mapAll.h"
 #include "sceneTransition.h"
+#include "music.h"
 
 ShadowWarrior_3::ShadowWarrior_3(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity,
                                  bool isAlive,
@@ -17,12 +18,12 @@ ShadowWarrior_3::ShadowWarrior_3(int x, int y, int graph, int moving_quantity, i
 }
 
 
-void ShadowWarrior_3::Update() {
+void ShadowWarrior_3::Update(const int& se) {
 	get_latency();
 	wait_motion();
 	if (!Input::confirmation_flag) {
 		Move();
-		Pickup();
+		Pickup(se);
 		get_old_node();
 		act_cancel();
 	}
@@ -40,22 +41,23 @@ void ShadowWarrior_3::Draw() {
 		              BLOCK_SIZE, BLOCK_SIZE,
 		              this->graph, true, false);
 	}
-	DrawFormatString(300, 45, GetColor(0, 0, 0), "兵3(%d, %d)",
+	/*DrawFormatString(300, 45, GetColor(0, 0, 0), "兵3(%d, %d)",
 	                 this->x / BLOCK_SIZE, this->y / BLOCK_SIZE, false);
 	DrawFormatString(300, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
 	                 moving_flag, this->activity, false);
 	DrawFormatString(300, 75, GetColor(255, 0, 0), "De%d,Hp%d",
-	                 this->isAlive, this->hp, false);
+	                 this->isAlive, this->hp, false);*/
 }
 
 /// <summary>
 /// プレイヤーフェイズの時
 /// 現在のカーソル座標とプレイヤー座標が一致しているとき、プレイヤーをPickupする
 /// </summary>
-void ShadowWarrior_3::Pickup() {
+void ShadowWarrior_3::Pickup(const int& se) {
 	if (current_x == x && current_y == y && Map::scene % 2 == 0) {
 		if (input.keys[KEY_INPUT_Z] && !input.oldkeys[KEY_INPUT_Z] && !this->activity) {
 			pickup_switching();
+			get_sound_se(se);
 		}
 	}
 }
@@ -148,6 +150,13 @@ void ShadowWarrior_3::act_cancel() {
 
 void ShadowWarrior_3::set_next_map_node(const int& c_scene) {
 	switch (c_scene) {
+	case TUTORIAL:
+		this->x = BLOCK_SIZE * 7;
+		this->y = BLOCK_SIZE * 8;
+		this->hp = 6;
+		this->isAlive = true;
+		this->activity = false;
+		break;
 	case STAGE1:
 		this->x = BLOCK_SIZE * 7;
 		this->y = BLOCK_SIZE * 8;

@@ -15,7 +15,7 @@ public:
 	ShadowWarrior_2(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity, bool isAlive,
 	                Input& input);
 
-	void Update();
+	void Update(const int& se);
 	void Draw();
 	void Dead(vector<vector<int>>& map);
 	void set_next_map_node(const int& c_scene);
@@ -27,7 +27,7 @@ private:
 	int old_y;
 	vector<bool> duplication_flag; //他のキャラクターとの重複フラグ
 
-	void Pickup();
+	void Pickup(const int& se);
 	void pickup_switching() override;
 	void Move();
 	void get_survival_activity();

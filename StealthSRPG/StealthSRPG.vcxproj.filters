@@ -79,6 +79,12 @@
     <Filter Include="ソース ファイル\Charactor\Draw\Each Scene">
       <UniqueIdentifier>{88945bdf-3613-4722-b0f3-a6614421faff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Music">
+      <UniqueIdentifier>{af9234f5-5f58-421d-b47b-badc5fd7d566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Music">
+      <UniqueIdentifier>{b0c27f7b-558e-4d6c-9154-bda1b11a9208}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mapAll.cpp">
@@ -162,6 +168,9 @@
     <ClCompile Include="mapMist.cpp">
       <Filter>ソース ファイル\Charactor\Draw\Map</Filter>
     </ClCompile>
+    <ClCompile Include="music.cpp">
+      <Filter>ソース ファイル\Music</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constant.h">
@@ -244,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="mapMist.h">
       <Filter>ヘッダー ファイル\Charactor\Draw\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="music.h">
+      <Filter>ヘッダー ファイル\Music</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

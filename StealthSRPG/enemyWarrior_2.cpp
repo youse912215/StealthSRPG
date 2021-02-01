@@ -339,7 +339,8 @@ void EnemyWarrior_2::moving_decision() {
 	}
 }
 
-void EnemyWarrior_2::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) {
+void EnemyWarrior_2::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order, const int& se1,
+                            const int& se2) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
 	if (act_order == a_order) Move();

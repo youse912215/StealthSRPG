@@ -7,6 +7,7 @@
 #include "sceneTransition.h"
 #include "gameHelp.h"
 #include "gameResult.h"
+#include "music.h"
 #include <cstdlib>
 
 using namespace std;
@@ -34,10 +35,11 @@ void Input::input_info() {
 /// 昼夜変更
 /// 夜の敵ターンなら、昼のプレイヤーターンに移行
 /// </summary>
-void Input::time_change() {
+void Input::time_change(const int& pickup) {
 	if (keys[KEY_INPUT_SPACE] && !oldkeys[KEY_INPUT_SPACE]
 		&& Map::scene % 2 == 0 && !MapUI::UI_flag) {
 		confirmation_flag = true;
+		get_sound_se(pickup);
 	}
 
 
@@ -48,58 +50,66 @@ void Input::time_change() {
 		Map::turn_count++;
 		confirmation_flag = false;
 		MapUI::UI_flag = true;
+		get_sound_se(pickup);
 
 	}
 	else if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]
 		&& confirmation_flag && !yes_or_no) {
 		confirmation_flag = false;
+		get_sound_se(pickup);
 	}
 
 	if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && confirmation_flag) {
 		yes_or_no = true;
+		get_sound_se(pickup);
 	}
 	else if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && confirmation_flag) {
 		yes_or_no = false;
+		get_sound_se(pickup);
 	}
 }
 
-void Input::cursorLeft() {
+void Input::cursorLeft(const int& cursor) {
 	if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT]
 		&& !map_collision_flag[LEFT] && !enemy_collision_flag[LEFT]) {
 		qx -= BLOCK_SIZE;
 		current_x -= BLOCK_SIZE;
+		get_sound_se(cursor);
 	}
 }
 
-void Input::cursorRight() {
+void Input::cursorRight(const int& cursor) {
 	if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT]
 		&& !map_collision_flag[RIGHT] && !enemy_collision_flag[RIGHT]) {
 		qx += BLOCK_SIZE;
 		current_x += BLOCK_SIZE;
+		get_sound_se(cursor);
 	}
 }
 
-void Input::cursorUp() {
+void Input::cursorUp(const int& cursor) {
 	if (keys[KEY_INPUT_UP] && !oldkeys[KEY_INPUT_UP]
 		&& !map_collision_flag[UP] && !enemy_collision_flag[UP]) {
 		qy -= BLOCK_SIZE;
 		current_y -= BLOCK_SIZE;
+		get_sound_se(cursor);
 	}
 
 }
 
-void Input::cursorDown() {
+void Input::cursorDown(const int& cursor) {
 	if (keys[KEY_INPUT_DOWN] && !oldkeys[KEY_INPUT_DOWN]
 		&& !map_collision_flag[DOWN] && !enemy_collision_flag[DOWN]) {
 		qy += BLOCK_SIZE;
 		current_y += BLOCK_SIZE;
+		get_sound_se(cursor);
 	}
 }
 
 /// <summary>
 /// x,yの絶対値の合計（移動マス）がカーソルの移動範囲と
 /// </summary>
-void Input::cursorLimit() {
+void Input::cursorLimit(const int& cursor) {
 
 	if (abs(range_x - current_x)
 		+ abs(range_y - current_y)
@@ -109,43 +119,43 @@ void Input::cursorLimit() {
 
 		}
 		else if (range_x < current_x) {
-			cursorLeft();
+			cursorLeft(cursor);
 		}
 		else if (range_x > current_x) {
-			cursorRight();
+			cursorRight(cursor);
 		}
 
 		if (range_y == current_y) {
 
 		}
 		else if (range_y < current_y) {
-			cursorUp();
+			cursorUp(cursor);
 		}
 		else if (range_y > current_y) {
-			cursorDown();
+			cursorDown(cursor);
 		}
 	}
 	else {
-		cursorLeft();
-		cursorRight();
-		cursorUp();
-		cursorDown();
+		cursorLeft(cursor);
+		cursorRight(cursor);
+		cursorUp(cursor);
+		cursorDown(cursor);
 	}
 }
 
 /// <summary>
 /// カーソルの動作処理
 /// </summary>
-void Input::moving_cursor() {
+void Input::moving_cursor(const int& cursor) {
 
 	if (range_flag == 1 && Map::scene % 2 == 0) {
-		cursorLimit();
+		cursorLimit(cursor);
 	}
 	else {
-		cursorLeft();
-		cursorRight();
-		cursorUp();
-		cursorDown();
+		cursorLeft(cursor);
+		cursorRight(cursor);
+		cursorUp(cursor);
+		cursorDown(cursor);
 	}
 }
 
@@ -381,71 +391,85 @@ void Input::enemy_collision_decision2(const int& ex1, const int& ey1, const int&
 	else enemy_collision_flag[DOWN] = false;
 }
 
-void Input::map_scene_update() {
+void Input::map_scene_update(const int& cursor, const int& pickup) {
 	if (!MapUI::UI_flag && !confirmation_flag) {
-		moving_cursor();
+		moving_cursor(cursor);
 	}
 
 	if (keys[KEY_INPUT_ESCAPE] && !oldkeys[KEY_INPUT_ESCAPE]) {
 		current_map_scene = SceneTransition::game_scene;
 		SceneTransition::game_scene = GAME_HELP;
+		get_sound_se(pickup);
 	}
-	if (range_flag == -1) time_change();
+	if (range_flag == -1) time_change(pickup);
 }
 
-void Input::game_help_update() {
+void Input::game_help_update(const int& pickup) {
 	if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && GameHelp::help_num > 0) {
 		GameHelp::help_num--;
+		get_sound_se(pickup);
 	}
 	else if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && GameHelp::help_num < 2) {
 		GameHelp::help_num++;
+		get_sound_se(pickup);
 	}
 }
 
-void Input::return_game() {
+void Input::return_game(const int& pickup) {
 	if (keys[KEY_INPUT_ESCAPE] && !oldkeys[KEY_INPUT_ESCAPE]) {
 		SceneTransition::game_scene = current_map_scene;
 		GameHelp::help_num = 0;
+		get_sound_se(pickup);
 	}
 }
 
-void Input::start_game() {
+void Input::start_game(const int& stop, const int& start, const int& pickup) {
 	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z] && GameHelp::help_num == 2) {
 		SceneTransition::game_scene = TUTORIAL;
 		GameHelp::help_num = 0;
+		get_sound_se(pickup);
+		StopSoundMem(stop);
+		//get_sound_music(start);
 	}
 }
 
-void Input::game_result_update(const int& rank) {
+void Input::game_result_update(const int& rank, const int& pickup, const int& gameover, const int& menu) {
 
 	if (keys[KEY_INPUT_LEFT] && !oldkeys[KEY_INPUT_LEFT] && GameResult::result_num > 0) {
 		GameResult::result_num--;
+		get_sound_se(pickup);
 	}
 	else if (keys[KEY_INPUT_RIGHT] && !oldkeys[KEY_INPUT_RIGHT] && GameResult::result_num < 1) {
 		GameResult::result_num++;
+		get_sound_se(pickup);
 	}
 
 	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]) {
 		if (GameResult::result_num == 1 && rank != 0) {
 			SceneTransition::game_scene = current_map_scene;
-
+			StopSoundMem(menu);
 		}
 		else if (GameResult::result_num == 1 && rank == 0) {
-			SceneTransition::game_scene = current_map_scene - 1;
+			SceneTransition::game_scene = current_map_scene;
+			StopSoundMem(menu);
 		}
 		else {
 			SceneTransition::game_scene = GAME_TITLE;
+			get_sound_music(menu);
 		}
 		Map::scene = NOON_PLAY;
 		MapUI::UI_flag = true;
+		get_sound_se(pickup);
+		StopSoundMem(gameover);
 	}
 
 
 }
 
-void Input::game_title_update() {
+void Input::game_title_update(const int& pickup) {
 	if (keys[KEY_INPUT_Z] && !oldkeys[KEY_INPUT_Z]) {
 		SceneTransition::game_scene = GAME_INFORMATION;
+		get_sound_se(pickup);
 	}
 }
 

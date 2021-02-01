@@ -18,6 +18,7 @@
 #include "gameTitle.h"
 #include "gameResult.h"
 #include "gameHelp.h"
+#include "music.h"
 #include <cstdlib>
 
 #define ARRAY_LENGTH(array) (sizeof(array)) / sizeof(array[0])
@@ -30,7 +31,7 @@ void loop_process() {
 
 	const int player_graph = LoadGraph("Source/Charactor/Player/princess.png");
 	Princess Princess(
-		BLOCK_SIZE * 14, BLOCK_SIZE * 5, player_graph,
+		BLOCK_SIZE * 14, BLOCK_SIZE * 8, player_graph,
 		BLOCK_SIZE, 4, 4, false, true, input);
 
 	ShadowWarrior_1 Warrior1(
@@ -102,6 +103,22 @@ void loop_process() {
 
 	const int mist = LoadGraph("Source/Map/mist.png");
 
+	BGM bgm = {
+			LoadSoundMem("Source/Music/attack.mp3"),
+			LoadSoundMem("Source/Music/cursor.mp3"),
+			LoadSoundMem("Source/Music/day.mp3"),
+			LoadSoundMem("Source/Music/gameover.mp3"),
+			LoadSoundMem("Source/Music/menu.mp3"),
+			LoadSoundMem("Source/Music/move.mp3"),
+			LoadSoundMem("Source/Music/night.mp3"),
+			LoadSoundMem("Source/Music/pickup.mp3"),
+			LoadSoundMem("Source/Music/push.mp3"),
+			LoadSoundMem("Source/Music/slash.mp3")
+		};
+
+	change_sound_volume();
+	get_sound_start(bgm.menu);
+
 	GameTitle title;
 	GameHelp help;
 	GameResult result;
@@ -123,21 +140,24 @@ void loop_process() {
 			}
 
 			_map->drawing_map(); //É}ÉbÉvï`âÊ
+			ChangeVolumeSoundMem(200, bgm.day);
+			ChangeVolumeSoundMem(130, bgm.night);
+			_map->booting_timer(bgm.day, bgm.night);
 
-			Princess.Update(); //ïPÇÃçXêVèàóù
+			Princess.Update(bgm.pickup); //ïPÇÃçXêVèàóù
 			Princess.Dead(_map->map_20x20); //ïPÇÃéÄñSèàóù
-			Warrior1.Update(); //âeïêé“1ÇÃçXêVèàóù
+			Warrior1.Update(bgm.pickup); //âeïêé“1ÇÃçXêVèàóù
 			Warrior1.Dead(_map->map_20x20); //âeïêé“1ÇÃéÄñSèàóù
-			Warrior2.Update(); //âeïêé“2ÇÃçXêVèàóù
+			Warrior2.Update(bgm.pickup); //âeïêé“2ÇÃçXêVèàóù
 			Warrior2.Dead(_map->map_20x20); //âeïêé“2ÇÃéÄñSèàóù
-			Warrior3.Update(); //âeïêé“3ÇÃçXêVèàóù
+			Warrior3.Update(bgm.pickup); //âeïêé“3ÇÃçXêVèàóù
 			Warrior3.Dead(_map->map_20x20); //âeïêé“3ÇÃéÄñSèàóù
 
 			result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 
 
 			if (Map::scene % 2 == 0) {
-				input.map_scene_update(); //ì¸óÕçXêVèàóù
+				input.map_scene_update(bgm.cursor, bgm.push); //ì¸óÕçXêVèàóù
 
 				/* è’ìÀîªíË */
 				if (Map::range_flag == 1) {
@@ -175,7 +195,7 @@ void loop_process() {
 				                             enemies[2]->x, enemies[2]->y);
 
 				enemies[i]->Update(_map->map_20x20); //ìGï∫1ÇÃçXêVèàóù
-				enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+				enemies[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i, bgm.slash, bgm.attack);
 			}
 
 			if (Map::scene % 2 != 0) {
@@ -188,20 +208,24 @@ void loop_process() {
 		case STAGE1:
 
 			_map->drawing_map(); //É}ÉbÉvï`âÊ
+			StopMusicMem(bgm.gameover);
+			ChangeVolumeSoundMem(200, bgm.day);
+			ChangeVolumeSoundMem(130, bgm.night);
+			_map->booting_timer(bgm.day, bgm.night);
 
-			Princess.Update(); //ïPÇÃçXêVèàóù
+			Princess.Update(bgm.pickup); //ïPÇÃçXêVèàóù
 			Princess.Dead(_map->map_20x20); //ïPÇÃéÄñSèàóù
-			Warrior1.Update(); //âeïêé“1ÇÃçXêVèàóù
+			Warrior1.Update(bgm.pickup); //âeïêé“1ÇÃçXêVèàóù
 			Warrior1.Dead(_map->map_20x20); //âeïêé“1ÇÃéÄñSèàóù
-			Warrior2.Update(); //âeïêé“2ÇÃçXêVèàóù
+			Warrior2.Update(bgm.pickup); //âeïêé“2ÇÃçXêVèàóù
 			Warrior2.Dead(_map->map_20x20); //âeïêé“2ÇÃéÄñSèàóù
-			Warrior3.Update(); //âeïêé“3ÇÃçXêVèàóù
+			Warrior3.Update(bgm.pickup); //âeïêé“3ÇÃçXêVèàóù
 			Warrior3.Dead(_map->map_20x20); //âeïêé“3ÇÃéÄñSèàóù
 
 			result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 
 			if (Map::scene % 2 == 0) {
-				input.map_scene_update(); //ì¸óÕçXêVèàóù
+				input.map_scene_update(bgm.cursor, bgm.push); //ì¸óÕçXêVèàóù
 
 				/* è’ìÀîªíË */
 				if (Map::range_flag == 1) {
@@ -261,7 +285,8 @@ void loop_process() {
 					                              enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
 					                              enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
 					enemies2[i]->Update(_map->map_20x20); //ìGï∫1ÇÃçXêVèàóù
-					enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+					enemies2[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i, bgm.slash,
+					                    bgm.attack);
 				}
 				else enemies2[i]->forward_act_order(i);
 			}
@@ -278,20 +303,24 @@ void loop_process() {
 
 		case STAGE2:
 			_map->drawing_map(); //É}ÉbÉvï`âÊ
+			StopMusicMem(bgm.gameover);
+			ChangeVolumeSoundMem(200, bgm.day);
+			ChangeVolumeSoundMem(130, bgm.night);
+			_map->booting_timer(bgm.day, bgm.night);
 
-			Princess.Update(); //ïPÇÃçXêVèàóù
+			Princess.Update(bgm.pickup); //ïPÇÃçXêVèàóù
 			Princess.Dead(_map->map_20x20); //ïPÇÃéÄñSèàóù
-			Warrior1.Update(); //âeïêé“1ÇÃçXêVèàóù
+			Warrior1.Update(bgm.pickup); //âeïêé“1ÇÃçXêVèàóù
 			Warrior1.Dead(_map->map_20x20); //âeïêé“1ÇÃéÄñSèàóù
-			Warrior2.Update(); //âeïêé“2ÇÃçXêVèàóù
+			Warrior2.Update(bgm.pickup); //âeïêé“2ÇÃçXêVèàóù
 			Warrior2.Dead(_map->map_20x20); //âeïêé“2ÇÃéÄñSèàóù
-			Warrior3.Update(); //âeïêé“3ÇÃçXêVèàóù
+			Warrior3.Update(bgm.pickup); //âeïêé“3ÇÃçXêVèàóù
 			Warrior3.Dead(_map->map_20x20); //âeïêé“3ÇÃéÄñSèàóù
 
 			result.rank_check(Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 
 			if (Map::scene % 2 == 0) {
-				input.map_scene_update(); //ì¸óÕçXêVèàóù
+				input.map_scene_update(bgm.cursor, bgm.push); //ì¸óÕçXêVèàóù
 
 				/* è’ìÀîªíË */
 				if (Map::range_flag == 1) {
@@ -367,7 +396,8 @@ void loop_process() {
 					                              enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
 					                              enemies3[10]->x, enemies3[10]->y);
 					enemies3[i]->Update(_map->map_20x20); //ìGï∫1ÇÃçXêVèàóù
-					enemies3[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i);
+					enemies3[i]->Attack(&Princess.hp, &Warrior1.hp, &Warrior2.hp, &Warrior3.hp, i, bgm.slash,
+					                    bgm.attack);
 				}
 				else enemies3[i]->forward_act_order(i);
 			}
@@ -418,22 +448,37 @@ void loop_process() {
 			break;
 
 		case GAME_TITLE:
-			input.game_title_update();
+			StopMusicMem(bgm.gameover);
+			ChangeVolumeSoundMem(130, bgm.push);
+			input.game_title_update(bgm.push);
 			title.update();
 			Input::current_map_scene = 0;
 			Princess.reset();
 			Warrior1.reset();
 			Warrior2.reset();
 			Warrior3.reset();
+
 			break;
 
 		case GAME_INFORMATION:
-			input.game_help_update();
-			input.start_game();
+			ChangeVolumeSoundMem(130, bgm.push);
+			input.game_help_update(bgm.push);
+			input.start_game(bgm.menu, bgm.day, bgm.push);
 			help.draw();
 			break;
 
 		case GAME_RESULT:
+			StopSoundMem(bgm.day);
+			StopSoundMem(bgm.night);
+			if (result.rank != 0) {
+				ChangeVolumeSoundMem(200, bgm.menu);
+				get_sound_music(bgm.menu);
+			}
+			else {
+				ChangeVolumeSoundMem(150, bgm.gameover);
+				get_sound_music(bgm.gameover);
+			}
+
 			Map::turn_count = 0;
 			Map::scene = NOON_PLAY;
 			MapUI::UI_flag = true;
@@ -443,7 +488,8 @@ void loop_process() {
 			Warrior2.set_next_map_node(Input::current_map_scene);
 			Warrior3.set_next_map_node(Input::current_map_scene);
 
-			input.game_result_update(result.rank);
+			ChangeVolumeSoundMem(130, bgm.push);
+			input.game_result_update(result.rank, bgm.push, bgm.gameover, bgm.menu);
 
 			for (int i = 0; i < ARRAY_LENGTH(enemies); ++i) {
 				enemies[i]->reset();
@@ -454,14 +500,16 @@ void loop_process() {
 			break;
 
 		case GAME_HELP:
-			input.game_help_update();
-			input.return_game();
+			ChangeVolumeSoundMem(130, bgm.push);
+			input.game_help_update(bgm.push);
+			input.return_game(bgm.push);
 			help.draw();
 
 			break;
 		}
 
 		if (SceneTransition::game_scene <= STAGE2) {
+
 			cursor->update();
 
 
@@ -471,7 +519,11 @@ void loop_process() {
 			                       Princess.isAlive, Warrior1.isAlive, Warrior2.isAlive, Warrior3.isAlive);
 			UI.update();
 			if (Input::confirmation_flag) UI.yes_or_no(input.yes_or_no);
+
+
 		}
+
+		help.map_scene_draw();
 
 		delete cursor;
 
@@ -480,14 +532,14 @@ void loop_process() {
 		delete scene;
 		delete _map;
 
-		DrawFormatString(400, 0, GetColor(255, 255, 255),
+		/*DrawFormatString(400, 0, GetColor(255, 255, 255),
 		                 "cur_map%d", Input::current_map_scene, false);
 		DrawFormatString(400, 15, GetColor(255, 255, 255),
 		                 "count%d, UI%d, act%d", Map::turn_count, MapUI::UI_flag, Enemy::act_order, false);
 		DrawFormatString(400, 30, GetColor(255, 255, 255),
 		                 "rank%d, mist%d", result.rank, Map::random_mist, false);
 		DrawFormatString(400, 45, GetColor(255, 255, 255),
-		                 "x:%d, y:%d", Map::current_x / BLOCK_SIZE, Map::current_y / BLOCK_SIZE, false);
+		                 "x:%d, y:%d", Map::current_x / BLOCK_SIZE, Map::current_y / BLOCK_SIZE, false);*/
 
 		window_in_roop(); //ÉãÅ[Évì‡ÉEÉBÉìÉhÉEê›íË
 		if (ProcessMessage() == -1) break; //WindowsÉVÉXÉeÉÄÇ©ÇÁÇ≠ÇÈèÓïÒÇèàóù

@@ -2,7 +2,7 @@
 #include "inputProcess.h"
 #include "constant.h"
 
-int SceneTransition::game_scene = STAGE2;
+int SceneTransition::game_scene = GAME_TITLE;
 
 void SceneTransition::transition_to_result(vector<vector<int>>& map, const int& px, const int& py) {
 	if (map[(py / BLOCK_SIZE)][(px / BLOCK_SIZE)] == GOAL) {

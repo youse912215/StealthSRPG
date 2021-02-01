@@ -15,7 +15,6 @@ private:
 protected:
 	const int ENEMY_TURN_TIME = 180;
 
-	void booting_timer();
 
 public:
 	string mapcsv_file; //csvファイル名
@@ -27,5 +26,6 @@ public:
 
 	Map();
 	~Map();
+	void booting_timer(const int& stop, const int& start);
 	void map_file_import(vector<vector<int>>& map, string& csv, const int& num, const int& num2); //csvファイル読み込み
 };

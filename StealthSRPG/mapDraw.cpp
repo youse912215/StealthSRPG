@@ -89,7 +89,6 @@ void MapDraw::drawing_map() {
 		range_import(info[25], range_11x11);
 	}
 
-	booting_timer(); //タイマー起動
 	drawing_format();
 
 }
@@ -117,7 +116,7 @@ void MapDraw::drawing_format() {
 	                 phenomenonFlag[ice], phenomenonFlag[fog1], phenomenonFlag[fog2], phenomenonFlag[rainbow], false);
 	DrawFormatString(150, 0, GetColor(255, 255, 255), "CurMapInfo:%d",
 	                 map_20x20[current_y / BLOCK_SIZE][current_x / BLOCK_SIZE], false);*/
-	DrawFormatString(300, 0, GetColor(255, 255, 255), "TIME:%d", turn_timer, false);
+	//DrawFormatString(300, 0, GetColor(255, 255, 255), "TIME:%d", turn_timer, false);
 	/*if (scene == NOON_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼プレイヤー", false);
 	else if (scene == NOON_ENEMY) DrawFormatString(0, 0, GetColor(0, 200, 0), "昼エネミー", false);
 	else if (scene == NIGHT_PLAY) DrawFormatString(0, 0, GetColor(0, 200, 0), "夜プレイヤー", false);

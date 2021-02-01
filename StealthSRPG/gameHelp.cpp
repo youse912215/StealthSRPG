@@ -2,6 +2,7 @@
 #include "sceneTransition.h"
 #include "constant.h"
 #include "DxLib.h"
+#include "mapAll.h"
 
 int GameHelp::help_num = 0;
 
@@ -11,6 +12,7 @@ GameHelp::GameHelp() {
 	enemy_information = LoadGraph("Source/Screen/enemy_info2.png");
 	enemy_information_2 = LoadGraph("Source/Screen/enemy_info2b.png");
 	return_game = LoadGraph("Source/UI/return_game.png");
+	help = LoadGraph("Source/UI/help.png");
 }
 
 GameHelp::~GameHelp() {
@@ -19,6 +21,7 @@ GameHelp::~GameHelp() {
 	DeleteGraph(enemy_information);
 	DeleteGraph(enemy_information_2);
 	DeleteGraph(return_game);
+	DeleteGraph(help);
 }
 
 void GameHelp::draw() {
@@ -44,4 +47,8 @@ void GameHelp::draw() {
 	}
 
 
+}
+
+void GameHelp::map_scene_draw() {
+	if (SceneTransition::game_scene <= 2) DrawGraph(700, 30, help, true);
 }

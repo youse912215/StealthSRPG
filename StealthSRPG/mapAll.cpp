@@ -3,6 +3,8 @@
 #include "constant.h"
 #include "enemy.h"
 #include "random.h"
+#include "music.h"
+#include "DxLib.h"
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -23,16 +25,26 @@ Map::Map() {
 Map::~Map() {
 }
 
-void Map::booting_timer() {
+void Map::booting_timer(const int& stop, const int& start) {
 
 	if (scene % 2 != 0) {
 		turn_timer = !MapUI::UI_flag ? ++turn_timer : 0;
 		if (Enemy::act_order == END) {
 			scene = (scene == NIGHT_ENEMY) ? NOON_PLAY : ++scene;
 			random_mist = get_random(1, 3);
+
 		}
 	}
 	else turn_timer = 0;
+
+	if (scene >= 2 && MapUI::UI_flag) {
+		StopSoundMem(stop);
+		get_sound_music(start);
+	}
+	else if (scene < 2 && MapUI::UI_flag) {
+		StopSoundMem(start);
+		get_sound_music(stop);
+	}
 }
 
 /// <summary>

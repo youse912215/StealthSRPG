@@ -4,6 +4,7 @@
 #include "cursor.h"
 #include "mapAll.h"
 #include "sceneTransition.h"
+#include "music.h"
 
 Princess::Princess(int x, int y, int graph, int moving_quantity, int hp, int range, bool activity, bool isAlive,
                    Input& input):
@@ -15,12 +16,12 @@ Princess::Princess(int x, int y, int graph, int moving_quantity, int hp, int ran
 	old_y = 0;
 }
 
-void Princess::Update() {
+void Princess::Update(const int& se) {
 	get_latency();
 	wait_motion();
 	if (!Input::confirmation_flag) {
 		Move();
-		Pickup();
+		Pickup(se);
 		get_old_node();
 		act_cancel();
 	}
@@ -38,24 +39,25 @@ void Princess::Draw() {
 		              BLOCK_SIZE, BLOCK_SIZE,
 		              this->graph, true, false);
 	}
-	DrawFormatString(0, 45, GetColor(0, 0, 0), "兵1(%d, %d)",
+	/*DrawFormatString(0, 45, GetColor(0, 0, 0), "兵1(%d, %d)",
 	                 this->x / BLOCK_SIZE, this->y / BLOCK_SIZE, false);
 	DrawFormatString(0, 60, GetColor(255, 0, 0), "Fl%d,Ac%d",
 	                 moving_flag, this->activity, false);
 	DrawFormatString(0, 75, GetColor(255, 0, 0), "De%d,Hp%d",
 	                 this->isAlive, this->hp, false);
 	DrawFormatString(0, 175, GetColor(255, 0, 0), "ox:%d,oy:%d",
-	                 old_x, old_y, false);
+	                 old_x, old_y, false);*/
 }
 
 /// <summary>
 /// プレイヤーフェイズの時
 /// 現在のカーソル座標とプレイヤー座標が一致しているとき、プレイヤーをPickupする
 /// </summary>
-void Princess::Pickup() {
+void Princess::Pickup(const int& se) {
 	if (current_x == this->x && current_y == this->y && Map::scene % 2 == 0) {
 		if (input.keys[KEY_INPUT_Z] && !input.oldkeys[KEY_INPUT_Z] && !this->activity) {
 			pickup_switching();
+			get_sound_se(se);
 		}
 	}
 }
@@ -150,9 +152,18 @@ void Princess::act_cancel() {
 
 void Princess::set_next_map_node(const int& c_scene) {
 	switch (c_scene) {
+	case TUTORIAL:
+		this->x = BLOCK_SIZE * 8;
+		this->y = BLOCK_SIZE * 8;
+		this->hp = 4;
+		this->isAlive = true;
+		this->activity = false;
+		current_x = this->x;
+		current_y = this->y;
+		break;
 	case STAGE1:
-		this->x = BLOCK_SIZE * 3;
-		this->y = BLOCK_SIZE * 3;
+		this->x = BLOCK_SIZE * 8;
+		this->y = BLOCK_SIZE * 8;
 		this->hp = 4;
 		this->isAlive = true;
 		this->activity = false;

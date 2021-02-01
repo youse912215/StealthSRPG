@@ -13,7 +13,7 @@ public:
 	                           const bool& sw3_s_activity) override;
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y) override;
-	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order) override;
+	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order, const int& se1, const int& se2) override;
 	void Move() override;
 	void get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
 	                      const int& ey3) override;
