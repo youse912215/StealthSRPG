@@ -351,7 +351,7 @@ void EnemyBandits::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, cons
                           const int& se2) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (act_order == a_order) Move();
+	if (act_order == a_order && minimum_husteric2 != 0) Move();
 
 	if (activity && !attack_activity && Map::scene % 2 != 0
 		&& act_order == a_order && Map::turn_timer > this->act_time) {

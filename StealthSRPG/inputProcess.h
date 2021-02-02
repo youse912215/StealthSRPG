@@ -19,6 +19,7 @@ private:
 public:
 	vector<bool> map_collision_flag;
 	vector<bool> enemy_collision_flag;
+	vector<bool> player_collision_flag;
 	bool yes_or_no;
 	char keys[256] = {0}; //最新のキーボード情報用
 	char oldkeys[256] = {0}; //1ループ(フレーム)前のキーボード情報
@@ -45,5 +46,7 @@ public:
 	                               const int& ex6, const int& ey6, const int& ex7, const int& ey7, const int& ex8,
 	                               const int& ey8, const int& ex9, const int& ey9, const int& ex10, const int& ey10,
 	                               const int& ex11, const int& ey11);
+	void player_collision_decision(const int& px, const int& py, const int& sw1x, const int& sw1y,
+	                               const int& sw2x, const int& sw2y, const int& sw3x, const int& sw3y);
 	void collision_update();
 };

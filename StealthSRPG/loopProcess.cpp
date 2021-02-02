@@ -164,9 +164,23 @@ void loop_process() {
 					input.map_collision_decision(_map->map_20x20);
 					input.enemy_collision_decision0(enemies[0]->x, enemies[0]->y, enemies[1]->x, enemies[1]->y,
 					                                enemies[2]->x, enemies[2]->y);
+					/*input.player_collision_decision(Princess.x, Princess.y, Warrior1.x, Warrior1.y, Warrior2.x,
+					                                Warrior2.y, Warrior3.x, Warrior3.y);*/
 				}
 				else input.collision_update();
 				/* 各味方との重複判定 */
+				Princess.duplicate_decision(enemies[0]->x, enemies[0]->y, _e_warrior1);
+				Princess.duplicate_decision(enemies[1]->x, enemies[1]->y, _e_warrior2);
+				Princess.duplicate_decision(enemies[2]->x, enemies[2]->y, _e_bandits1);
+				Warrior1.duplicate_decision(enemies[0]->x, enemies[0]->y, _e_warrior1);
+				Warrior1.duplicate_decision(enemies[1]->x, enemies[1]->y, _e_warrior2);
+				Warrior1.duplicate_decision(enemies[2]->x, enemies[2]->y, _e_bandits1);
+				Warrior2.duplicate_decision(enemies[0]->x, enemies[0]->y, _e_warrior1);
+				Warrior2.duplicate_decision(enemies[1]->x, enemies[1]->y, _e_warrior2);
+				Warrior2.duplicate_decision(enemies[2]->x, enemies[2]->y, _e_bandits1);
+				Warrior3.duplicate_decision(enemies[0]->x, enemies[0]->y, _e_warrior1);
+				Warrior3.duplicate_decision(enemies[1]->x, enemies[1]->y, _e_warrior2);
+				Warrior3.duplicate_decision(enemies[2]->x, enemies[2]->y, _e_bandits1);
 				Princess.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
 				Princess.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
 				Princess.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
@@ -234,6 +248,8 @@ void loop_process() {
 					                                enemies2[2]->x, enemies2[2]->y, enemies2[3]->x, enemies2[3]->y,
 					                                enemies2[4]->x, enemies2[4]->y, enemies2[5]->x, enemies2[5]->y,
 					                                enemies2[6]->x, enemies2[6]->y, enemies2[7]->x, enemies2[7]->y);
+					/*input.player_collision_decision(Princess.x, Princess.y, Warrior1.x, Warrior1.y, Warrior2.x,
+					                                Warrior2.y, Warrior3.x, Warrior3.y);*/
 				}
 				else input.collision_update();
 				/* 各味方との重複判定 */
@@ -269,6 +285,18 @@ void loop_process() {
 				Warrior3.duplicate_decision(enemies2[5]->x, enemies2[5]->y, _e_warrior2);
 				Warrior3.duplicate_decision(enemies2[6]->x, enemies2[6]->y, _e_bandits1);
 				Warrior3.duplicate_decision(enemies2[7]->x, enemies2[7]->y, _e_bandits2);
+				Princess.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Princess.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+				Princess.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior1.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior1.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+				Warrior1.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior2.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior2.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Warrior2.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior3.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior3.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Warrior3.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
 			}
 
 			if (Enemy::act_order >= ARRAY_LENGTH(enemies2)) Enemy::act_order = END;
@@ -331,6 +359,8 @@ void loop_process() {
 					                                enemies3[6]->x, enemies3[6]->y, enemies3[7]->x, enemies3[7]->y,
 					                                enemies3[8]->x, enemies3[8]->y, enemies3[9]->x, enemies3[9]->y,
 					                                enemies3[10]->x, enemies3[10]->y);
+					/*input.player_collision_decision(Princess.x, Princess.y, Warrior1.x, Warrior1.y, Warrior2.x,
+					                                Warrior2.y, Warrior3.x, Warrior3.y);*/
 				}
 				else input.collision_update();
 				/* 各味方との重複判定 */
@@ -378,6 +408,18 @@ void loop_process() {
 				Warrior3.duplicate_decision(enemies3[8]->x, enemies3[8]->y, _e_warrior5);
 				Warrior3.duplicate_decision(enemies3[9]->x, enemies3[9]->y, _e_warrior6);
 				Warrior3.duplicate_decision(enemies3[10]->x, enemies3[10]->y, _e_bandits1);
+				Princess.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Princess.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+				Princess.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior1.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior1.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
+				Warrior1.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior2.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior2.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Warrior2.duplicate_decision(Warrior3.x, Warrior3.y, _s_warrior3);
+				Warrior3.duplicate_decision(Princess.x, Princess.y, _princess);
+				Warrior3.duplicate_decision(Warrior1.x, Warrior1.y, _s_warrior1);
+				Warrior3.duplicate_decision(Warrior2.x, Warrior2.y, _s_warrior2);
 			}
 
 			if (Enemy::act_order >= ARRAY_LENGTH(enemies3)) Enemy::act_order = END;
