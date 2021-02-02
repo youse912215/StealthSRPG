@@ -13,7 +13,8 @@ public:
 	                           const bool& sw3_s_activity) override;
 	void get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
 	                            const int& sw2_x, const int& sw2_y, const int& sw3_x, const int& sw3_y) override;
-	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order, const int& se1, const int& se2) override;
+	void Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, const int& a_order, const int& se1,
+	            const int& se2) override;
 	void Move() override;
 	void get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
 	                      const int& ey3) override;
@@ -33,12 +34,12 @@ public:
 private:
 	vector<int> node_x; //x方向のノード
 	vector<int> node_y; //y方向のノード
-	unsigned int husteric_x; //x方向のヒューステリック
-	unsigned int husteric_y; //y方向のヒューステリック
-	vector<vector<unsigned int>> parent_husteric; //親ヒューステリック
-	vector<unsigned int> minimum_husteric1; //各方向の最小のヒューステリック
-	unsigned int minimum_husteric2; //最小のヒューステリック
-	vector<unsigned int> husteric; //ヒューステリック
+	unsigned int heuristic_x; //x方向のヒューリスティック
+	unsigned int heuristic_y; //y方向のヒューリスティック
+	vector<vector<unsigned int>> parent_heuristic; //親ヒューリスティック
+	vector<unsigned int> minimum_heuristic1; //各方向の最小のヒューリスティック
+	unsigned int minimum_heuristic2; //最小のヒューリスティック
+	vector<unsigned int> heuristic; //ヒューリスティック
 	vector<int> survival_value; //生存値
 	vector<int> relative_distance; //相対距離
 	vector<int> relative_position_cost; //相対位置コスト

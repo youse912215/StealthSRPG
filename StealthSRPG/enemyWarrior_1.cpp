@@ -12,9 +12,9 @@ EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int
 	Enemy(x, y, graph, moving_quantity, attack, range, act_time, activity, isAlive),
 	node_x(5),
 	node_y(5),
-	parent_husteric(4, vector<unsigned int>(4, 0)),
-	minimum_husteric1(4, 0),
-	husteric(4, 0),
+	parent_heuristic(4, vector<unsigned int>(4, 0)),
+	minimum_heuristic1(4, 0),
+	heuristic(4, 0),
 	survival_value(4, 0),
 	relative_distance(2, 0),
 	relative_position_cost(4, 0),
@@ -24,9 +24,9 @@ EnemyWarrior_1::EnemyWarrior_1(int x, int y, int graph, int moving_quantity, int
 	duplication_activity(4),
 	enemy_cost(4) {
 	moving_distance = 0;
-	husteric_x = 0;
-	husteric_y = 0;
-	minimum_husteric2 = 0;
+	heuristic_x = 0;
+	heuristic_y = 0;
+	minimum_heuristic2 = 0;
 	minimum_score = 0;
 	attack_activity = false;
 	attack_motion = 0;
@@ -85,20 +85,20 @@ void EnemyWarrior_1::Draw() {
 	                 relative_position_cost[LEFT], relative_position_cost[RIGHT],
 	                 relative_position_cost[UP], relative_position_cost[DOWN], false);
 	DrawFormatString(480, 415, GetColor(200, 255, 125), "pHus:L%d, R%d, U%d, D%d",
-	                 parent_husteric[ENEMY_PRINCESS][LEFT], parent_husteric[ENEMY_PRINCESS][RIGHT],
-	                 parent_husteric[ENEMY_PRINCESS][UP], parent_husteric[ENEMY_PRINCESS][DOWN], false);
+	                 parent_heuristic[ENEMY_PRINCESS][LEFT], parent_heuristic[ENEMY_PRINCESS][RIGHT],
+	                 parent_heuristic[ENEMY_PRINCESS][UP], parent_heuristic[ENEMY_PRINCESS][DOWN], false);
 	DrawFormatString(480, 430, GetColor(200, 255, 125), "w1Hus:L%d, R%d, U%d, D%d",
-	                 parent_husteric[ENEMY_WARRIOR1][LEFT], parent_husteric[ENEMY_WARRIOR1][RIGHT],
-	                 parent_husteric[ENEMY_WARRIOR1][UP], parent_husteric[ENEMY_WARRIOR1][DOWN], false);
+	                 parent_heuristic[ENEMY_WARRIOR1][LEFT], parent_heuristic[ENEMY_WARRIOR1][RIGHT],
+	                 parent_heuristic[ENEMY_WARRIOR1][UP], parent_heuristic[ENEMY_WARRIOR1][DOWN], false);
 	DrawFormatString(480, 445, GetColor(200, 255, 125), "w2Hus:L%d, R%d, U%d, D%d",
-	                 parent_husteric[ENEMY_WARRIOR2][LEFT], parent_husteric[ENEMY_WARRIOR2][RIGHT],
-	                 parent_husteric[ENEMY_WARRIOR2][UP], parent_husteric[ENEMY_WARRIOR2][DOWN], false);
+	                 parent_heuristic[ENEMY_WARRIOR2][LEFT], parent_heuristic[ENEMY_WARRIOR2][RIGHT],
+	                 parent_heuristic[ENEMY_WARRIOR2][UP], parent_heuristic[ENEMY_WARRIOR2][DOWN], false);
 	DrawFormatString(480, 460, GetColor(200, 255, 125), "w3Hus:L%d, R%d, U%d, D%d",
-	                 parent_husteric[ENEMY_WARRIOR3][LEFT], parent_husteric[ENEMY_WARRIOR3][RIGHT],
-	                 parent_husteric[ENEMY_WARRIOR3][UP], parent_husteric[ENEMY_WARRIOR3][DOWN], false);
+	                 parent_heuristic[ENEMY_WARRIOR3][LEFT], parent_heuristic[ENEMY_WARRIOR3][RIGHT],
+	                 parent_heuristic[ENEMY_WARRIOR3][UP], parent_heuristic[ENEMY_WARRIOR3][DOWN], false);
 	DrawFormatString(480, 475, GetColor(200, 255, 125), "mHus:p%d, w%d, w%d, w%d",
-	                 minimum_husteric1[ENEMY_PRINCESS], minimum_husteric1[ENEMY_WARRIOR1],
-	                 minimum_husteric1[ENEMY_WARRIOR2], minimum_husteric1[ENEMY_WARRIOR3], false);
+	                 minimum_heuristic1[ENEMY_PRINCESS], minimum_heuristic1[ENEMY_WARRIOR1],
+	                 minimum_heuristic1[ENEMY_WARRIOR2], minimum_heuristic1[ENEMY_WARRIOR3], false);
 	DrawFormatString(480, 490, GetColor(200, 255, 125), "obs_cost:L%d, R%d, U%d, D%d",
 	                 obstacle_cost[LEFT], obstacle_cost[RIGHT], obstacle_cost[UP], obstacle_cost[DOWN], false);
 	DrawFormatString(480, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
@@ -108,7 +108,7 @@ void EnemyWarrior_1::Draw() {
 }
 
 void EnemyWarrior_1::drawing_effect1(const int& nx, const int& ny, const int& direction) {
-	if (husteric[direction] == 0) {
+	if (heuristic[direction] == 0) {
 		DrawRectGraph(node_x[nx] * BLOCK_SIZE - current_x + BLOCK_SIZE * 9,
 		              node_y[ny] * BLOCK_SIZE - INIT_POSITION - current_y + BLOCK_SIZE * 9,
 		              BLOCK_SIZE * attack_motion, 0,
@@ -170,43 +170,43 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
                                             const int& sw2_x,
                                             const int& sw2_y, const int& sw3_x, const int& sw3_y) {
 	/* 姫 */
-	parent_husteric[ENEMY_PRINCESS][LEFT] = abs(node_x[LEFT_X] - p_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_PRINCESS][LEFT] = abs(node_x[LEFT_X] - p_x / BLOCK_SIZE)
 		+ abs(node_y[CENTER_Y] - p_y / BLOCK_SIZE); //エネミー左ノードとの2点間距離
-	parent_husteric[ENEMY_PRINCESS][RIGHT] = abs(node_x[RIGHT_X] - p_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_PRINCESS][RIGHT] = abs(node_x[RIGHT_X] - p_x / BLOCK_SIZE)
 		+ abs(node_y[CENTER_Y] - p_y / BLOCK_SIZE); //エネミー右ノードとの2点間距離
-	parent_husteric[ENEMY_PRINCESS][UP] = abs(node_x[CENTER_X] - p_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_PRINCESS][UP] = abs(node_x[CENTER_X] - p_x / BLOCK_SIZE)
 		+ abs(node_y[UP_Y] - p_y / BLOCK_SIZE); //エネミー上ノードとの2点間距離
-	parent_husteric[ENEMY_PRINCESS][DOWN] = abs(node_x[CENTER_X] - p_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_PRINCESS][DOWN] = abs(node_x[CENTER_X] - p_x / BLOCK_SIZE)
 		+ abs(node_y[DOWN_Y] - p_y / BLOCK_SIZE); //エネミー下ノードとの2点間距離
 
 	/* 影武者1 */
-	parent_husteric[ENEMY_WARRIOR1][LEFT] = abs(node_x[LEFT_X] - sw1_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR1][LEFT] = abs(node_x[LEFT_X] - sw1_x / BLOCK_SIZE)
 		+ abs(node_y[CENTER_Y] - sw1_y / BLOCK_SIZE); //エネミー左ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR1][RIGHT] = abs(node_x[RIGHT_X] - sw1_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR1][RIGHT] = abs(node_x[RIGHT_X] - sw1_x / BLOCK_SIZE)
 		+ abs(node_y[CENTER_Y] - sw1_y / BLOCK_SIZE); //エネミー右ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR1][UP] = abs(node_x[CENTER_X] - sw1_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR1][UP] = abs(node_x[CENTER_X] - sw1_x / BLOCK_SIZE)
 		+ abs(node_y[UP_Y] - sw1_y / BLOCK_SIZE); //エネミー上ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR1][DOWN] = abs(node_x[CENTER_X] - sw1_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR1][DOWN] = abs(node_x[CENTER_X] - sw1_x / BLOCK_SIZE)
 		+ abs(node_y[DOWN_Y] - sw1_y / BLOCK_SIZE); //エネミー下ノードとの2点間距離
 
 	/* 影武者2 */
-	parent_husteric[ENEMY_WARRIOR2][LEFT] = abs(node_x[LEFT_X] - sw2_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR2][LEFT] = abs(node_x[LEFT_X] - sw2_x / BLOCK_SIZE)
 		+ abs(node_y[CENTER_Y] - sw2_y / BLOCK_SIZE); //エネミー左ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR2][RIGHT] = abs(node_x[RIGHT_X] - sw2_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR2][RIGHT] = abs(node_x[RIGHT_X] - sw2_x / BLOCK_SIZE)
 		+ abs(node_y[CENTER_Y] - sw2_y / BLOCK_SIZE); //エネミー右ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR2][UP] = abs(node_x[CENTER_X] - sw2_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR2][UP] = abs(node_x[CENTER_X] - sw2_x / BLOCK_SIZE)
 		+ abs(node_y[UP_Y] - sw2_y / BLOCK_SIZE); //エネミー上ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR2][DOWN] = abs(node_x[CENTER_X] - sw2_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR2][DOWN] = abs(node_x[CENTER_X] - sw2_x / BLOCK_SIZE)
 		+ abs(node_y[DOWN_Y] - sw2_y / BLOCK_SIZE); //エネミー下ノードとの2点間距離
 
 	/* 影武者3 */
-	parent_husteric[ENEMY_WARRIOR3][LEFT] = abs(node_x[LEFT_X] - sw3_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR3][LEFT] = abs(node_x[LEFT_X] - sw3_x / BLOCK_SIZE)
 		+ abs(node_y[CENTER_Y] - sw3_y / BLOCK_SIZE); //エネミー左ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR3][RIGHT] = abs(node_x[RIGHT_X] - sw3_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR3][RIGHT] = abs(node_x[RIGHT_X] - sw3_x / BLOCK_SIZE)
 		+ abs(node_y[CENTER_Y] - sw3_y / BLOCK_SIZE); //エネミー右ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR3][UP] = abs(node_x[CENTER_X] - sw3_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR3][UP] = abs(node_x[CENTER_X] - sw3_x / BLOCK_SIZE)
 		+ abs(node_y[UP_Y] - sw3_y / BLOCK_SIZE); //エネミー上ノードとの2点間距離
-	parent_husteric[ENEMY_WARRIOR3][DOWN] = abs(node_x[CENTER_X] - sw3_x / BLOCK_SIZE)
+	parent_heuristic[ENEMY_WARRIOR3][DOWN] = abs(node_x[CENTER_X] - sw3_x / BLOCK_SIZE)
 		+ abs(node_y[DOWN_Y] - sw3_y / BLOCK_SIZE); //エネミー下ノードとの2点間距離
 
 	/* プレイヤーとの相対位置コスト計算 */
@@ -221,41 +221,41 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
 }
 
 /// <summary>
-/// 各プレイヤーとのヒューステリックの最小値を計算
+/// 各プレイヤーとのヒューリスティックの最小値を計算
 /// </summary>
 void EnemyWarrior_1::get_minimum_husteric() {
-	for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i) {
-		/* 各方向別のヒューステリックの最小値を計算 */
+	for (unsigned int i = 0; i < parent_heuristic.at(0).size(); ++i) {
+		/* 各方向別のヒューリスティックの最小値を計算 */
 		/* ここで一番近いプレイヤーを判定　*/
-		minimum_husteric1[i] = *min_element(parent_husteric[i].begin(), parent_husteric[i].end());
+		minimum_heuristic1[i] = *min_element(parent_heuristic[i].begin(), parent_heuristic[i].end());
 	}
-	/* 各方向の中でのヒューステリックの最小値を計算 */
-	minimum_husteric2 = *min_element(minimum_husteric1.begin(), minimum_husteric1.end());
+	/* 各方向の中でのヒューリスティックの最小値を計算 */
+	minimum_heuristic2 = *min_element(minimum_heuristic1.begin(), minimum_heuristic1.end());
 }
 
 /// <summary>
-/// 計算したヒューステリックの最小値と合致したプレイヤーの各方向のヒューステリック値を代入する
+/// 計算したヒューリスティックの最小値と合致したプレイヤーの各方向のヒューリスティック値を代入する
 /// </summary>
 void EnemyWarrior_1::get_node_husteric() {
 
 	/* 姫優先 */
-	if (minimum_husteric2 != minimum_husteric1[ENEMY_PRINCESS]) {
-		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR3]) {
-			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-				husteric[i] = parent_husteric[ENEMY_WARRIOR3][i]; //各方向に代入
+	if (minimum_heuristic2 != minimum_heuristic1[ENEMY_PRINCESS]) {
+		if (minimum_heuristic2 == minimum_heuristic1[ENEMY_WARRIOR3]) {
+			for (unsigned int i = 0; i < parent_heuristic.at(0).size(); ++i)
+				heuristic[i] = parent_heuristic[ENEMY_WARRIOR3][i]; //各方向に代入
 		}
-		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR2]) {
-			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-				husteric[i] = parent_husteric[ENEMY_WARRIOR2][i]; //各方向に代入
+		if (minimum_heuristic2 == minimum_heuristic1[ENEMY_WARRIOR2]) {
+			for (unsigned int i = 0; i < parent_heuristic.at(0).size(); ++i)
+				heuristic[i] = parent_heuristic[ENEMY_WARRIOR2][i]; //各方向に代入
 		}
-		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR1]) {
-			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-				husteric[i] = parent_husteric[ENEMY_WARRIOR1][i]; //各方向に代入
+		if (minimum_heuristic2 == minimum_heuristic1[ENEMY_WARRIOR1]) {
+			for (unsigned int i = 0; i < parent_heuristic.at(0).size(); ++i)
+				heuristic[i] = parent_heuristic[ENEMY_WARRIOR1][i]; //各方向に代入
 		}
 	}
 	else {
-		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-			husteric[i] = parent_husteric[ENEMY_PRINCESS][i]; //各方向に代入
+		for (unsigned int i = 0; i < parent_heuristic.at(0).size(); ++i)
+			heuristic[i] = parent_heuristic[ENEMY_PRINCESS][i]; //各方向に代入
 	}
 }
 
@@ -367,13 +367,13 @@ void EnemyWarrior_1::get_node_cost() {
 }
 
 /// <summary>
-/// 各方向に対して、コストとヒューステリック値を合計
+/// 各方向に対して、コストとヒューリスティック値を合計
 /// </summary>
 void EnemyWarrior_1::get_node_score() {
-	score[LEFT] = cost[LEFT] + husteric[LEFT];
-	score[RIGHT] = cost[RIGHT] + husteric[RIGHT];
-	score[UP] = cost[UP] + husteric[UP];
-	score[DOWN] = cost[DOWN] + husteric[DOWN];
+	score[LEFT] = cost[LEFT] + heuristic[LEFT];
+	score[RIGHT] = cost[RIGHT] + heuristic[RIGHT];
+	score[UP] = cost[UP] + heuristic[UP];
+	score[DOWN] = cost[DOWN] + heuristic[DOWN];
 	minimum_score = *min_element(score.begin(), score.end());
 }
 
@@ -408,41 +408,41 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, co
                             const int& se2) {
 	if (p_hp == nullptr || sw1_hp == nullptr || sw2_hp == nullptr || sw3_hp == nullptr) { return; }
 
-	if (act_order == a_order && minimum_husteric2 != 0) Move();
+	if (act_order == a_order && minimum_heuristic2 != 0) Move();
 
 	if (activity && !attack_activity && Map::scene % 2 != 0
 		&& act_order == a_order && Map::turn_timer > this->act_time) {
-		if (parent_husteric[ENEMY_PRINCESS][LEFT] == 0
-			|| parent_husteric[ENEMY_PRINCESS][RIGHT] == 0
-			|| parent_husteric[ENEMY_PRINCESS][UP] == 0
-			|| parent_husteric[ENEMY_PRINCESS][DOWN] == 0) {
+		if (parent_heuristic[ENEMY_PRINCESS][LEFT] == 0
+			|| parent_heuristic[ENEMY_PRINCESS][RIGHT] == 0
+			|| parent_heuristic[ENEMY_PRINCESS][UP] == 0
+			|| parent_heuristic[ENEMY_PRINCESS][DOWN] == 0) {
 			*p_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
 			get_sound_se(se1);
 		}
-		else if (parent_husteric[ENEMY_WARRIOR1][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR1][DOWN] == 0) {
+		else if (parent_heuristic[ENEMY_WARRIOR1][LEFT] == 0
+			|| parent_heuristic[ENEMY_WARRIOR1][RIGHT] == 0
+			|| parent_heuristic[ENEMY_WARRIOR1][UP] == 0
+			|| parent_heuristic[ENEMY_WARRIOR1][DOWN] == 0) {
 			*sw1_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
 			get_sound_se(se1);
 		}
-		else if (parent_husteric[ENEMY_WARRIOR2][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR2][DOWN] == 0) {
+		else if (parent_heuristic[ENEMY_WARRIOR2][LEFT] == 0
+			|| parent_heuristic[ENEMY_WARRIOR2][RIGHT] == 0
+			|| parent_heuristic[ENEMY_WARRIOR2][UP] == 0
+			|| parent_heuristic[ENEMY_WARRIOR2][DOWN] == 0) {
 			*sw2_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
 			get_sound_se(se1);
 		}
-		else if (parent_husteric[ENEMY_WARRIOR3][LEFT] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][RIGHT] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][UP] == 0
-			|| parent_husteric[ENEMY_WARRIOR3][DOWN] == 0) {
+		else if (parent_heuristic[ENEMY_WARRIOR3][LEFT] == 0
+			|| parent_heuristic[ENEMY_WARRIOR3][RIGHT] == 0
+			|| parent_heuristic[ENEMY_WARRIOR3][UP] == 0
+			|| parent_heuristic[ENEMY_WARRIOR3][DOWN] == 0) {
 			*sw3_hp -= this->attack;
 			attack_activity = true;
 			this->activity = true;
@@ -641,16 +641,16 @@ void EnemyWarrior_1::duplicate_process(const int& dir_num) {
 }
 
 void EnemyWarrior_1::get_attack_direction(const int& player_num) {
-	if (minimum_husteric2 == parent_husteric[player_num][LEFT]) {
+	if (minimum_heuristic2 == parent_heuristic[player_num][LEFT]) {
 		drawing_effect1(LEFT_X, CENTER_Y, LEFT);
 	}
-	else if (minimum_husteric2 == parent_husteric[player_num][RIGHT]) {
+	else if (minimum_heuristic2 == parent_heuristic[player_num][RIGHT]) {
 		drawing_effect1(RIGHT_X, CENTER_Y, RIGHT);
 	}
-	else if (minimum_husteric2 == parent_husteric[player_num][UP]) {
+	else if (minimum_heuristic2 == parent_heuristic[player_num][UP]) {
 		drawing_effect1(CENTER_X, UP_Y, UP);
 	}
-	else if (minimum_husteric2 == parent_husteric[player_num][DOWN]) {
+	else if (minimum_heuristic2 == parent_heuristic[player_num][DOWN]) {
 		drawing_effect1(CENTER_X, DOWN_Y, DOWN);
 	}
 }

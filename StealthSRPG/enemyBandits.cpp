@@ -86,20 +86,20 @@ void EnemyBandits::Draw() {
 	                 relative_position_cost[LEFT], relative_position_cost[RIGHT],
 	                 relative_position_cost[UP], relative_position_cost[DOWN], false);
 	DrawFormatString(480, 415, GetColor(200, 255, 125), "pHus:L%d, R%d, U%d, D%d",
-	                 parent_husteric[ENEMY_PRINCESS][LEFT], parent_husteric[ENEMY_PRINCESS][RIGHT],
-	                 parent_husteric[ENEMY_PRINCESS][UP], parent_husteric[ENEMY_PRINCESS][DOWN], false);
+	                 parent_heuristic[ENEMY_PRINCESS][LEFT], parent_heuristic[ENEMY_PRINCESS][RIGHT],
+	                 parent_heuristic[ENEMY_PRINCESS][UP], parent_heuristic[ENEMY_PRINCESS][DOWN], false);
 	DrawFormatString(480, 430, GetColor(200, 255, 125), "w1Hus:L%d, R%d, U%d, D%d",
-	                 parent_husteric[ENEMY_WARRIOR1][LEFT], parent_husteric[ENEMY_WARRIOR1][RIGHT],
-	                 parent_husteric[ENEMY_WARRIOR1][UP], parent_husteric[ENEMY_WARRIOR1][DOWN], false);
+	                 parent_heuristic[ENEMY_WARRIOR1][LEFT], parent_heuristic[ENEMY_WARRIOR1][RIGHT],
+	                 parent_heuristic[ENEMY_WARRIOR1][UP], parent_heuristic[ENEMY_WARRIOR1][DOWN], false);
 	DrawFormatString(480, 445, GetColor(200, 255, 125), "w2Hus:L%d, R%d, U%d, D%d",
-	                 parent_husteric[ENEMY_WARRIOR2][LEFT], parent_husteric[ENEMY_WARRIOR2][RIGHT],
-	                 parent_husteric[ENEMY_WARRIOR2][UP], parent_husteric[ENEMY_WARRIOR2][DOWN], false);
+	                 parent_heuristic[ENEMY_WARRIOR2][LEFT], parent_heuristic[ENEMY_WARRIOR2][RIGHT],
+	                 parent_heuristic[ENEMY_WARRIOR2][UP], parent_heuristic[ENEMY_WARRIOR2][DOWN], false);
 	DrawFormatString(480, 460, GetColor(200, 255, 125), "w3Hus:L%d, R%d, U%d, D%d",
-	                 parent_husteric[ENEMY_WARRIOR3][LEFT], parent_husteric[ENEMY_WARRIOR3][RIGHT],
-	                 parent_husteric[ENEMY_WARRIOR3][UP], parent_husteric[ENEMY_WARRIOR3][DOWN], false);
+	                 parent_heuristic[ENEMY_WARRIOR3][LEFT], parent_heuristic[ENEMY_WARRIOR3][RIGHT],
+	                 parent_heuristic[ENEMY_WARRIOR3][UP], parent_heuristic[ENEMY_WARRIOR3][DOWN], false);
 	DrawFormatString(480, 475, GetColor(200, 255, 125), "mHus:p%d, w%d, w%d, w%d",
-	                 minimum_husteric1[ENEMY_PRINCESS], minimum_husteric1[ENEMY_WARRIOR1],
-	                 minimum_husteric1[ENEMY_WARRIOR2], minimum_husteric1[ENEMY_WARRIOR3], false);
+	                 minimum_heuristic1[ENEMY_PRINCESS], minimum_heuristic1[ENEMY_WARRIOR1],
+	                 minimum_heuristic1[ENEMY_WARRIOR2], minimum_heuristic1[ENEMY_WARRIOR3], false);
 	DrawFormatString(480, 490, GetColor(200, 255, 125), "obs_cost:L%d, R%d, U%d, D%d",
 	                 obstacle_cost[LEFT], obstacle_cost[RIGHT], obstacle_cost[UP], obstacle_cost[DOWN], false);
 	DrawFormatString(480, 505, GetColor(200, 255, 125), "cost:L%d, R%d, U%d, D%d",
