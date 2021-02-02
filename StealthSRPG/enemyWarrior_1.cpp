@@ -117,6 +117,7 @@ void EnemyWarrior_1::drawing_effect1(const int& nx, const int& ny, const int& di
 	}
 }
 
+
 void EnemyWarrior_1::drawing_effect2() {
 	if (attack_activity) {
 
@@ -127,20 +128,32 @@ void EnemyWarrior_1::drawing_effect2() {
 	}
 }
 
+/// <summary>
+/// 現在ノード以外のノードの座標を求める
+/// </summary>
 void EnemyWarrior_1::get_each_node() {
-	node_x[LEFT_X] = (this->x - BLOCK_SIZE) / BLOCK_SIZE;
-	node_x[CENTER_X] = (this->x) / BLOCK_SIZE;
-	node_x[RIGHT_X] = (this->x + BLOCK_SIZE) / BLOCK_SIZE;
-	node_x[LEFT_2X] = (this->x - BLOCK_SIZE * 2) / BLOCK_SIZE;
-	node_x[RIGHT_2X] = (this->x + BLOCK_SIZE * 2) / BLOCK_SIZE;
+	/* x座標 */
+	node_x[LEFT_X] = (this->x - BLOCK_SIZE) / BLOCK_SIZE; //左側
+	node_x[CENTER_X] = (this->x) / BLOCK_SIZE; //中央
+	node_x[RIGHT_X] = (this->x + BLOCK_SIZE) / BLOCK_SIZE; //右側
+	node_x[LEFT_2X] = (this->x - BLOCK_SIZE * 2) / BLOCK_SIZE; //左側（2マス先）
+	node_x[RIGHT_2X] = (this->x + BLOCK_SIZE * 2) / BLOCK_SIZE; //右側（2マス先）
 
-	node_y[UP_Y] = (this->y - BLOCK_SIZE) / BLOCK_SIZE;
-	node_y[CENTER_Y] = (this->y) / BLOCK_SIZE;
-	node_y[DOWN_Y] = (this->y + BLOCK_SIZE) / BLOCK_SIZE;
-	node_y[UP_2Y] = (this->y - BLOCK_SIZE * 2) / BLOCK_SIZE;
-	node_y[DOWN_2Y] = (this->y + BLOCK_SIZE * 2) / BLOCK_SIZE;
+	/* y座標 */
+	node_y[UP_Y] = (this->y - BLOCK_SIZE) / BLOCK_SIZE; //左側
+	node_y[CENTER_Y] = (this->y) / BLOCK_SIZE; //中央
+	node_y[DOWN_Y] = (this->y + BLOCK_SIZE) / BLOCK_SIZE; //右側
+	node_y[UP_2Y] = (this->y - BLOCK_SIZE * 2) / BLOCK_SIZE; //左側（2マス先）
+	node_y[DOWN_2Y] = (this->y + BLOCK_SIZE * 2) / BLOCK_SIZE; //右側（2マス先
 }
 
+/// <summary>
+/// プレイヤーの生存状態で生存値を入手
+/// </summary>
+/// <param name="p_s_activity"> 姫 </param>
+/// <param name="sw1_s_activity"> 影１ </param>
+/// <param name="sw2_s_activity"> 影２ </param>
+/// <param name="sw3_s_activity"> 影３ </param>
 void EnemyWarrior_1::get_survival_activity(const bool& p_s_activity, const bool& sw1_s_activity,
                                            const bool& sw2_s_activity,
                                            const bool& sw3_s_activity) {
@@ -150,48 +163,51 @@ void EnemyWarrior_1::get_survival_activity(const bool& p_s_activity, const bool&
 	survival_value[ENEMY_WARRIOR3] = sw3_s_activity ? 1 : 0;
 }
 
+/// <summary>
+/// 各プレイヤーとの方向別における2点間距離を計算
+/// </summary>
 void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, const int& sw1_x, const int& sw1_y,
                                             const int& sw2_x,
                                             const int& sw2_y, const int& sw3_x, const int& sw3_y) {
 	/* 姫 */
 	parent_husteric[ENEMY_PRINCESS][LEFT] = abs(node_x[LEFT_X] - p_x / BLOCK_SIZE)
-		+ abs(node_y[CENTER_Y] - p_y / BLOCK_SIZE); //エネミー左ノードと姫の2点間距離
+		+ abs(node_y[CENTER_Y] - p_y / BLOCK_SIZE); //エネミー左ノードとの2点間距離
 	parent_husteric[ENEMY_PRINCESS][RIGHT] = abs(node_x[RIGHT_X] - p_x / BLOCK_SIZE)
-		+ abs(node_y[CENTER_Y] - p_y / BLOCK_SIZE); //エネミー右ノードと姫の2点間距離
+		+ abs(node_y[CENTER_Y] - p_y / BLOCK_SIZE); //エネミー右ノードとの2点間距離
 	parent_husteric[ENEMY_PRINCESS][UP] = abs(node_x[CENTER_X] - p_x / BLOCK_SIZE)
-		+ abs(node_y[UP_Y] - p_y / BLOCK_SIZE); //エネミー上ノードと姫の2点間距離
+		+ abs(node_y[UP_Y] - p_y / BLOCK_SIZE); //エネミー上ノードとの2点間距離
 	parent_husteric[ENEMY_PRINCESS][DOWN] = abs(node_x[CENTER_X] - p_x / BLOCK_SIZE)
-		+ abs(node_y[DOWN_Y] - p_y / BLOCK_SIZE); //エネミー下ノードと姫の2点間距離
+		+ abs(node_y[DOWN_Y] - p_y / BLOCK_SIZE); //エネミー下ノードとの2点間距離
 
 	/* 影武者1 */
 	parent_husteric[ENEMY_WARRIOR1][LEFT] = abs(node_x[LEFT_X] - sw1_x / BLOCK_SIZE)
-		+ abs(node_y[CENTER_Y] - sw1_y / BLOCK_SIZE); //エネミー左ノードと姫の2点間距離
+		+ abs(node_y[CENTER_Y] - sw1_y / BLOCK_SIZE); //エネミー左ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR1][RIGHT] = abs(node_x[RIGHT_X] - sw1_x / BLOCK_SIZE)
-		+ abs(node_y[CENTER_Y] - sw1_y / BLOCK_SIZE); //エネミー右ノードと姫の2点間距離
+		+ abs(node_y[CENTER_Y] - sw1_y / BLOCK_SIZE); //エネミー右ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR1][UP] = abs(node_x[CENTER_X] - sw1_x / BLOCK_SIZE)
-		+ abs(node_y[UP_Y] - sw1_y / BLOCK_SIZE); //エネミー上ノードと姫の2点間距離
+		+ abs(node_y[UP_Y] - sw1_y / BLOCK_SIZE); //エネミー上ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR1][DOWN] = abs(node_x[CENTER_X] - sw1_x / BLOCK_SIZE)
-		+ abs(node_y[DOWN_Y] - sw1_y / BLOCK_SIZE); //エネミー下ノードと姫の2点間距離
+		+ abs(node_y[DOWN_Y] - sw1_y / BLOCK_SIZE); //エネミー下ノードとの2点間距離
 
 	/* 影武者2 */
 	parent_husteric[ENEMY_WARRIOR2][LEFT] = abs(node_x[LEFT_X] - sw2_x / BLOCK_SIZE)
-		+ abs(node_y[CENTER_Y] - sw2_y / BLOCK_SIZE); //エネミー左ノードと姫の2点間距離
+		+ abs(node_y[CENTER_Y] - sw2_y / BLOCK_SIZE); //エネミー左ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR2][RIGHT] = abs(node_x[RIGHT_X] - sw2_x / BLOCK_SIZE)
-		+ abs(node_y[CENTER_Y] - sw2_y / BLOCK_SIZE); //エネミー右ノードと姫の2点間距離
+		+ abs(node_y[CENTER_Y] - sw2_y / BLOCK_SIZE); //エネミー右ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR2][UP] = abs(node_x[CENTER_X] - sw2_x / BLOCK_SIZE)
-		+ abs(node_y[UP_Y] - sw2_y / BLOCK_SIZE); //エネミー上ノードと姫の2点間距離
+		+ abs(node_y[UP_Y] - sw2_y / BLOCK_SIZE); //エネミー上ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR2][DOWN] = abs(node_x[CENTER_X] - sw2_x / BLOCK_SIZE)
-		+ abs(node_y[DOWN_Y] - sw2_y / BLOCK_SIZE); //エネミー下ノードと姫の2点間距離
+		+ abs(node_y[DOWN_Y] - sw2_y / BLOCK_SIZE); //エネミー下ノードとの2点間距離
 
 	/* 影武者3 */
 	parent_husteric[ENEMY_WARRIOR3][LEFT] = abs(node_x[LEFT_X] - sw3_x / BLOCK_SIZE)
-		+ abs(node_y[CENTER_Y] - sw3_y / BLOCK_SIZE); //エネミー左ノードと姫の2点間距離
+		+ abs(node_y[CENTER_Y] - sw3_y / BLOCK_SIZE); //エネミー左ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR3][RIGHT] = abs(node_x[RIGHT_X] - sw3_x / BLOCK_SIZE)
-		+ abs(node_y[CENTER_Y] - sw3_y / BLOCK_SIZE); //エネミー右ノードと姫の2点間距離
+		+ abs(node_y[CENTER_Y] - sw3_y / BLOCK_SIZE); //エネミー右ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR3][UP] = abs(node_x[CENTER_X] - sw3_x / BLOCK_SIZE)
-		+ abs(node_y[UP_Y] - sw3_y / BLOCK_SIZE); //エネミー上ノードと姫の2点間距離
+		+ abs(node_y[UP_Y] - sw3_y / BLOCK_SIZE); //エネミー上ノードとの2点間距離
 	parent_husteric[ENEMY_WARRIOR3][DOWN] = abs(node_x[CENTER_X] - sw3_x / BLOCK_SIZE)
-		+ abs(node_y[DOWN_Y] - sw3_y / BLOCK_SIZE); //エネミー下ノードと姫の2点間距離
+		+ abs(node_y[DOWN_Y] - sw3_y / BLOCK_SIZE); //エネミー下ノードとの2点間距離
 
 	/* プレイヤーとの相対位置コスト計算 */
 	relative_distance[X] = set_to_one(node_x[CENTER_X] - (p_x / BLOCK_SIZE)) * survival_value[ENEMY_PRINCESS]
@@ -204,35 +220,50 @@ void EnemyWarrior_1::get_two_point_distance(const int& p_x, const int& p_y, cons
 		+ set_to_one(node_y[CENTER_Y] - (sw3_y / BLOCK_SIZE)) * survival_value[ENEMY_WARRIOR3];
 }
 
+/// <summary>
+/// 各プレイヤーとのヒューステリックの最小値を計算
+/// </summary>
 void EnemyWarrior_1::get_minimum_husteric() {
 	for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i) {
+		/* 各方向別のヒューステリックの最小値を計算 */
+		/* ここで一番近いプレイヤーを判定　*/
 		minimum_husteric1[i] = *min_element(parent_husteric[i].begin(), parent_husteric[i].end());
 	}
+	/* 各方向の中でのヒューステリックの最小値を計算 */
 	minimum_husteric2 = *min_element(minimum_husteric1.begin(), minimum_husteric1.end());
 }
 
+/// <summary>
+/// 計算したヒューステリックの最小値と合致したプレイヤーの各方向のヒューステリック値を代入する
+/// </summary>
 void EnemyWarrior_1::get_node_husteric() {
 
+	/* 姫優先 */
 	if (minimum_husteric2 != minimum_husteric1[ENEMY_PRINCESS]) {
 		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR3]) {
 			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-				husteric[i] = parent_husteric[ENEMY_WARRIOR3][i];
+				husteric[i] = parent_husteric[ENEMY_WARRIOR3][i]; //各方向に代入
 		}
 		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR2]) {
 			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-				husteric[i] = parent_husteric[ENEMY_WARRIOR2][i];
+				husteric[i] = parent_husteric[ENEMY_WARRIOR2][i]; //各方向に代入
 		}
 		if (minimum_husteric2 == minimum_husteric1[ENEMY_WARRIOR1]) {
 			for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-				husteric[i] = parent_husteric[ENEMY_WARRIOR1][i];
+				husteric[i] = parent_husteric[ENEMY_WARRIOR1][i]; //各方向に代入
 		}
 	}
 	else {
 		for (unsigned int i = 0; i < parent_husteric.at(0).size(); ++i)
-			husteric[i] = parent_husteric[ENEMY_PRINCESS][i];
+			husteric[i] = parent_husteric[ENEMY_PRINCESS][i]; //各方向に代入
 	}
 }
 
+/// <summary>
+/// 障害物のコストの計算
+/// 海、潮、氷（2種類）
+/// </summary>
+/// <param name="map"></param>
 void EnemyWarrior_1::get_obstacle_cost(vector<vector<int>>& map) {
 	/* 左側のコスト */
 	if (map[node_y[CENTER_Y]][node_x[LEFT_X]] == SEA
@@ -271,6 +302,10 @@ void EnemyWarrior_1::get_obstacle_cost(vector<vector<int>>& map) {
 	else obstacle_cost[DOWN] = 0;
 }
 
+/// <summary>
+/// プレイヤーとの相対距離のコスト
+/// 敵から見て、相対的に人数が少ない方向に対して、コストを付与する
+/// </summary>
 void EnemyWarrior_1::get_relative_position_cost() {
 	/* x方向の相対位置コスト */
 	if (relative_distance[X] < 0) {
@@ -301,17 +336,39 @@ void EnemyWarrior_1::get_relative_position_cost() {
 	}
 }
 
+/// <summary>
+/// すべてのコストを計算
+/// </summary>
 void EnemyWarrior_1::get_node_cost() {
+	/* 左側のコスト */
 	cost[LEFT] = abs(
-		node_x[CENTER_X] - node_x[LEFT_X] + obstacle_cost[LEFT] + relative_position_cost[LEFT] + enemy_cost[LEFT]);
+		node_x[CENTER_X] - node_x[LEFT_X]
+		+ obstacle_cost[LEFT]
+		+ relative_position_cost[LEFT]
+		+ enemy_cost[LEFT]);
+	/* 右側のコスト */
 	cost[RIGHT] = abs(
-		node_x[CENTER_X] - node_x[RIGHT_X] + obstacle_cost[RIGHT] + relative_position_cost[RIGHT] + enemy_cost[RIGHT]);
+		node_x[CENTER_X] - node_x[RIGHT_X]
+		+ obstacle_cost[RIGHT]
+		+ relative_position_cost[RIGHT]
+		+ enemy_cost[RIGHT]);
+	/* 上側のコスト */
 	cost[UP] = abs(
-		node_y[CENTER_Y] - node_y[UP_Y] + obstacle_cost[UP] + relative_position_cost[UP] + enemy_cost[UP]);
+		node_y[CENTER_Y] - node_y[UP_Y]
+		+ obstacle_cost[UP]
+		+ relative_position_cost[UP]
+		+ enemy_cost[UP]);
+	/* 下側のコスト */
 	cost[DOWN] = abs(
-		node_y[CENTER_Y] - node_y[DOWN_Y] + obstacle_cost[DOWN] + relative_position_cost[DOWN] + enemy_cost[DOWN]);
+		node_y[CENTER_Y] - node_y[DOWN_Y]
+		+ obstacle_cost[DOWN]
+		+ relative_position_cost[DOWN]
+		+ enemy_cost[DOWN]);
 }
 
+/// <summary>
+/// 各方向に対して、コストとヒューステリック値を合計
+/// </summary>
 void EnemyWarrior_1::get_node_score() {
 	score[LEFT] = cost[LEFT] + husteric[LEFT];
 	score[RIGHT] = cost[RIGHT] + husteric[RIGHT];
@@ -396,27 +453,34 @@ void EnemyWarrior_1::Attack(int* p_hp, int* sw1_hp, int* sw2_hp, int* sw3_hp, co
 	else if (Map::turn_timer >= 10 && this->range == 0) forward_act_order(a_order);
 }
 
+/// <summary>
+/// 他の敵が隣接しているとき、隣接している敵がいるノードにコストを付与する
+/// </summary>
 void EnemyWarrior_1::get_enemy_cost_0(const int& ex1, const int& ey1, const int& ex2, const int& ey2, const int& ex3,
                                       const int& ey3) {
 	if (!this->activity) {
+		/* 左側のコスト */
 		if ((node_x[LEFT_X] == ex1 / BLOCK_SIZE && node_y[CENTER_Y] == ey1 / BLOCK_SIZE)
 			|| (node_x[LEFT_X] == ex2 / BLOCK_SIZE && node_y[CENTER_Y] == ey2 / BLOCK_SIZE)
 			|| (node_x[LEFT_X] == ex3 / BLOCK_SIZE && node_y[CENTER_Y] == ey3 / BLOCK_SIZE))
 			enemy_cost[LEFT] = ENEMY_COST;
 		else enemy_cost[LEFT] = 0;
 
+		/* 右側のコスト */
 		if ((node_x[RIGHT_X] == ex1 / BLOCK_SIZE && node_y[CENTER_Y] == ey1 / BLOCK_SIZE)
 			|| (node_x[RIGHT_X] == ex2 / BLOCK_SIZE && node_y[CENTER_Y] == ey2 / BLOCK_SIZE)
 			|| (node_x[RIGHT_X] == ex3 / BLOCK_SIZE && node_y[CENTER_Y] == ey3 / BLOCK_SIZE))
 			enemy_cost[RIGHT] = ENEMY_COST;
 		else enemy_cost[RIGHT] = 0;
 
+		/* 上側のコスト */
 		if ((node_x[CENTER_X] == ex1 / BLOCK_SIZE && node_y[UP_Y] == ey1 / BLOCK_SIZE)
 			|| (node_x[CENTER_X] == ex2 / BLOCK_SIZE && node_y[UP_Y] == ey2 / BLOCK_SIZE)
 			|| (node_x[CENTER_X] == ex3 / BLOCK_SIZE && node_y[UP_Y] == ey3 / BLOCK_SIZE))
 			enemy_cost[UP] = ENEMY_COST;
 		else enemy_cost[UP] = 0;
 
+		/* 下側のコスト */
 		if ((node_x[CENTER_X] == ex1 / BLOCK_SIZE && node_y[DOWN_Y] == ey1 / BLOCK_SIZE)
 			|| (node_x[CENTER_X] == ex2 / BLOCK_SIZE && node_y[DOWN_Y] == ey2 / BLOCK_SIZE)
 			|| (node_x[CENTER_X] == ex3 / BLOCK_SIZE && node_y[DOWN_Y] == ey3 / BLOCK_SIZE))
