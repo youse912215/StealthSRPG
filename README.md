@@ -1,1 +1,1 @@
-# StealthSRPG
+# ステルス系SRPG
